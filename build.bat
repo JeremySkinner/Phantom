@@ -1,2 +1,2 @@
 @echo off
-src\spectre.tests\bin\debug\spectre.exe
+src\spectre.tests\bin\debug\spectre.exe %*

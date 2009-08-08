@@ -5,9 +5,13 @@
     <Sharing>SOLUTION</Sharing>
     <CSharp>
       <FormatSettings>
+        <ANONYMOUS_METHOD_DECLARATION_BRACES>END_OF_LINE</ANONYMOUS_METHOD_DECLARATION_BRACES>
+        <CASE_BLOCK_BRACES>END_OF_LINE</CASE_BLOCK_BRACES>
         <EXPLICIT_PRIVATE_MODIFIER>False</EXPLICIT_PRIVATE_MODIFIER>
         <INDENT_SIZE>4</INDENT_SIZE>
+        <INITIALIZER_BRACES>END_OF_LINE</INITIALIZER_BRACES>
         <INSERT_TABS>True</INSERT_TABS>
+        <INVOCABLE_DECLARATION_BRACES>END_OF_LINE</INVOCABLE_DECLARATION_BRACES>
         <MODIFIERS_ORDER IsNull="False">
           <Item>public</Item>
           <Item>protected</Item>
@@ -24,14 +28,19 @@
           <Item>unsafe</Item>
           <Item>volatile</Item>
         </MODIFIERS_ORDER>
+        <OTHER_BRACES>END_OF_LINE</OTHER_BRACES>
+        <TYPE_DECLARATION_BRACES>END_OF_LINE</TYPE_DECLARATION_BRACES>
       </FormatSettings>
-      <UsingsSettings />
+      <UsingsSettings>
+        <AddImportsToDeepestScope>True</AddImportsToDeepestScope>
+      </UsingsSettings>
       <Naming2 />
     </CSharp>
     <VB>
       <FormatSettings>
         <INDENT_SIZE>4</INDENT_SIZE>
         <INSERT_TABS>True</INSERT_TABS>
+        <WRAP_LINES>False</WRAP_LINES>
       </FormatSettings>
       <ImportsSettings />
       <Naming2 />
@@ -53,7 +62,7 @@ limitations under the License.
 The latest version of this file can be found at http://github.com/JeremySkinner/Spectre]]></FileHeader>
     <GenerateMemberBody />
     <Naming2>
-      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
+      <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
       <PredefinedRule Inspect="True" Prefix="I" Suffix="" Style="AaBb" ElementKind="Interfaces" />
       <PredefinedRule Inspect="True" Prefix="T" Suffix="" Style="AaBb" ElementKind="TypeParameters" />
@@ -61,12 +70,12 @@ The latest version of this file can be found at http://github.com/JeremySkinner/
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="LocalConstants" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="Parameters" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PublicFields" />
-      <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateInstanceFields" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="PrivateInstanceFields" />
       <PredefinedRule Inspect="True" Prefix="_" Suffix="" Style="aaBb" ElementKind="PrivateStaticFields" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Constants" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateConstants" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="StaticReadonly" />
-      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="PrivateStaticReadonly" />
+      <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="aaBb" ElementKind="PrivateStaticReadonly" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="EnumMember" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="Other" />
     </Naming2>

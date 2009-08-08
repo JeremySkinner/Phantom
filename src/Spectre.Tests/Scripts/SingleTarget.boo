@@ -1,0 +1,2 @@
+﻿target default:
+	pass

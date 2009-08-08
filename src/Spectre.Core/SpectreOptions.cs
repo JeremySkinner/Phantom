@@ -24,7 +24,7 @@ namespace Spectre.Core {
 	using Boo.Lang.Useful.CommandLine;
 
 	[Serializable]
-	public class SpectreArguments : AbstractCommandLine {
+	public class SpectreOptions : AbstractCommandLine {
 		readonly List<string> targetNames = new List<string>();
 
 		[Option("Specifies the build file", LongForm = "file", ShortForm = "f")]
@@ -35,8 +35,8 @@ namespace Spectre.Core {
 
 
 		[Argument]
-		public void AddArgument(string argument) {
-			targetNames.Add(argument);
+		public void AddTarget(string targetName) {
+			targetNames.Add(targetName);
 		}
 
 		public IEnumerable<string> TargetNames {

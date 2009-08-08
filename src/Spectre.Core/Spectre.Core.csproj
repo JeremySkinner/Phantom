@@ -71,7 +71,7 @@
     <Compile Include="BuildRunner.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ScriptModel.cs" />
-    <Compile Include="SpectreArguments.cs" />
+    <Compile Include="SpectreOptions.cs" />
     <Compile Include="SpectreBase.cs" />
     <Compile Include="SpectreDslEngine.cs" />
     <Compile Include="SpectreException.cs" />

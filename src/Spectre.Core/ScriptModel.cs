@@ -32,15 +32,24 @@ namespace Spectre.Core {
 			targets.Add(target.Name, target);
 		}
 
-		public void ExecuteTarget(string targetName) {
-			var rootTarget = GetTarget(targetName);
+		public void ExecuteTargets(params string[] targetNames) {
+			var targetsToExecute = new List<Target>();
 
-			if(rootTarget == null) {
-				throw new SpectreException("Target '{0}' does not exist.");
+			foreach(var targetName in targetNames) {
+				var rootTarget = GetTarget(targetName);
+
+				if (rootTarget == null) {
+					throw new SpectreException("Target '{0}' does not exist.");
+				}
+
+				foreach(var targetInSequence in rootTarget.GetExecutionSequence()) {
+					if(! targetsToExecute.Contains(targetInSequence)) {
+						targetsToExecute.Add(targetInSequence);
+					}
+				}
 			}
 
-			var executionSequence = rootTarget.GetExecutionSequence();
-			foreach(var target in executionSequence) {
+			foreach (var target in targetsToExecute) {
 				target.Execute();
 			}
 		}

@@ -100,13 +100,13 @@ namespace Spectre.Tests {
 		public void Executes_target() {
 			bool executed = false;
 			script.target("foo", () => executed = true);
-			script.Model.ExecuteTarget("foo");
+			script.Model.ExecuteTargets("foo");
 			executed.ShouldBeTrue();
 		}
 
 		[Test]
 		public void Throws_when_trying_to_execute_nonexistent_target() {
-			typeof (SpectreException).ShouldBeThrownBy(() => script.Model.ExecuteTarget("foo"));
+			typeof (SpectreException).ShouldBeThrownBy(() => script.Model.ExecuteTargets("foo"));
 		}
 
 		[Test]
@@ -118,7 +118,7 @@ namespace Spectre.Tests {
 			script.target("foo", () => fooExecuted = true);
 			script.target("bar", () => barExecuted = true);
 			script.target("default", new[] { "foo", "bar" }, () => defaultExecuted = true);
-			script.Model.ExecuteTarget(ScriptModel.DefaultTargetName);
+			script.Model.ExecuteTargets(ScriptModel.DefaultTargetName);
 
 			fooExecuted.ShouldBeTrue();
 			barExecuted.ShouldBeTrue();
@@ -136,7 +136,7 @@ namespace Spectre.Tests {
 			script.target("foo", () => fooExecuted = counter++);
 			script.target("bar", () => barExecuted = counter++);
 			script.target("default", new[] { "foo", "bar" }, () => defaultExecuted=counter++);
-			script.Model.ExecuteTarget(ScriptModel.DefaultTargetName);
+			script.Model.ExecuteTargets(ScriptModel.DefaultTargetName);
 
 			fooExecuted.ShouldEqual(0);
 			barExecuted.ShouldEqual(1);

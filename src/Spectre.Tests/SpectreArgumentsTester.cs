@@ -25,11 +25,11 @@ namespace Spectre.Tests {
 
 	[TestFixture]
 	public class SpectreArgumentsTester {
-		SpectreArguments args;
+		SpectreOptions args;
 
 		[SetUp]
 		public void Setup() {
-			args = new SpectreArguments();
+			args = new SpectreOptions();
 		}
 
 		[Test]

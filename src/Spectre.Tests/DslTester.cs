@@ -19,16 +19,27 @@
 #endregion
 
 namespace Spectre.Tests {
+	using System;
+	using System.IO;
 	using System.Linq;
 	using Core;
 	using NUnit.Framework;
 
 	[TestFixture]
 	public class DslTester {
+		StringWriter writer;
+		BuildRunner runner;
+
+		[SetUp]
+		public void Setup() {
+			writer = new StringWriter();
+			Console.SetOut(writer);
+			runner = new BuildRunner();
+		}
+
 		[Test]
 		public void Loads_simple_script() {
 			string path = "Scripts\\SingleTarget.boo";
-			var runner = new BuildRunner();
 			var script = runner.GenerateBuildScript(path);
 			script.Count().ShouldEqual(1);
 		}
@@ -36,7 +47,6 @@ namespace Spectre.Tests {
 		[Test]
 		public void Retrieves_target_name() {
 			string path = "Scripts\\SingleTarget.boo";
-			var runner = new BuildRunner();
 			var script = runner.GenerateBuildScript(path);
 			script.GetTarget("default").Name.ShouldEqual("default");
 		}
@@ -44,7 +54,6 @@ namespace Spectre.Tests {
 		[Test]
 		public void Loads_multiple_targets() {
 			string path = "Scripts\\Dependencies.boo";
-			var runner = new BuildRunner();
 			var script = runner.GenerateBuildScript(path);
 			script.Count().ShouldEqual(3);
 		}
@@ -52,7 +61,6 @@ namespace Spectre.Tests {
 		[Test]
 		public void Loads_dependencies() {
 			string path = "Scripts\\Dependencies.boo";
-			var runner = new BuildRunner();
 			var script = runner.GenerateBuildScript(path);
 			var defaultTarget = script.GetTarget(ScriptModel.DefaultTargetName);
 			var executionSequence = defaultTarget.GetExecutionSequence().ToList();
@@ -62,6 +70,20 @@ namespace Spectre.Tests {
 			executionSequence[2].Name.ShouldEqual("default");
 		}
 
+		[Test]
+		public void Executes_target() {
+			runner.Execute(new SpectreOptions()  { File = "Scripts\\PrintsText.boo"});
+			writer.ToString().ShouldEqual("executing\r\n");
+		}
+
+		[Test]
+		public void Executes_multiple_targets() {
+			var options = new SpectreOptions() { File = "Scripts\\PrintsText.boo"};
+			options.AddTarget("default");
+			options.AddTarget("hello");
+			runner.Execute(options);
+			writer.ToString().ShouldEqual("executing\r\nhello\r\n");
+		}
 
 	}
 }

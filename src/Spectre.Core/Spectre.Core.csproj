@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Boo.Lang, Version=2.0.0.0, Culture=neutral, PublicKeyToken=32c39770e9a21a67, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\boo\Boo.Lang.dll</HintPath>
+    </Reference>
     <Reference Include="Boo.Lang.Compiler, Version=2.0.9.1, Culture=neutral, PublicKeyToken=32c39770e9a21a67, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\boo\Boo.Lang.Compiler.dll</HintPath>
@@ -38,6 +42,10 @@
     <Reference Include="Boo.Lang.Parser, Version=2.0.0.0, Culture=neutral, PublicKeyToken=32c39770e9a21a67, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\boo\Boo.Lang.Parser.dll</HintPath>
+    </Reference>
+    <Reference Include="Boo.Lang.Useful, Version=2.0.0.0, Culture=neutral, PublicKeyToken=32c39770e9a21a67, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\boo\Boo.Lang.Useful.dll</HintPath>
     </Reference>
     <Reference Include="Rhino.DSL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -63,6 +71,7 @@
     <Compile Include="BuildRunner.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ScriptModel.cs" />
+    <Compile Include="SpectreArguments.cs" />
     <Compile Include="SpectreBase.cs" />
     <Compile Include="SpectreDslEngine.cs" />
     <Compile Include="SpectreException.cs" />

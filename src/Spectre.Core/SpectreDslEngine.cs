@@ -29,6 +29,15 @@ namespace Spectre.Core {
 		protected override void CustomizeCompiler(BooCompiler compiler, CompilerPipeline pipeline, string[] urls) {
 			pipeline.Insert(1, new ImplicitBaseClassCompilerStep(typeof (SpectreBase), "Execute"));
 			pipeline.Insert(2, new ExpressionToTargetNameStep());
+			pipeline.Insert(3, new ExpressionToDependencyNamesStep());
+		}
+
+		private static bool IsTargetMethod(Node node) {
+			var macro = node as MacroStatement;
+			if(macro != null &&   macro.Name == "target") {
+				return true;
+			}
+			return false;
 		}
 
 		private class ExpressionToTargetNameStep : AbstractTransformerCompilerStep {
@@ -37,10 +46,20 @@ namespace Spectre.Core {
 			}
 
 			public override void OnReferenceExpression(ReferenceExpression node) {
-				var parent = node.ParentNode as MacroStatement;
-
-				if(parent != null && parent.Name == "target") {
+				if(IsTargetMethod(node.ParentNode)) {
 					ReplaceCurrentNode(new StringLiteralExpression(node.Name));
+				}
+			}
+		}
+
+		private class ExpressionToDependencyNamesStep : AbstractTransformerCompilerStep {
+			public override void Run() {
+				Visit(CompileUnit);
+			}
+
+			public override void OnReferenceExpression(ReferenceExpression node) {
+				if(node.ParentNode is ArrayLiteralExpression && IsTargetMethod(node.ParentNode.ParentNode)) {
+					ReplaceCurrentNode(new StringLiteralExpression(node.Name));		
 				}
 			}
 		}

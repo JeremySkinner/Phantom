@@ -40,5 +40,26 @@ namespace Spectre.Tests {
 			var script = runner.GenerateBuildScript(path);
 			script.GetTarget("default").Name.ShouldEqual("default");
 		}
+
+		[Test]
+		public void Loads_multiple_targets() {
+			string path = "Scripts\\Dependencies.boo";
+			var runner = new BuildRunner();
+			var script = runner.GenerateBuildScript(path);
+			script.Count().ShouldEqual(3);
+		}
+
+		[Test]
+		public void Loads_dependencies() {
+			string path = "Scripts\\Dependencies.boo";
+			var runner = new BuildRunner();
+			var script = runner.GenerateBuildScript(path);
+			var defaultTarget = script.GetTarget(ScriptModel.DefaultTargetName);
+			var executionSequence = defaultTarget.GetExecutionSequence().ToList();
+			executionSequence.Count.ShouldEqual(3);
+			executionSequence[0].Name.ShouldEqual("compile");
+			executionSequence[1].Name.ShouldEqual("test");
+			executionSequence[2].Name.ShouldEqual("default");
+		}
 	}
 }

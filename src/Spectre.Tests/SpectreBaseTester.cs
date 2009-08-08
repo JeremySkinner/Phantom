@@ -143,6 +143,7 @@ namespace Spectre.Tests {
 			defaultExecuted.ShouldEqual(2);
 		}
 
+
 		private class TestScript : SpectreBase {
 			public override void Execute() {
 			}

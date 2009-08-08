@@ -1,0 +1,2 @@
+﻿def SayHello():
+	print "hello"

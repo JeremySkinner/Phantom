@@ -22,6 +22,9 @@ using System;
 using NUnit.Framework;
 
 namespace Spectre.Tests {
+	using System.IO;
+	using System.Linq;
+
 	public static class TestHelper {
 		public static void ShouldEqual(this object actual, object expected) {
 			Assert.AreEqual(expected, actual);
@@ -41,6 +44,16 @@ namespace Spectre.Tests {
 
 		public static void ShouldBeTrue(this bool actual) {
 			Assert.IsTrue(actual);
+		}
+
+		public static void AssertOutput(this TextWriter writer, params string[] lines) {
+			var output = writer.ToString()
+				.Split(new[] { "\r\n" }, StringSplitOptions.None)
+				.ToArray();
+
+			for (int i = 0; i < lines.Length; i++) {
+				output[i].TrimEnd().ShouldEqual(lines[i]);
+			}
 		}
 	}
 }

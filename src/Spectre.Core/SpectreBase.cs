@@ -38,5 +38,9 @@ namespace Spectre.Core {
 		public ScriptModel Model {
 			get { return model; }
 		}
+
+		public void desc(string description) {
+			model.SetCurrentDescription(description);
+		}
 	}
 }

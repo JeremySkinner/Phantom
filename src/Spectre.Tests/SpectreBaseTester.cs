@@ -143,6 +143,21 @@ namespace Spectre.Tests {
 			defaultExecuted.ShouldEqual(2);
 		}
 
+		[Test]
+		public void Adds_description() {
+			script.desc("Test");
+			script.target("foo", null);
+			script.Model.GetTarget("foo").Description.ShouldEqual("Test");
+		}
+
+		[Test]
+		public void Does_not_reuse_description() {
+			script.desc("Test");
+			script.target("foo", null);
+			script.target("bar", null);
+			script.Model.GetTarget("foo").Description.ShouldEqual("Test");
+			script.Model.GetTarget("bar").Description.ShouldBeNull();
+		}
 
 		private class TestScript : SpectreBase {
 			public override void Execute() {

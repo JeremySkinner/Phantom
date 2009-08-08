@@ -28,14 +28,17 @@ namespace Spectre.Core {
 		readonly ScriptModel parentScript;
 		readonly string[] dependencyNames;
 
-		public Target(string name, Action block, string[] dependencies, ScriptModel parentScript) {
+
+		public Target(string name, Action block, string[] dependencies, string description, ScriptModel parentScript) {
 			Name = name;
+			Description = description;
 			this.block = block;
 			this.parentScript = parentScript;
 			dependencyNames = dependencies ?? new string[0];
 		}
 
 		public string Name { get; private set; }
+		public string Description { get; private set; }
 
 		public IEnumerable<Target> GetExecutionSequence() {
 			var executionSequence = new List<Target>() { this };

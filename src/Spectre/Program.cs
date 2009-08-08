@@ -52,9 +52,14 @@ namespace Spectre {
 					return;
 				}
 
-				PrintTargets(options);
-
 				var runner = new BuildRunner();
+
+				if(options.ShowTargets) {
+					runner.OutputTargets(options);
+					return;
+				}
+
+				PrintSelectedTargets(options);
 				runner.Execute(options);
 			}
 			catch(Exception exception) {
@@ -62,7 +67,7 @@ namespace Spectre {
 			}
 		}
 
-		void PrintTargets(SpectreOptions options) {
+		void PrintSelectedTargets(SpectreOptions options) {
 			string targets = string.Join(", ", options.TargetNames.ToArray());
 			Console.WriteLine("Targets specified: {0}", targets);
 			Console.WriteLine();

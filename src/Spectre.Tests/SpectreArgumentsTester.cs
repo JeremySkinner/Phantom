@@ -60,5 +60,11 @@ namespace Spectre.Tests {
 			args.TargetNames.First().ShouldEqual("foo");
 			args.TargetNames.Last().ShouldEqual("bar");
 		}
+
+		[Test]
+		public void Parses_targets() {
+			args.Parse(new[] { "-t" });
+			args.ShowTargets.ShouldBeTrue();
+		}
 	}
 }

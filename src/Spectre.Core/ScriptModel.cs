@@ -5,6 +5,7 @@ namespace Spectre.Core {
 
 	public class ScriptModel : IEnumerable<Target> {
 		public const string DefaultTargetName = "default";
+		string currentDescription;
 
 		readonly Dictionary<string, Target> targets = new Dictionary<string, Target>();
 
@@ -25,7 +26,8 @@ namespace Spectre.Core {
 		}
 
 		public void AddTarget(string name, string[] dependencies, Action block) {
-			var target = new Target(name, block, dependencies, this);
+			var target = new Target(name, block, dependencies, currentDescription, this);
+			currentDescription = null;
 			if (targets.ContainsKey(target.Name)) {
 				throw new SpectreException(string.Format("A target already exists with the name '{0}'. Target names must be unique.", target.Name));
 			}
@@ -52,6 +54,10 @@ namespace Spectre.Core {
 			foreach (var target in targetsToExecute) {
 				target.Execute();
 			}
+		}
+
+		public void SetCurrentDescription(string description) {
+			this.currentDescription = description;
 		}
 	}
 }

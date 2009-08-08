@@ -33,6 +33,9 @@ namespace Spectre.Core {
 		[Option("Prints the help message", LongForm = "help", ShortForm = "h")]
 		public bool Help;
 
+		[Option("Shows all the targets in the specified build file", LongForm = "targets", ShortForm = "t")]
+		public bool ShowTargets;
+
 
 		[Argument]
 		public void AddTarget(string targetName) {

@@ -61,5 +61,7 @@ namespace Spectre.Tests {
 			executionSequence[1].Name.ShouldEqual("test");
 			executionSequence[2].Name.ShouldEqual("default");
 		}
+
+
 	}
 }

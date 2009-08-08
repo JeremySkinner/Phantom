@@ -25,14 +25,40 @@ namespace Spectre.Tests {
 
 	[TestFixture]
 	public class SpectreArgumentsTester {
+		SpectreArguments args;
+
+		[SetUp]
+		public void Setup() {
+			args = new SpectreArguments();
+		}
+
 		[Test]
 		public void Sensible_Defaults() {
-			var args = new SpectreArguments();
+		
 			args.Parse(new string[0]);
 			args.File.ShouldEqual("build.boo");
 			args.Help.ShouldEqual(false);
 			args.TargetNames.Single().ShouldEqual("default");
 		}
 
+		[Test]
+		public void Parses_help() {
+			args.Parse(new[] { "-h" });
+			args.Help.ShouldBeTrue();
+		}
+
+		[Test]
+		public void Parses_file() {
+			args.Parse(new[] { "-f:test.boo" });
+			args.File.ShouldEqual("test.boo");
+		}
+
+		[Test]
+		public void Custom_target_names() {
+			args.Parse(new[] { "foo", "bar" });
+			args.TargetNames.Count().ShouldEqual(2);
+			args.TargetNames.First().ShouldEqual("foo");
+			args.TargetNames.Last().ShouldEqual("bar");
+		}
 	}
 }

@@ -31,5 +31,18 @@ namespace Spectre.Core {
 			}
 			targets.Add(target.Name, target);
 		}
+
+		public void ExecuteTarget(string targetName) {
+			var rootTarget = GetTarget(targetName);
+
+			if(rootTarget == null) {
+				throw new SpectreException("Target '{0}' does not exist.");
+			}
+
+			var executionSequence = rootTarget.GetExecutionSequence();
+			foreach(var target in executionSequence) {
+				target.Execute();
+			}
+		}
 	}
 }

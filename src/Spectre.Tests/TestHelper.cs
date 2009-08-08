@@ -38,5 +38,9 @@ namespace Spectre.Tests {
 		public static void ShouldBeNull(this object actual) {
 			Assert.IsNull(actual);
 		}
+
+		public static void ShouldBeTrue(this bool actual) {
+			Assert.IsTrue(actual);
+		}
 	}
 }

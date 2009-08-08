@@ -21,6 +21,7 @@
 namespace Spectre.Core {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 
 	public class Target {
 		readonly Action block;
@@ -37,25 +38,33 @@ namespace Spectre.Core {
 		public string Name { get; private set; }
 
 		public IEnumerable<Target> GetExecutionSequence() {
-			foreach (var dependency in GetDependencies()) {
-				yield return dependency;
-			}
-			yield return this;
+			var executionSequence = new List<Target>() { this };
+			PopulateExecutionSequence(executionSequence);
+			return executionSequence.AsEnumerable().Reverse();
 		}
 
-		IEnumerable<Target> GetDependencies() {
-			foreach (var dependencyName in dependencyNames) {
+		void PopulateExecutionSequence(ICollection<Target> sequence) {
+			foreach (var dependencyName in dependencyNames.Reverse()) {
 				var dependency = parentScript.GetTarget(dependencyName);
 
 				if (dependency == null) {
 					throw new SpectreException(string.Format("Target '{0}' depenends upon a target named '{1}' but it does not exist.",
-					                                         Name, dependencyName));
+															 Name, dependencyName));
 				}
 
-				foreach (var childDependency in dependency.GetDependencies()) {
-					yield return childDependency;
+				if (sequence.Contains(dependency)) {
+					throw new SpectreException(string.Format("Detected recursive dependency for target '{0}'", dependency.Name));
 				}
-				yield return dependency;
+
+				sequence.Add(dependency);
+				dependency.PopulateExecutionSequence(sequence);
+			}
+		}
+
+
+		public void Execute() {
+			if(block != null) {
+				block();
 			}
 		}
 	}

@@ -30,6 +30,7 @@ namespace Spectre.Core {
 			pipeline.Insert(1, new ImplicitBaseClassCompilerStep(typeof (SpectreBase), "Execute"));
 			pipeline.Insert(2, new ExpressionToTargetNameStep());
 			pipeline.Insert(3, new ExpressionToDependencyNamesStep());
+			pipeline.Insert(4, new UseSymbolsStep());
 		}
 
 		private static bool IsTargetMethod(Node node) {

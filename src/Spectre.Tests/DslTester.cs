@@ -73,7 +73,7 @@ namespace Spectre.Tests {
 		[Test]
 		public void Executes_target() {
 			runner.Execute(new SpectreOptions()  { File = "Scripts\\PrintsText.boo"});
-			writer.ToString().ShouldEqual("executing\r\n");
+			writer.AssertOutput("default:", "executing", "");
 		}
 
 		[Test]
@@ -82,7 +82,7 @@ namespace Spectre.Tests {
 			options.AddTarget("default");
 			options.AddTarget("hello");
 			runner.Execute(options);
-			writer.ToString().ShouldEqual("executing\r\nhello\r\n");
+			writer.AssertOutput("default:", "executing", "", "hello:", "hello", "");
 		}
 
 	}

@@ -41,7 +41,7 @@ namespace Spectre.Core {
 			return targets.Values.GetEnumerator();
 		}
 
-		IEnumerator IEnumerable.GetEnumerator() {
+		IEnumerator IEnumerable.GetEnumerator() { 
 			return GetEnumerator();
 		}
 
@@ -73,7 +73,9 @@ namespace Spectre.Core {
 			}
 
 			foreach (var target in targetsToExecute) {
+				Console.WriteLine(target.Name + ":");
 				target.Execute();
+				Console.WriteLine();
 			}
 		}
 

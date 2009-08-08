@@ -1,4 +1,4 @@
-﻿import file from Utils.boo
+﻿import file from Imported.boo
 
 target default:
 	SayHello()

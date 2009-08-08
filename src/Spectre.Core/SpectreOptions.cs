@@ -55,6 +55,12 @@ namespace Spectre.Core {
 			}	
 		}
 
+		public void PrintHelp() {
+			Console.WriteLine("spectre [-f filename] [-t] [-h] targets");
+			Console.WriteLine();
+			PrintOptions();
+		}
+
 //		public void Option(string option) {
 			
 //		}

@@ -31,5 +31,17 @@ namespace Spectre.Core {
 			return default(TValue);
 		}
 
+		public static TValue ObtainAndRemove<TValue>(this Boo.Lang.Hash hash, string key, TValue defaultValue) {
+			if(hash.ContainsKey(key)) {
+				object value = hash[key];
+				hash.Remove(key);
+				if(value is TValue) {
+					return (TValue) value;
+				}
+				return defaultValue;
+			}
+			return defaultValue;
+		}
+
 	}
 }

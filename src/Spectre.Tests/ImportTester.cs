@@ -20,7 +20,7 @@ namespace Spectre.Tests {
 		[Test]
 		public void Imports_file() {
 			runner.Execute(new SpectreOptions() { File = "Scripts\\Import.boo"});
-			writer.AssertOutput("hello");
+			writer.AssertOutput("default:", "hello");
 		}
 	}
 }

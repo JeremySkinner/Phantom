@@ -43,12 +43,12 @@ namespace Spectre {
 				}
 				catch (CommandLineException exception) {
 					Console.WriteLine(exception.Message);
-					options.PrintOptions();
+					options.PrintHelp();
 					return;
 				}
 
 				if(options.Help) {
-					options.PrintOptions();
+					options.PrintHelp();
 					return;
 				}
 

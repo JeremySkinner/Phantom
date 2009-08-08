@@ -20,6 +20,9 @@
 
 namespace Spectre.Core {
 	using System;
+	using System.Collections.Generic;
+	using System.Diagnostics;
+	using Boo.Lang;
 
 	public abstract class SpectreBase {
 		readonly ScriptModel model = new ScriptModel();
@@ -40,6 +43,51 @@ namespace Spectre.Core {
 
 		public void desc(string description) {
 			model.SetCurrentDescription(description);
+		}
+
+		public void exec(string command, string args) {
+			var psi = new ProcessStartInfo(command, args);
+			psi.UseShellExecute = false;
+			psi.RedirectStandardError = true;
+			var process = Process.Start(psi);
+			process.WaitForExit();
+		}
+
+		public void msbuild(string file) {
+			msbuild(file, new Hash());
+		}
+
+		public void msbuild(string file, Boo.Lang.Hash options) {
+			string frameworkVersion = options.ObtainAndRemove("frameworkVersion", "3.5");
+			string configuration = options.ObtainAndRemove("configuration", "debug");
+			string targets = options.ObtainAndRemove("targets", "build");
+
+			string msbuildDir = env("windir") + "\\microsoft.net\\framework\\v" + frameworkVersion + "\\msbuild.exe";
+			string args = "/p:Configuration=" + configuration + " /t:" + targets;
+
+			foreach(var key in options.Keys) {
+				args += " /p:" + key + "=" + options[key];
+			}
+			exec(msbuildDir, args);
+		}
+
+		public string env(string variableName) {
+			return System.Environment.GetEnvironmentVariable(variableName);
+		}
+
+		public void nunit(string assembly) {
+			nunit(new[] { assembly });
+		}
+
+		public void nunit(string[] assemblyPaths) {
+			nunit(assemblyPaths, new Hash());
+		}
+
+		public void nunit(string[] assemblyPaths, Hash options) {
+			string path = options.ObtainAndRemove("path", "lib\\nunit\\nunit-console.exe");
+			foreach(var assembly in assemblyPaths) {
+				exec(path, "\"" + assembly + "\"");
+			}
 		}
 	}
 }

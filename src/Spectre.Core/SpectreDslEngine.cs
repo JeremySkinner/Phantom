@@ -30,6 +30,7 @@ namespace Spectre.Core {
 
 	public class SpectreDslEngine : DslEngine {
 		protected override void CustomizeCompiler(BooCompiler compiler, CompilerPipeline pipeline, string[] urls) {
+			//compiler.Parameters.References.Add(typeof (FileUtils).Assembly);
 			pipeline.Insert(1, new ImplicitBaseClassCompilerStep(typeof (SpectreBase), "Execute"));
 			pipeline.Insert(2, new ExpressionToTargetNameStep());
 			pipeline.Insert(3, new ExpressionToDependencyNamesStep());

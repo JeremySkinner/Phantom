@@ -89,6 +89,9 @@
     <None Include="Scripts\Import.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Scripts\Imported.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Scripts\LongDescription.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -97,9 +100,6 @@
     </None>
     <None Include="Scripts\SingleTarget.boo">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Scripts\Utils.boo">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,9 +1,27 @@
-using NUnit.Framework;
-using Spectre.Core;
+#region License
+
+// Copyright 2009 Jeremy Skinner (http://www.jeremyskinner.co.uk)
+//  
+// Licensed under the Apache License, Version 2.0 (the "License"); 
+// you may not use this file except in compliance with the License. 
+// You may obtain a copy of the License at 
+//  
+// http://www.apache.org/licenses/LICENSE-2.0 
+//  
+// Unless required by applicable law or agreed to in writing, software 
+// distributed under the License is distributed on an "AS IS" BASIS, 
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+// See the License for the specific language governing permissions and 
+// limitations under the License.
+// 
+// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+
+#endregion
 
 namespace Spectre.Tests {
-	using System;
 	using System.Linq;
+	using Core;
+	using NUnit.Framework;
 
 	[TestFixture]
 	public class SpectreBaseTester {
@@ -16,13 +34,13 @@ namespace Spectre.Tests {
 
 		[Test]
 		public void Creates_target() {
-			script.target("foo", () => {});
+			script.target("foo", () => { });
 			script.Model.GetTarget("foo").ShouldNotBeNull();
 		}
 
 		[Test]
 		public void Finds_default_target() {
-			script.target("default", () => {});
+			script.target("default", () => { });
 			script.Model.DefaultTarget.ShouldNotBeNull();
 		}
 
@@ -48,20 +66,19 @@ namespace Spectre.Tests {
 		public void Adds_dependencies() {
 			script.target("compile", null);
 			script.target("test", null);
-			script.target("deploy", new[] { "compile", "test" }, null);
+			script.target("deploy", new[] {"compile", "test"}, null);
 			var target = script.Model.GetTarget("deploy");
 			target.GetExecutionSequence().Count().ShouldEqual(3);
 			target.GetExecutionSequence().ElementAt(0).Name.ShouldEqual("compile");
 			target.GetExecutionSequence().ElementAt(1).Name.ShouldEqual("test");
 			target.GetExecutionSequence().ElementAt(2).Name.ShouldEqual("deploy");
-
 		}
 
 		[Test]
 		public void Gets_nested_dependencies() {
 			script.target("compile", null);
-			script.target("test", new[] { "compile" }, null);
-			script.target("deploy", new[] {"test" }, null);
+			script.target("test", new[] {"compile"}, null);
+			script.target("deploy", new[] {"test"}, null);
 
 			var target = script.Model.GetTarget("deploy");
 			target.GetExecutionSequence().Count().ShouldEqual(3);
@@ -73,27 +90,27 @@ namespace Spectre.Tests {
 
 		[Test]
 		public void Throws_exception_when_dependency_not_found() {
-			script.target("test", new[] { "NOTFOUND" }, null);
-			script.target("deploy", new[] { "test" }, null);
+			script.target("test", new[] {"NOTFOUND"}, null);
+			script.target("deploy", new[] {"test"}, null);
 			var target = script.Model.GetTarget("deploy");
 			typeof (SpectreException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
 		}
 
 		[Test]
 		public void Handles_recursive_targets() {
-			script.target("foo", new[] { "bar"}, null);
-			script.target("bar", new[] { "foo"}, null);
+			script.target("foo", new[] {"bar"}, null);
+			script.target("bar", new[] {"foo"}, null);
 			var target = script.Model.GetTarget("bar");
 			typeof (SpectreException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
 		}
 
 		[Test]
 		public void Handles_recursive_child_targets() {
-			script.target("foo", new[] { "baz" }, null);
-			script.target("baz", new[] { "foo" }, null);
-			script.target("bar", new[] { "foo" }, null);
+			script.target("foo", new[] {"baz"}, null);
+			script.target("baz", new[] {"foo"}, null);
+			script.target("bar", new[] {"foo"}, null);
 			var target = script.Model.GetTarget("bar");
-			typeof(SpectreException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
+			typeof (SpectreException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
 		}
 
 		[Test]
@@ -117,13 +134,12 @@ namespace Spectre.Tests {
 
 			script.target("foo", () => fooExecuted = true);
 			script.target("bar", () => barExecuted = true);
-			script.target("default", new[] { "foo", "bar" }, () => defaultExecuted = true);
+			script.target("default", new[] {"foo", "bar"}, () => defaultExecuted = true);
 			script.Model.ExecuteTargets(ScriptModel.DefaultTargetName);
 
 			fooExecuted.ShouldBeTrue();
 			barExecuted.ShouldBeTrue();
 			defaultExecuted.ShouldBeTrue();
-
 		}
 
 		[Test]
@@ -135,7 +151,7 @@ namespace Spectre.Tests {
 
 			script.target("foo", () => fooExecuted = counter++);
 			script.target("bar", () => barExecuted = counter++);
-			script.target("default", new[] { "foo", "bar" }, () => defaultExecuted=counter++);
+			script.target("default", new[] {"foo", "bar"}, () => defaultExecuted = counter++);
 			script.Model.ExecuteTargets(ScriptModel.DefaultTargetName);
 
 			fooExecuted.ShouldEqual(0);
@@ -159,7 +175,7 @@ namespace Spectre.Tests {
 			script.Model.GetTarget("bar").Description.ShouldBeNull();
 		}
 
-		private class TestScript : SpectreBase {
+		class TestScript : SpectreBase {
 			public override void Execute() {
 			}
 		}

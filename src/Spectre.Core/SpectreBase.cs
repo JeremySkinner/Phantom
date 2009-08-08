@@ -20,7 +20,6 @@
 
 namespace Spectre.Core {
 	using System;
-	using System.Collections.Generic;
 
 	public abstract class SpectreBase {
 		readonly ScriptModel model = new ScriptModel();

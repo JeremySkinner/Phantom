@@ -17,19 +17,4 @@ target test:
 
 desc "Creates zip package"
 target package:
-  pass
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  pass #Not implemented yet!

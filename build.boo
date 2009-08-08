@@ -2,7 +2,7 @@
 
 solution_file = "Spectre.sln"
 configuration = "release"
-test_assemblies = "src\\Spectre.Tests\\bin\\${configuration}\\Spectre.Tests.dll"
+test_assemblies = "src/Spectre.Tests/bin/${configuration}/Spectre.Tests.dll"
 
 target default, (compile, test, package):
   pass

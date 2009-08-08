@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Core", "src\Spectre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre.Tests", "src\Spectre.Tests\Spectre.Tests.csproj", "{CB76593A-F33E-4135-9523-640F16263C54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spectre", "src\Spectre\Spectre.csproj", "{8080E03B-6DDD-4CF0-A473-355AECC0E8B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{CB76593A-F33E-4135-9523-640F16263C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB76593A-F33E-4135-9523-640F16263C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB76593A-F33E-4135-9523-640F16263C54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8080E03B-6DDD-4CF0-A473-355AECC0E8B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8080E03B-6DDD-4CF0-A473-355AECC0E8B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8080E03B-6DDD-4CF0-A473-355AECC0E8B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8080E03B-6DDD-4CF0-A473-355AECC0E8B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

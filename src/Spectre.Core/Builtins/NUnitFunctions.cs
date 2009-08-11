@@ -49,7 +49,7 @@ namespace Spectre.Core.Builtins {
 		public static void nunit(string[] assemblyPaths, Hash options) {
 			string path = options.ObtainAndRemove("path", "lib\\nunit\\nunit-console.exe");
 			foreach (var assembly in assemblyPaths) {
-				 UtilityFunctions.exec(path, "\"" + assembly + "\"");
+				 IOFunctions.exec(path, "\"" + assembly + "\"");
 			}
 		}
 	}

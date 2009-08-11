@@ -49,7 +49,7 @@ namespace Spectre.Core.Builtins {
 				args += " /p:" + key + "=" + options[key];
 			}
 
-			UtilityFunctions.exec(msbuildDir, args);
+			IOFunctions.exec(msbuildDir, args);
 		}
 	}
 }

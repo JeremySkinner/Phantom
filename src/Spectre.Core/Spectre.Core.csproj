@@ -69,6 +69,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BuildRunner.cs" />
+    <Compile Include="Builtins\IOFunctions.cs" />
     <Compile Include="Builtins\MSBuildFunctions.cs" />
     <Compile Include="Builtins\NUnitFunctions.cs" />
     <Compile Include="Extensions.cs" />

@@ -39,19 +39,5 @@ namespace Spectre.Core.Builtins {
 		public static string env(string variableName) {
 			return System.Environment.GetEnvironmentVariable(variableName);
 		}
-
-		/// <summary>
-		/// Executes the specified program with the specified arguments
-		/// </summary>
-		/// <param name="command">The command to execute</param>
-		/// <param name="args">Additional args</param>
-		public static void exec(string command, string args) {
-			var psi = new ProcessStartInfo(command, args) {
-				UseShellExecute = false,
-				RedirectStandardError = true
-			};
-			var process = Process.Start(psi);
-			process.WaitForExit();
-		}
 	}
 }

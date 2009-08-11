@@ -21,7 +21,7 @@
 namespace Spectre.Core {
 	using System.Collections.Generic;
 
-	public static class Extensions {
+	internal static class Extensions {
 		public static TValue ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) {
 			TValue value;
 			if(dictionary.TryGetValue(key, out value)) {

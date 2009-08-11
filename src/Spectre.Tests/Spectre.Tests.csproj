@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="DescriptionTester.cs" />
     <Compile Include="DslTester.cs" />
+    <Compile Include="GlobalsTester.cs" />
     <Compile Include="ImportTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpectreArgumentsTester.cs" />
@@ -100,6 +101,9 @@
     </None>
     <None Include="Scripts\SingleTarget.boo">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\UsesGlobals.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -69,7 +69,10 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BuildRunner.cs" />
+    <Compile Include="Builtins\MSBuildFunctions.cs" />
+    <Compile Include="Builtins\NUnitFunctions.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Builtins\UtilityFunctions.cs" />
     <Compile Include="ScriptModel.cs" />
     <Compile Include="SpectreOptions.cs" />
     <Compile Include="SpectreBase.cs" />

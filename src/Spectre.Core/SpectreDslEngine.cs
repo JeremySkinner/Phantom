@@ -19,19 +19,15 @@
 #endregion
 
 namespace Spectre.Core {
-	using System;
-	using System.Reflection;
 	using Boo.Lang.Compiler;
 	using Boo.Lang.Compiler.Ast;
-	using Boo.Lang.Compiler.IO;
-	using Boo.Lang.Compiler.Pipelines;
 	using Boo.Lang.Compiler.Steps;
+	using Builtins;
 	using Rhino.DSL;
 
 	public class SpectreDslEngine : DslEngine {
 		protected override void CustomizeCompiler(BooCompiler compiler, CompilerPipeline pipeline, string[] urls) {
-			//compiler.Parameters.References.Add(typeof (FileUtils).Assembly);
-			pipeline.Insert(1, new ImplicitBaseClassCompilerStep(typeof (SpectreBase), "Execute"));
+			pipeline.Insert(1, new ImplicitBaseClassCompilerStep(typeof (SpectreBase), "Execute", typeof(UtilityFunctions).Namespace));
 			pipeline.Insert(2, new ExpressionToTargetNameStep());
 			pipeline.Insert(3, new ExpressionToDependencyNamesStep());
 			pipeline.Insert(4, new UseSymbolsStep());

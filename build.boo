@@ -20,9 +20,11 @@ desc "Copies the binaries to the 'build' directory"
 target deploy:
 	rmdir('build')
 	mkdir('build')
-	exec("xcopy src\\Spectre\\bin\\${configuration}\\*.exe build")
-	exec("xcopy src\\Spectre\\bin\\${configuration}\\*.dll build")
+	mkdir("build\\${configuration}")
+	exec("xcopy src\\Spectre\\bin\\${configuration}\\*.exe build\\${configuration}")
+	exec("xcopy src\\Spectre\\bin\\${configuration}\\*.dll build\\${configuration}")
+	exec("xcopy License.txt build\\${configuration}")
 	
 desc "Creates zip package"
 target package:
-  pass #Not implemented yet!
+  zip("build\\${configuration}", 'build\\Spectre.zip')

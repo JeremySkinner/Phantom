@@ -63,6 +63,8 @@ namespace Spectre.Core.Builtins {
 			foreach (var file in dirInfo.GetFiles()) {
 				DeleteFile(file.FullName);
 			}
+
+			Directory.Delete(path);
 		}
 
 		static void DeleteFile(string path) {

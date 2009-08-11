@@ -47,6 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\boo\Boo.Lang.Useful.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip, Version=1.8.4.16, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\dotnetzip\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Rhino.DSL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\rhino-dsl\Rhino.DSL.dll</HintPath>
@@ -72,6 +76,7 @@
     <Compile Include="Builtins\IOFunctions.cs" />
     <Compile Include="Builtins\MSBuildFunctions.cs" />
     <Compile Include="Builtins\NUnitFunctions.cs" />
+    <Compile Include="Builtins\ZipFunctions.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Builtins\UtilityFunctions.cs" />
     <Compile Include="ScriptModel.cs" />

@@ -14,23 +14,22 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Core.Builtins {
+namespace Phantom.Core.Builtins {
 	using System.Runtime.CompilerServices;
 	using Boo.Lang;
 
 	[CompilerGlobalScope]
 	public sealed class NUnitFunctions {
-
 		/// <summary>
 		/// Executes nunit against the specified assembly. Assumes nunit is located at lib\nunit\nunit-console.exe
 		/// </summary>
 		/// <param name="assembly"></param>
 		public static void nunit(string assembly) {
-			nunit(new[] { assembly });
+			nunit(new[] {assembly});
 		}
 
 		/// <summary>
@@ -49,7 +48,7 @@ namespace Spectre.Core.Builtins {
 		public static void nunit(string[] assemblyPaths, Hash options) {
 			string path = options.ObtainAndRemove("path", "lib\\nunit\\nunit-console.exe");
 			foreach (var assembly in assemblyPaths) {
-				 IOFunctions.exec(path, "\"" + assembly + "\"");
+				IOFunctions.exec(path, "\"" + assembly + "\"");
 			}
 		}
 	}

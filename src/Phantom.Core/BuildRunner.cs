@@ -14,11 +14,11 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Core {
+namespace Phantom.Core {
 	using System;
 	using System.Linq;
 	using Rhino.DSL;
@@ -28,32 +28,32 @@ namespace Spectre.Core {
 
 		static BuildRunner() {
 			dslFactory = new DslFactory();
-			dslFactory.Register<SpectreBase>(new SpectreDslEngine());
+			dslFactory.Register<PhantomBase>(new PhantomDslEngine());
 		}
 
 		public ScriptModel GenerateBuildScript(string path) {
-			var script = dslFactory.Create<SpectreBase>(path);
+			var script = dslFactory.Create<PhantomBase>(path);
 			script.Execute();
 			return script.Model;
 		}
 
-		public void Execute(SpectreOptions options) {
+		public void Execute(PhantomOptions options) {
 			var script = GenerateBuildScript(options.File);
 			script.ExecuteTargets(options.TargetNames.ToArray());
 		}
 
-		public void OutputTargets(SpectreOptions options) {
+		public void OutputTargets(PhantomOptions options) {
 			Console.WriteLine("Targets in {0}: ", options.File);
 			var script = GenerateBuildScript(options.File);
 			var allTargets = script.OrderBy(x => x.Name).ToList();
 
 			int maxTargetLength = allTargets.Max(x => x.Name.Length);
 
-			foreach(var target in script.OrderBy(x => x.Name)) {
+			foreach (var target in script.OrderBy(x => x.Name)) {
 				string name = target.Name.PadRight(maxTargetLength + 10, ' ');
 				string description = target.Description ?? string.Empty;
 
-				if(description.Length > 47) {
+				if (description.Length > 47) {
 					description = description.Substring(0, 47) + "...";
 				}
 

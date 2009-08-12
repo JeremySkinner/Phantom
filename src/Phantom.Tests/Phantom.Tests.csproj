@@ -66,8 +66,8 @@
     <Compile Include="GlobalsTester.cs" />
     <Compile Include="ImportTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpectreArgumentsTester.cs" />
-    <Compile Include="SpectreBaseTester.cs" />
+    <Compile Include="PhantomOptionsTester.cs" />
+    <Compile Include="PhantomBaseTester.cs" />
     <Compile Include="TestHelper.cs" />
   </ItemGroup>
   <ItemGroup>

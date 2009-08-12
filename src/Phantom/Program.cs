@@ -14,18 +14,17 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre {
+namespace Phantom {
 	using System;
 	using System.Linq;
 	using Boo.Lang.Useful.CommandLine;
 	using Core;
 
 	internal class Program {
-
 		static void Main(string[] args) {
 			var program = new Program();
 			program.Execute(args);
@@ -33,10 +32,9 @@ namespace Spectre {
 
 		void Execute(string[] args) {
 			try {
-
 				WriteHeader();
 
-				var options = new SpectreOptions();
+				var options = new PhantomOptions();
 
 				try {
 					options.Parse(args);
@@ -47,14 +45,14 @@ namespace Spectre {
 					return;
 				}
 
-				if(options.Help) {
+				if (options.Help) {
 					options.PrintHelp();
 					return;
 				}
 
 				var runner = new BuildRunner();
 
-				if(options.ShowTargets) {
+				if (options.ShowTargets) {
 					runner.OutputTargets(options);
 					return;
 				}
@@ -62,12 +60,12 @@ namespace Spectre {
 				PrintSelectedTargets(options);
 				runner.Execute(options);
 			}
-			catch(Exception exception) {
+			catch (Exception exception) {
 				Console.WriteLine(exception);
 			}
 		}
 
-		void PrintSelectedTargets(SpectreOptions options) {
+		void PrintSelectedTargets(PhantomOptions options) {
 			string targets = string.Join(", ", options.TargetNames.ToArray());
 			Console.WriteLine("Targets specified: {0}", targets);
 			Console.WriteLine();
@@ -76,9 +74,9 @@ namespace Spectre {
 
 		void WriteHeader() {
 			string version = typeof (Program).Assembly.GetName().Version.ToString();
-			Console.WriteLine("Spectre v{0}", version);
+			Console.WriteLine("Phantom v{0}", version);
 			Console.WriteLine("Copyright (c) Jeremy Skinner 2009 (http://www.jeremyskinner.co.uk)");
-			Console.WriteLine("http://github.com/JeremySkinner/Spectre");
+			Console.WriteLine("http://github.com/JeremySkinner/Phantom");
 			Console.WriteLine();
 			Console.WriteLine();
 		}

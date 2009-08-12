@@ -14,11 +14,11 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Core.Builtins {
+namespace Phantom.Core.Builtins {
 	using System.Runtime.CompilerServices;
 	using Boo.Lang;
 
@@ -42,7 +42,8 @@ namespace Spectre.Core.Builtins {
 			string configuration = options.ObtainAndRemove("configuration", "debug");
 			string targets = options.ObtainAndRemove("targets", "build");
 
-			string msbuildDir = UtilityFunctions.env("windir") + "\\microsoft.net\\framework\\v" + frameworkVersion + "\\msbuild.exe";
+			string msbuildDir = UtilityFunctions.env("windir") + "\\microsoft.net\\framework\\v" + frameworkVersion +
+			                    "\\msbuild.exe";
 			string args = "/p:Configuration=" + configuration + " /t:" + targets;
 
 			foreach (var key in options.Keys) {

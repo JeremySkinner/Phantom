@@ -59,7 +59,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and 
 limitations under the License.
 
-The latest version of this file can be found at http://github.com/JeremySkinner/Spectre]]></FileHeader>
+The latest version of this file can be found at http://github.com/JeremySkinner/Phantom]]></FileHeader>
     <GenerateMemberBody />
     <Naming2>
       <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />

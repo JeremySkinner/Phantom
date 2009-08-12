@@ -1,4 +1,4 @@
-namespace Spectre.Tests {
+namespace Phantom.Tests {
 	using System;
 	using System.IO;
 	using Core;
@@ -19,7 +19,7 @@ namespace Spectre.Tests {
 
 		[Test]
 		public void Imports_file() {
-			runner.Execute(new SpectreOptions() { File = "Scripts\\Import.boo"});
+			runner.Execute(new PhantomOptions() { File = "Scripts\\Import.boo"});
 			writer.AssertOutput("default:", "hello");
 		}
 	}

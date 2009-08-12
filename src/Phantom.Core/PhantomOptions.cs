@@ -14,17 +14,17 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Core {
+namespace Phantom.Core {
 	using System;
 	using System.Collections.Generic;
 	using Boo.Lang.Useful.CommandLine;
 
 	[Serializable]
-	public class SpectreOptions : AbstractCommandLine {
+	public class PhantomOptions : AbstractCommandLine {
 		readonly List<string> targetNames = new List<string>();
 
 		[Option("Specifies the build file", LongForm = "file", ShortForm = "f")]
@@ -56,7 +56,7 @@ namespace Spectre.Core {
 		}
 
 		public void PrintHelp() {
-			Console.WriteLine("spectre [-f filename] [-t] [-h] targets");
+			Console.WriteLine("phantom [-f filename] [-t] [-h] targets");
 			Console.WriteLine();
 			PrintOptions();
 		}

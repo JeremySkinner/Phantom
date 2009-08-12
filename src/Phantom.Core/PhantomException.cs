@@ -14,32 +14,15 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Core {
+namespace Phantom.Core {
 	using System;
 
-	public abstract class SpectreBase {
-		readonly ScriptModel model = new ScriptModel();
-
-		public void target(string name, Action block) {
-			model.AddTarget(name, null, block);
-		}
-
-		public void target(string name, string[] dependencies, Action block) {
-			model.AddTarget(name, dependencies, block);
-		}
-
-		public abstract void Execute();
-
-		public ScriptModel Model {
-			get { return model; }
-		}
-
-		public void desc(string description) {
-			model.SetCurrentDescription(description);
+	public class PhantomException : ApplicationException {
+		public PhantomException(string message) : base(message) {
 		}
 	}
 }

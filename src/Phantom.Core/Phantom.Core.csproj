@@ -80,10 +80,10 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Builtins\UtilityFunctions.cs" />
     <Compile Include="ScriptModel.cs" />
-    <Compile Include="SpectreOptions.cs" />
-    <Compile Include="SpectreBase.cs" />
-    <Compile Include="SpectreDslEngine.cs" />
-    <Compile Include="SpectreException.cs" />
+    <Compile Include="PhantomOptions.cs" />
+    <Compile Include="PhantomBase.cs" />
+    <Compile Include="PhantomDslEngine.cs" />
+    <Compile Include="PhantomException.cs" />
     <Compile Include="Target.cs" />
   </ItemGroup>
   <ItemGroup>

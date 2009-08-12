@@ -14,14 +14,13 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Tests {
+namespace Phantom.Tests {
 	using System;
 	using System.IO;
-	using System.Linq;
 	using Core;
 	using NUnit.Framework;
 
@@ -39,7 +38,7 @@ namespace Spectre.Tests {
 
 		[Test]
 		public void Outputs_description() {
-			runner.OutputTargets(new SpectreOptions {File = "Scripts\\Descriptions.boo"});
+			runner.OutputTargets(new PhantomOptions {File = "Scripts\\Descriptions.boo"});
 			writer.AssertOutput(
 				"Targets in Scripts\\Descriptions.boo:",
 				"compile          Compiles",
@@ -49,7 +48,7 @@ namespace Spectre.Tests {
 
 		[Test]
 		public void Truncates_long_Descriptions() {
-			runner.OutputTargets(new SpectreOptions {File = "Scripts\\LongDescription.boo"});
+			runner.OutputTargets(new PhantomOptions {File = "Scripts\\LongDescription.boo"});
 			writer.AssertOutput(
 				"Targets in Scripts\\LongDescription.boo:",
 				"default          The quick brown fox jumped over the lazy dog th..."

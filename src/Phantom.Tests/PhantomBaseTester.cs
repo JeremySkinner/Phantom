@@ -14,18 +14,18 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Tests {
+namespace Phantom.Tests {
 	using System.Linq;
 	using Core;
 	using NUnit.Framework;
 
 	[TestFixture]
-	public class SpectreBaseTester {
-		SpectreBase script;
+	public class PhantomBaseTester {
+		PhantomBase script;
 
 		[SetUp]
 		public void Setup() {
@@ -52,7 +52,7 @@ namespace Spectre.Tests {
 		[Test]
 		public void Does_not_allow_same_target_to_be_added_multiple_times() {
 			script.target("foo", null);
-			typeof (SpectreException).ShouldBeThrownBy(() => script.target("foo", null));
+			typeof (PhantomException).ShouldBeThrownBy(() => script.target("foo", null));
 		}
 
 		[Test]
@@ -93,7 +93,7 @@ namespace Spectre.Tests {
 			script.target("test", new[] {"NOTFOUND"}, null);
 			script.target("deploy", new[] {"test"}, null);
 			var target = script.Model.GetTarget("deploy");
-			typeof (SpectreException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
+			typeof (PhantomException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
 		}
 
 		[Test]
@@ -101,7 +101,7 @@ namespace Spectre.Tests {
 			script.target("foo", new[] {"bar"}, null);
 			script.target("bar", new[] {"foo"}, null);
 			var target = script.Model.GetTarget("bar");
-			typeof (SpectreException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
+			typeof (PhantomException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
 		}
 
 		[Test]
@@ -110,7 +110,7 @@ namespace Spectre.Tests {
 			script.target("baz", new[] {"foo"}, null);
 			script.target("bar", new[] {"foo"}, null);
 			var target = script.Model.GetTarget("bar");
-			typeof (SpectreException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
+			typeof (PhantomException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
 		}
 
 		[Test]
@@ -123,7 +123,7 @@ namespace Spectre.Tests {
 
 		[Test]
 		public void Throws_when_trying_to_execute_nonexistent_target() {
-			typeof (SpectreException).ShouldBeThrownBy(() => script.Model.ExecuteTargets("foo"));
+			typeof (PhantomException).ShouldBeThrownBy(() => script.Model.ExecuteTargets("foo"));
 		}
 
 		[Test]
@@ -175,7 +175,7 @@ namespace Spectre.Tests {
 			script.Model.GetTarget("bar").Description.ShouldBeNull();
 		}
 
-		class TestScript : SpectreBase {
+		class TestScript : PhantomBase {
 			public override void Execute() {
 			}
 		}

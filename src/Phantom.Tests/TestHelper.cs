@@ -14,14 +14,14 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
 using System;
 using NUnit.Framework;
 
-namespace Spectre.Tests {
+namespace Phantom.Tests {
 	using System.IO;
 	using System.Linq;
 

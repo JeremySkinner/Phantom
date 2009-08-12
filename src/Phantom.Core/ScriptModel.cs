@@ -14,15 +14,15 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Core {
+namespace Phantom.Core {
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
-
+	
 	public class ScriptModel : IEnumerable<Target> {
 		public const string DefaultTargetName = "default";
 		string currentDescription;
@@ -41,7 +41,7 @@ namespace Spectre.Core {
 			return targets.Values.GetEnumerator();
 		}
 
-		IEnumerator IEnumerable.GetEnumerator() { 
+		IEnumerator IEnumerable.GetEnumerator() {
 			return GetEnumerator();
 		}
 
@@ -49,7 +49,7 @@ namespace Spectre.Core {
 			var target = new Target(name, block, dependencies, currentDescription, this);
 			currentDescription = null;
 			if (targets.ContainsKey(target.Name)) {
-				throw new SpectreException(string.Format(
+				throw new PhantomException(string.Format(
 				                           	"A target already exists with the name '{0}'. Target names must be unique.", target.Name));
 			}
 			targets.Add(target.Name, target);
@@ -62,7 +62,7 @@ namespace Spectre.Core {
 				var rootTarget = GetTarget(targetName);
 
 				if (rootTarget == null) {
-					throw new SpectreException("Target '{0}' does not exist.");
+					throw new PhantomException("Target '{0}' does not exist.");
 				}
 
 				foreach (var targetInSequence in rootTarget.GetExecutionSequence()) {

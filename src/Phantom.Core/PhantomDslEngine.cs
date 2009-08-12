@@ -14,20 +14,20 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Core {
+namespace Phantom.Core {
 	using Boo.Lang.Compiler;
 	using Boo.Lang.Compiler.Ast;
 	using Boo.Lang.Compiler.Steps;
 	using Builtins;
 	using Rhino.DSL;
 
-	public class SpectreDslEngine : DslEngine {
+	public class PhantomDslEngine : DslEngine {
 		protected override void CustomizeCompiler(BooCompiler compiler, CompilerPipeline pipeline, string[] urls) {
-			pipeline.Insert(1, new ImplicitBaseClassCompilerStep(typeof (SpectreBase), "Execute", typeof(UtilityFunctions).Namespace));
+			pipeline.Insert(1, new ImplicitBaseClassCompilerStep(typeof (PhantomBase), "Execute", typeof(UtilityFunctions).Namespace));
 			pipeline.Insert(2, new ExpressionToTargetNameStep());
 			pipeline.Insert(3, new ExpressionToDependencyNamesStep());
 			pipeline.Insert(4, new UseSymbolsStep());

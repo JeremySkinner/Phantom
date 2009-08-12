@@ -14,14 +14,15 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Core {
+namespace Phantom.Core {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using Phantom.Core;
 
 	public class Target {
 		readonly Action block;
@@ -51,12 +52,12 @@ namespace Spectre.Core {
 				var dependency = parentScript.GetTarget(dependencyName);
 
 				if (dependency == null) {
-					throw new SpectreException(string.Format("Target '{0}' depenends upon a target named '{1}' but it does not exist.",
+					throw new PhantomException(string.Format("Target '{0}' depenends upon a target named '{1}' but it does not exist.",
 															 Name, dependencyName));
 				}
 
 				if (sequence.Contains(dependency)) {
-					throw new SpectreException(string.Format("Detected recursive dependency for target '{0}'", dependency.Name));
+					throw new PhantomException(string.Format("Detected recursive dependency for target '{0}'", dependency.Name));
 				}
 
 				sequence.Add(dependency);

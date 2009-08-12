@@ -14,18 +14,18 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Core.Builtins {
-	using System.Diagnostics;
+namespace Phantom.Core.Builtins {
+	using System;
 	using System.Runtime.CompilerServices;
 
 	[CompilerGlobalScope]
 	public sealed class UtilityFunctions {
 		/// <summary>
-		/// Gets the current version of Spectre.
+		/// Gets the current version of Phantom.
 		/// </summary>
 		public static string version() {
 			return typeof (UtilityFunctions).Assembly.GetName().Version.ToString();
@@ -37,7 +37,7 @@ namespace Spectre.Core.Builtins {
 		/// <param name="variableName">Name of the variable</param>
 		/// <returns>The variable's value</returns>
 		public static string env(string variableName) {
-			return System.Environment.GetEnvironmentVariable(variableName);
+			return Environment.GetEnvironmentVariable(variableName);
 		}
 	}
 }

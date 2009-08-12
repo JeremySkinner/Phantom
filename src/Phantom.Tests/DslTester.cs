@@ -14,11 +14,11 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Tests {
+namespace Phantom.Tests {
 	using System;
 	using System.IO;
 	using System.Linq;
@@ -72,13 +72,13 @@ namespace Spectre.Tests {
 
 		[Test]
 		public void Executes_target() {
-			runner.Execute(new SpectreOptions()  { File = "Scripts\\PrintsText.boo"});
+			runner.Execute(new PhantomOptions()  { File = "Scripts\\PrintsText.boo"});
 			writer.AssertOutput("default:", "executing", "");
 		}
 
 		[Test]
 		public void Executes_multiple_targets() {
-			var options = new SpectreOptions() { File = "Scripts\\PrintsText.boo"};
+			var options = new PhantomOptions() { File = "Scripts\\PrintsText.boo"};
 			options.AddTarget("default");
 			options.AddTarget("hello");
 			runner.Execute(options);

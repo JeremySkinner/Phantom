@@ -14,11 +14,11 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Tests {
+namespace Phantom.Tests {
 	using System;
 	using System.IO;
 	using Core;
@@ -39,7 +39,7 @@ namespace Spectre.Tests {
 		[Test]
 		public void Executes_global_function() {
 			string expected = typeof (BuildRunner).Assembly.GetName().Version.ToString();
-			runner.Execute(new SpectreOptions() { File = "Scripts\\UsesGlobals.boo"});
+			runner.Execute(new PhantomOptions() { File = "Scripts\\UsesGlobals.boo"});
 			writer.AssertOutput("default:", expected);
 		}
 
@@ -47,7 +47,7 @@ namespace Spectre.Tests {
 		public void Executes_global_function_from_imported_script() {
 			string expected = typeof(BuildRunner).Assembly.GetName().Version.ToString();
 			
-			var options = new SpectreOptions() { File = "Scripts\\UsesGlobals.boo" };
+			var options = new PhantomOptions() { File = "Scripts\\UsesGlobals.boo" };
 			options.AddTarget("printVersion");
 
 			runner.Execute(options);

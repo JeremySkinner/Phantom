@@ -1,9 +1,8 @@
 import System.IO
-#import file from "lib/spectre/BuildUtils.boo"
 
-solution_file = "Spectre.sln"
+solution_file = "Phantom.sln"
 configuration = "release"
-test_assemblies = "src/Spectre.Tests/bin/${configuration}/Spectre.Tests.dll"
+test_assemblies = "src/Phantom.Tests/bin/${configuration}/Phantom.Tests.dll"
 
 target default, (compile, test, deploy, package):
   pass
@@ -21,10 +20,10 @@ target deploy:
 	rmdir('build')
 	mkdir('build')
 	mkdir("build\\${configuration}")
-	exec("xcopy src\\Spectre\\bin\\${configuration}\\*.exe build\\${configuration}")
-	exec("xcopy src\\Spectre\\bin\\${configuration}\\*.dll build\\${configuration}")
+	exec("xcopy src\\Phantom\\bin\\${configuration}\\*.exe build\\${configuration}")
+	exec("xcopy src\\Phantom\\bin\\${configuration}\\*.dll build\\${configuration}")
 	exec("xcopy License.txt build\\${configuration}")
 	
 desc "Creates zip package"
 target package:
-  zip("build\\${configuration}", 'build\\Spectre.zip')
+  zip("build\\${configuration}", 'build\\Phantom.zip')

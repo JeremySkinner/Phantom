@@ -14,16 +14,16 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Spectre.Core")]
-[assembly: AssemblyDescription("Spectre")]
-[assembly: AssemblyProduct("Spectre")]
+[assembly: AssemblyTitle("Phantom")]
+[assembly: AssemblyDescription("Phantom")]
+[assembly: AssemblyProduct("Phantom")]
 [assembly: AssemblyCopyright("Copyright (c) Jeremy Skinner 2009")]
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("0.1.0.0")]

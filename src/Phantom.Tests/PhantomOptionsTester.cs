@@ -14,22 +14,22 @@
 // See the License for the specific language governing permissions and 
 // limitations under the License.
 // 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Spectre
+// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
-namespace Spectre.Tests {
+namespace Phantom.Tests {
 	using System.Linq;
 	using Core;
 	using NUnit.Framework;
 
 	[TestFixture]
-	public class SpectreArgumentsTester {
-		SpectreOptions args;
+	public class PhantomOptionsTester {
+		PhantomOptions args;
 
 		[SetUp]
 		public void Setup() {
-			args = new SpectreOptions();
+			args = new PhantomOptions();
 		}
 
 		[Test]

@@ -30,8 +30,9 @@ namespace Phantom.Core {
 			pipeline.Insert(1, new ImplicitBaseClassCompilerStep(typeof (PhantomBase), "Execute", typeof(UtilityFunctions).Namespace));
 			pipeline.Insert(2, new ExpressionToTargetNameStep());
 			pipeline.Insert(3, new ExpressionToDependencyNamesStep());
-			pipeline.Insert(4, new UseSymbolsStep());
-			pipeline.Insert(5, new AutoReferenceFilesCompilerStep());
+            pipeline.Insert(4, new ExpressionToRunTargetNameStep());
+			pipeline.Insert(5, new UseSymbolsStep());
+			pipeline.Insert(6, new AutoReferenceFilesCompilerStep());
 		}
 
 		private static bool IsTargetMethod(Node node) {
@@ -41,6 +42,14 @@ namespace Phantom.Core {
 			}
 			return false;
 		}
+
+        private static bool IsRunTargetMethod(Node node) {
+            var macro = node as MacroStatement;
+            if (macro != null && macro.Name == "runTarget") {
+                return true;
+            }
+            return false;
+        }
 
 		private class ExpressionToTargetNameStep : AbstractTransformerCompilerStep {
 			public override void Run() {
@@ -65,5 +74,17 @@ namespace Phantom.Core {
 				}
 			}
 		}
+
+        private class ExpressionToRunTargetNameStep : AbstractTransformerCompilerStep {
+            public override void Run() {
+                Visit(CompileUnit);
+            }
+
+            public override void OnReferenceExpression(ReferenceExpression node) {
+                if (IsRunTargetMethod(node.ParentNode)) {
+                    ReplaceCurrentNode(new StringLiteralExpression(node.Name));
+                }
+            }
+        }
 	}
 }

@@ -85,5 +85,12 @@ namespace Phantom.Tests {
 			writer.AssertOutput("default:", "executing", "", "hello:", "hello", "");
 		}
 
+        [Test]
+        public void Executes_target_from_within_target() {
+            var options = new PhantomOptions() { File = "Scripts\\PrintsText.boo" };
+            options.AddTarget("helloWorld");
+            runner.Execute(options);
+            writer.AssertOutput("helloWorld:", "hello:", "hello", "", "world");
+        }
 	}
 }

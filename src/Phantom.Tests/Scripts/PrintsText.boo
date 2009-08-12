@@ -5,5 +5,5 @@ target hello:
 	print "hello"
 
 target helloWorld:
-	runTarget hello
+	call hello
 	print "world"

@@ -1,2 +1,2 @@
 @echo off
-lib\spectre\spectre.exe %*
+lib\phantom\phantom.exe %*

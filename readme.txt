@@ -1,14 +1,14 @@
-Spectre is a .NET build system written in C# and Boo. 
+Phantom is a .NET build system written in C# and Boo. 
 
 Command line options:
 
-spectre [-f filename] [-t] [-h] targets
+phantom [-f filename] [-t] [-h] targets
 
  -f  -file:file    Specifies the build file
  -h  -help[+-]     Prints the help message
  -t  -targets[+-]  Shows all the targets in the specified build file
  
-Running "spectre.exe" with no arguments will look for a file named "build.boo" in the current directory
+Running "phantom.exe" with no arguments will look for a file named "build.boo" in the current directory
 and execute a target named "default".
  
 You can define targets in your build.boo using the "target" method. 
@@ -28,7 +28,7 @@ desc "The default target"
 target default:
   print "executing..."
   
-These descriptions can be viewed by running spectre -t, eg:
+These descriptions can be viewed by running phantom -t, eg:
 
 Targets in build.boo:
 compile          Compiles the solution
@@ -47,7 +47,7 @@ test_assemblies = ("path/to/TestAssembly.dll", "path/to/AnotherTEstAssembly.dll"
 target test:
   nunit(test_assemblies)
   
-By default, Spectre will look for NUnit.exe in the path "lib/nunit/nunit.console.exe". 
+By default, Phantom will look for NUnit.exe in the path "lib/nunit/nunit.console.exe". 
 This can be overriden by specifying an optional "path" variable:
 
 target test:

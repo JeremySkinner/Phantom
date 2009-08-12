@@ -41,5 +41,9 @@ namespace Phantom.Core {
 		public void desc(string description) {
 			model.SetCurrentDescription(description);
 		}
+
+        public void runTarget(string name) {
+            model.ExecuteTargets(name);
+        }
 	}
 }

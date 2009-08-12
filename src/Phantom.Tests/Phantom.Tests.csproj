@@ -8,8 +8,8 @@
     <ProjectGuid>{CB76593A-F33E-4135-9523-640F16263C54}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Spectre.Tests</RootNamespace>
-    <AssemblyName>Spectre.Tests</AssemblyName>
+    <RootNamespace>Phantom.Tests</RootNamespace>
+    <AssemblyName>Phantom.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -71,16 +71,6 @@
     <Compile Include="TestHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Spectre.Core\Spectre.Core.csproj">
-      <Project>{C15890B0-E874-48EE-97F4-9DD24C29355C}</Project>
-      <Name>Spectre.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Spectre\Spectre.csproj">
-      <Project>{8080E03B-6DDD-4CF0-A473-355AECC0E8B0}</Project>
-      <Name>Spectre</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Scripts\Dependencies.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -105,6 +95,16 @@
     <None Include="Scripts\UsesGlobals.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Phantom.Core\Phantom.Core.csproj">
+      <Project>{C15890B0-E874-48EE-97F4-9DD24C29355C}</Project>
+      <Name>Phantom.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Phantom\Phantom.csproj">
+      <Project>{8080E03B-6DDD-4CF0-A473-355AECC0E8B0}</Project>
+      <Name>Phantom</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

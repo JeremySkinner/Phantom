@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C15890B0-E874-48EE-97F4-9DD24C29355C}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{8080E03B-6DDD-4CF0-A473-355AECC0E8B0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Spectre.Core</RootNamespace>
-    <AssemblyName>Spectre.Core</AssemblyName>
+    <RootNamespace>Phantom</RootNamespace>
+    <AssemblyName>Phantom</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,29 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Boo.Lang, Version=2.0.0.0, Culture=neutral, PublicKeyToken=32c39770e9a21a67, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\boo\Boo.Lang.dll</HintPath>
-    </Reference>
-    <Reference Include="Boo.Lang.Compiler, Version=2.0.9.1, Culture=neutral, PublicKeyToken=32c39770e9a21a67, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\boo\Boo.Lang.Compiler.dll</HintPath>
-    </Reference>
-    <Reference Include="Boo.Lang.Parser, Version=2.0.0.0, Culture=neutral, PublicKeyToken=32c39770e9a21a67, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\boo\Boo.Lang.Parser.dll</HintPath>
-    </Reference>
     <Reference Include="Boo.Lang.Useful, Version=2.0.0.0, Culture=neutral, PublicKeyToken=32c39770e9a21a67, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\boo\Boo.Lang.Useful.dll</HintPath>
-    </Reference>
-    <Reference Include="Ionic.Zip, Version=1.8.4.16, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\dotnetzip\Ionic.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="Rhino.DSL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\rhino-dsl\Rhino.DSL.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -72,19 +52,13 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="BuildRunner.cs" />
-    <Compile Include="Builtins\IOFunctions.cs" />
-    <Compile Include="Builtins\MSBuildFunctions.cs" />
-    <Compile Include="Builtins\NUnitFunctions.cs" />
-    <Compile Include="Builtins\ZipFunctions.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Builtins\UtilityFunctions.cs" />
-    <Compile Include="ScriptModel.cs" />
-    <Compile Include="SpectreOptions.cs" />
-    <Compile Include="SpectreBase.cs" />
-    <Compile Include="SpectreDslEngine.cs" />
-    <Compile Include="SpectreException.cs" />
-    <Compile Include="Target.cs" />
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Phantom.Core\Phantom.Core.csproj">
+      <Project>{C15890B0-E874-48EE-97F4-9DD24C29355C}</Project>
+      <Name>Phantom.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

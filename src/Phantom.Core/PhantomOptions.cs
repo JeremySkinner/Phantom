@@ -36,9 +36,6 @@ namespace Phantom.Core {
 		[Option("Shows all the targets in the specified build file", LongForm = "targets", ShortForm = "t")]
 		public bool ShowTargets;
 
-		IDictionary<string, string> arguments = new Dictionary<string, string>();
-
-
 		[Argument]
 		public void AddTarget(string targetName) {
 			targetNames.Add(targetName);
@@ -61,15 +58,9 @@ namespace Phantom.Core {
 		public void AddArgument(string value) {
 			if (value.Contains("=")) {
 				var bits = value.Split('=');
-				Arguments[bits[0]] = bits[1];
+				Environment.SetEnvironmentVariable(bits[0], bits[1]);
 			} else {
-				Arguments[value] = String.Empty;
-			}
-		}
-
-		public IDictionary<string, string> Arguments {
-			get {
-				return arguments;
+				Environment.SetEnvironmentVariable(value, String.Empty);
 			}
 		}
 
@@ -78,9 +69,5 @@ namespace Phantom.Core {
 			Console.WriteLine();
 			PrintOptions();
 		}
-
-//		public void Option(string option) {
-			
-//		}
 	}
 }

@@ -19,6 +19,7 @@
 #endregion
 
 namespace Phantom.Tests {
+	using System;
 	using System.Linq;
 	using Core;
 	using NUnit.Framework;
@@ -68,10 +69,10 @@ namespace Phantom.Tests {
 		}
 
 		[Test]
-		public void Parses_arguments() {
+		public void Adds_arguments_to_environment() {
 			args.Parse(new[] { "-a:foo=bar", "-a:boo=baz" });
-			args.Arguments["foo"].ShouldEqual("bar");
-			args.Arguments["boo"].ShouldEqual("baz");
+			Environment.GetEnvironmentVariable("foo").ShouldEqual("bar");
+			Environment.GetEnvironmentVariable("boo").ShouldEqual("baz");
 		}
 	}
 }

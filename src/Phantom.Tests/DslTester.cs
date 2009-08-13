@@ -92,5 +92,13 @@ namespace Phantom.Tests {
             runner.Execute(options);
             writer.AssertOutput("helloWorld:", "hello:", "hello", "", "world");
         }
+
+		[Test]
+		public void Calls_multiple_targets() {
+			var options = new PhantomOptions {File = "Scripts\\PrintsText.boo"};
+			options.AddTarget("helloWorldWithMultipleCalls");
+			runner.Execute(options);
+			writer.AssertOutput("helloWorldWithMultipleCalls:", "hello:", "hello", "", "world:", "world");
+		}
 	}
 }

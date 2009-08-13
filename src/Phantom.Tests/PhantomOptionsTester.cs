@@ -66,5 +66,12 @@ namespace Phantom.Tests {
 			args.Parse(new[] { "-t" });
 			args.ShowTargets.ShouldBeTrue();
 		}
+
+		[Test]
+		public void Parses_arguments() {
+			args.Parse(new[] { "-a:foo=bar", "-a:boo=baz" });
+			args.Arguments["foo"].ShouldEqual("bar");
+			args.Arguments["boo"].ShouldEqual("baz");
+		}
 	}
 }

@@ -65,7 +65,7 @@ namespace Phantom.Core {
 		}
 
 		public void PrintHelp() {
-			Console.WriteLine("phantom [-f filename] [-t] [-h] targets");
+			Console.WriteLine("phantom [-f <filename>] [-t] [-h] [-a:<name>=<value>] targets");
 			Console.WriteLine();
 			PrintOptions();
 		}

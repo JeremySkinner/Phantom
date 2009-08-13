@@ -44,7 +44,7 @@ namespace Phantom.Core.Builtins {
 
 			string msbuildDir = UtilityFunctions.env("windir") + "\\microsoft.net\\framework\\v" + frameworkVersion +
 			                    "\\msbuild.exe";
-			string args = "/p:Configuration=" + configuration + " /t:" + targets;
+			string args = file + " /p:Configuration=" + configuration + " /t:" + targets;
 
 			foreach (var key in options.Keys) {
 				args += " /p:" + key + "=" + options[key];

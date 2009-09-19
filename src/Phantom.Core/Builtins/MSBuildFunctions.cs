@@ -41,7 +41,7 @@ namespace Phantom.Core.Builtins {
 			string frameworkVersion = options.ObtainAndRemove("frameworkVersion", "3.5");
 			string configuration = options.ObtainAndRemove("configuration", "debug");
 			string targets = options.ObtainAndRemove("targets", "build");
-			string verbosity = options.ObtainAndRemove("verbosity", "normal");
+			string verbosity = options.ObtainAndRemove("verbosity", "minimal");
 
 			string msbuildDir = UtilityFunctions.env("windir") + "\\microsoft.net\\framework\\v" + frameworkVersion +
 			                    "\\msbuild.exe";

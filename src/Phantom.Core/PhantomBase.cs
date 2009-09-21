@@ -32,6 +32,10 @@ namespace Phantom.Core {
 			model.AddTarget(name, dependencies, block);
 		}
 
+		public void target(string name, string dependency, Action block) {
+			model.AddTarget(name, new[] { dependency }, block);
+		}
+
 		public abstract void Execute();
 
 		public ScriptModel Model {

@@ -6,3 +6,6 @@ target compile:
 	
 target test:
 	pass
+
+target oneDependency, compile:
+	pass

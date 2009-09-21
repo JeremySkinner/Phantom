@@ -51,5 +51,14 @@ namespace Phantom.Core.Builtins {
 				IOFunctions.exec(path, "\"" + assembly + "\"");
 			}
 		}
+
+		/// <summary>
+		/// Executes nunit against an assembly
+		/// </summary>
+		/// <param name="assemblyPath">The assembly</param>
+		/// <param name="options">Additional options: path (path to nunit)</param>
+		public static void nunit(string assemblyPath, Hash options) {
+			nunit(new[] { assemblyPath }, options);	
+		}
 	}
 }

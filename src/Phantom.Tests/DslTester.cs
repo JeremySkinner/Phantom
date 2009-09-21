@@ -55,7 +55,7 @@ namespace Phantom.Tests {
 		public void Loads_multiple_targets() {
 			string path = "Scripts\\Dependencies.boo";
 			var script = runner.GenerateBuildScript(path);
-			script.Count().ShouldEqual(3);
+			script.Count().ShouldEqual(4);
 		}
 
 		[Test]
@@ -99,6 +99,17 @@ namespace Phantom.Tests {
 			options.AddTarget("helloWorldWithMultipleCalls");
 			runner.Execute(options);
 			writer.AssertOutput("helloWorldWithMultipleCalls:", "hello:", "hello", "", "world:", "world");
+		}
+
+		[Test]
+		public void Loads_single_dependency() {
+			string path = "Scripts\\Dependencies.boo";
+			var script = runner.GenerateBuildScript(path);
+			var target = script.GetTarget("oneDependency");
+			var executionSequence = target.GetExecutionSequence().ToList();
+			executionSequence.Count.ShouldEqual(2);
+			executionSequence[0].Name.ShouldEqual("compile");
+			executionSequence[1].Name.ShouldEqual("oneDependency");
 		}
 	}
 }

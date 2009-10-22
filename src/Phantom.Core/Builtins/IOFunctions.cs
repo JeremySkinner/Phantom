@@ -23,8 +23,9 @@ namespace Phantom.Core.Builtins {
 	using System.Diagnostics;
 	using System.IO;
 	using System.Runtime.CompilerServices;
+	using Boo.Lang;
 
-	[CompilerGlobalScope]
+    [CompilerGlobalScope]
 	public sealed class IOFunctions {
 		/// <summary>
 		/// Executes the specified program with the specified arguments
@@ -32,15 +33,28 @@ namespace Phantom.Core.Builtins {
 		/// <param name="command">The command to execute</param>
 		/// <param name="args">Additional args</param>
 		public static void exec(string command, string args) {
-			var psi = new ProcessStartInfo(command, args) {
-			                                              	UseShellExecute = false,
-			                                              	RedirectStandardError = true
-			                                              };
-			var process = Process.Start(psi);
-			process.WaitForExit();
+		    exec(command, args, new Hash());
 		}
 
-		public static void exec(string command) {
+        /// <summary>
+        /// Executes the specified program with the specified arguments.  You can also
+        /// specify the working directory of the command by providing the hash option "WorkingDir"
+        /// </summary>
+        /// <param name="command">The command to execute</param>
+        /// <param name="args">Additional args</param>
+        /// <param name="options">A hash of options to set on the process (like WorkingDir)</param>
+	    public static void exec(string command, string args, Hash options) {
+	        string workingDir = options.ObtainAndRemove("WorkingDir", ".");
+	        var psi = new ProcessStartInfo(command, args) {
+                                                              WorkingDirectory = workingDir,
+                                                              UseShellExecute = false,
+	                                                          RedirectStandardError = true
+	                                                      };
+	        var process = Process.Start(psi);
+	        process.WaitForExit();
+	    }
+
+	    public static void exec(string command) {
 			string commandPrompt = UtilityFunctions.env("COMSPEC");
 			string args = string.Format("/C \"{0}\"", command);
 

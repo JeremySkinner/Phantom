@@ -45,6 +45,7 @@ namespace Phantom.Core.Builtins {
         /// <param name="options">A hash of options to set on the process (like WorkingDir)</param>
 	    public static void exec(string command, string args, Hash options) {
 	        string workingDir = options.ObtainAndRemove("WorkingDir", ".");
+            bool ignoreNonZeroExitCode = options.ObtainAndRemove("IgnoreNonZeroExitCode", false);
 	        var psi = new ProcessStartInfo(command, args) {
                                                               WorkingDirectory = workingDir,
                                                               UseShellExecute = false,
@@ -52,14 +53,25 @@ namespace Phantom.Core.Builtins {
 	                                                      };
 	        var process = Process.Start(psi);
 	        process.WaitForExit();
+            var exitCode = process.ExitCode;
+            
+            if (exitCode != 0 && ignoreNonZeroExitCode == false) {
+                throw new PhantomException(
+                    String.Format("Operation exited with exit code {0}.", exitCode));
+            }
 	    }
 
-	    public static void exec(string command) {
+	    public static void exec(string command, Hash options) {
 			string commandPrompt = UtilityFunctions.env("COMSPEC");
 			string args = string.Format("/C \"{0}\"", command);
 
-			exec(commandPrompt, args);
+			exec(commandPrompt, args, options);
 		}
+
+        public static void exec(string command)
+        {
+            exec(command, new Hash());
+        }
 
 		/// <summary>
 		/// Copies a file from one location to another.

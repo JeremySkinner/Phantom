@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="DescriptionTester.cs" />
     <Compile Include="DslTester.cs" />
+    <Compile Include="ExecTester.cs" />
     <Compile Include="GlobalsTester.cs" />
     <Compile Include="ImportTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,6 +76,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Scripts\Descriptions.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\Exec.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Scripts\Import.boo">

@@ -72,11 +72,16 @@ namespace Phantom.Core {
 				}
 			}
 
-			foreach (var target in targetsToExecute) {
-				Console.WriteLine(target.Name + ":");
-				target.Execute();
-				Console.WriteLine();
-			}
+            try {
+                foreach (var target in targetsToExecute) {
+                    Console.WriteLine(target.Name + ":");
+                    target.Execute();
+                    Console.WriteLine();
+                }
+            } catch (PhantomException e) {
+                Console.WriteLine(
+                    string.Format("Target failed: {0}", e.Message));
+            }
 		}
 
 		public void SetCurrentDescription(string description) {

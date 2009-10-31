@@ -44,11 +44,22 @@ namespace Phantom.Core.Builtins {
 		/// Executes nunit against the specified assemblies.
 		/// </summary>
 		/// <param name="assemblyPaths">The assemblies</param>
-		/// <param name="options">Additional options: path (path to unit)</param>
+		/// <param name="options">Additional options: path (path to unit), [include (categories to run) | exclude (categories to not run)]</param>
 		public static void nunit(string[] assemblyPaths, Hash options) {
 			string path = options.ObtainAndRemove("path", "lib\\nunit\\nunit-console.exe");
+            string include = options.ObtainAndRemove("include", (string)null);
+            string exclude = options.ObtainAndRemove("exclude", (string)null);
+
+            string args = string.Empty;
+            if (!string.IsNullOrEmpty(include)) {
+                args = string.Format("/include:{0}", include);
+            }
+            else if (!string.IsNullOrEmpty(exclude)) {
+                args = string.Format("/exclude:{0}", exclude);
+            }
+
 			foreach (var assembly in assemblyPaths) {
-				IOFunctions.exec(path, "\"" + assembly + "\"");
+				IOFunctions.exec(path, string.Format("\"{0}\" {1}", assembly, args));
 			}
 		}
 
@@ -56,7 +67,7 @@ namespace Phantom.Core.Builtins {
 		/// Executes nunit against an assembly
 		/// </summary>
 		/// <param name="assemblyPath">The assembly</param>
-		/// <param name="options">Additional options: path (path to nunit)</param>
+        /// <param name="options">Additional options: path (path to unit), [include (categories to run) | exclude (categories to not run)]
 		public static void nunit(string assemblyPath, Hash options) {
 			nunit(new[] { assemblyPath }, options);	
 		}

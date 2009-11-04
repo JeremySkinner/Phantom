@@ -26,7 +26,7 @@ target deploy:
 		fl.Include("src/Phantom/bin/${configuration}/*.{dll,exe}")
 		fl.Include("License.html")
 		fl.ForEach def(file):
-			file.CopyTo("build/${configuration}")
+			file.CopyToDir("build/${configuration}")
 	
 desc "Creates zip package"
 target package:

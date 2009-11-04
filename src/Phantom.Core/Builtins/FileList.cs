@@ -19,6 +19,7 @@
 namespace Phantom.Core.Builtins {
 	using System;
 	using System.Collections.Generic;
+	using System.IO;
 	using System.Linq;
 
 	public class FileList {
@@ -34,13 +35,13 @@ namespace Phantom.Core.Builtins {
 			includes.Add(pattern);
 		}
 
-		public void ForEach(Action<FileWrapper> forEachFile) {
+		public void ForEach(Action<FileInfo> forEachFile) {
 			var files = from include in includes
 			            from file in Glob.GlobResults(include)
 			            select file;
 
 			foreach(var file in files) {
-				forEachFile(new FileWrapper(file));
+				forEachFile(new FileInfo(file));
 			}
 		}
 	}

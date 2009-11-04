@@ -57,3 +57,6 @@ Arbitrary programs can be executed by calling "exec":
 
 target runNotepad:
   exec("notepad.exe", "")
+  
+This project is licensed under the Microsoft Public License (http://www.microsoft.com/opensource/licenses.mspx).
+This project uses some code from the IronRuby projet (http://www.ironruby.net/) which is licensed under the Microsoft Public License.

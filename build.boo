@@ -22,7 +22,7 @@ target deploy:
 	mkdir("build\\${configuration}")
 	exec("xcopy src\\Phantom\\bin\\${configuration}\\*.exe build\\${configuration}")
 	exec("xcopy src\\Phantom\\bin\\${configuration}\\*.dll build\\${configuration}")
-	exec("xcopy License.txt build\\${configuration}")
+	exec("xcopy License.html build\\${configuration}")
 	
 desc "Creates zip package"
 target package:

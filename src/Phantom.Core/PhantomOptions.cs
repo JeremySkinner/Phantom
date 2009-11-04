@@ -1,18 +1,16 @@
 #region License
 
-// Copyright 2009 Jeremy Skinner (http://www.jeremyskinner.co.uk)
-//  
-// Licensed under the Apache License, Version 2.0 (the "License"); 
-// you may not use this file except in compliance with the License. 
-// You may obtain a copy of the License at 
-//  
-// http://www.apache.org/licenses/LICENSE-2.0 
-//  
-// Unless required by applicable law or agreed to in writing, software 
-// distributed under the License is distributed on an "AS IS" BASIS, 
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
-// See the License for the specific language governing permissions and 
-// limitations under the License.
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
+// 
+// Licensed under the Microsoft Public License. You may
+// obtain a copy of the license at:
+// 
+// http://www.microsoft.com/opensource/licenses.mspx
+// 
+// By using this source code in any fashion, you are agreeing
+// to be bound by the terms of the Microsoft Public License.
+// 
+// You must not remove this notice, or any other, from this software.
 // 
 // The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
@@ -43,15 +41,15 @@ namespace Phantom.Core {
 
 		public IEnumerable<string> TargetNames {
 			get {
-				if(targetNames.Count == 0) {
+				if (targetNames.Count == 0) {
 					yield return "default";
 				}
 				else {
-					foreach(var targetName in targetNames) {
+					foreach (var targetName in targetNames) {
 						yield return targetName;
 					}
 				}
-			}	
+			}
 		}
 
 		[Option("Additional arguments", LongForm = "arg", ShortForm = "a", MaxOccurs = 50)]
@@ -59,7 +57,8 @@ namespace Phantom.Core {
 			if (value.Contains("=")) {
 				var bits = value.Split('=');
 				Environment.SetEnvironmentVariable(bits[0], bits[1]);
-			} else {
+			}
+			else {
 				Environment.SetEnvironmentVariable(value, String.Empty);
 			}
 		}

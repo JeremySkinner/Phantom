@@ -29,6 +29,35 @@ namespace Phantom.Core {
 			this.file = file;
 		}
 
+		public string FullName {
+			get { return file.FullName; }
+		}
+
+		public string Extension {
+			get { return file.Extension; }
+		}
+
+		public void Delete() {
+			file.Delete();
+		}
+
+		public string Name {
+			get { return file.Name; }
+		}
+
+		public long Length {
+			get { return file.Length; }
+		}
+
+		public string DirectoryName {
+			get { return file.DirectoryName; }
+		}
+
+		public bool IsReadOnly {
+			get { return file.IsReadOnly; }
+			set { file.IsReadOnly = value; }
+		}
+
 		public override string ToString() {
 			return file.FullName;
 		}

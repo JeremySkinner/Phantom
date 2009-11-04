@@ -57,6 +57,18 @@ Arbitrary programs can be executed by calling "exec":
 
 target runNotepad:
   exec("notepad.exe", "")
+
+FileLists can be used to find all paths matching a pattern:
+
+FileList.Create def(fl):
+	fl.Include("path/to/compilation/directory/*.{dll,exe}")
+	fl.Include("License.txt")
+	fl.ForEach def(file):
+		file.CopyTo("build")
+
+Directories can be zipped using 'zip':
+
+zip("path/to/dir", "dir.zip")
   
 This project is licensed under the Microsoft Public License (http://www.microsoft.com/opensource/licenses.mspx).
 This project uses some code from the IronRuby projet (http://www.ironruby.net/) which is licensed under the Microsoft Public License.

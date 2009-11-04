@@ -30,4 +30,4 @@ target deploy:
 	
 desc "Creates zip package"
 target package:
-  zip("build\\${configuration}", 'build\\Phantom.zip')
+  zip("build/${configuration}", 'build/Phantom.zip')

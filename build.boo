@@ -20,9 +20,13 @@ target deploy:
 	rmdir('build')
 	mkdir('build')
 	mkdir("build\\${configuration}")
-	exec("xcopy src\\Phantom\\bin\\${configuration}\\*.exe build\\${configuration}")
-	exec("xcopy src\\Phantom\\bin\\${configuration}\\*.dll build\\${configuration}")
-	exec("xcopy License.html build\\${configuration}")
+	
+	print "Copying to build dir"
+	FileList.Create def(fl):
+		fl.Include("src/Phantom/bin/${configuration}/*.{dll,exe}")
+		fl.Include("License.html")
+		fl.ForEach def(file):
+			file.CopyTo("build/${configuration}")
 	
 desc "Creates zip package"
 target package:

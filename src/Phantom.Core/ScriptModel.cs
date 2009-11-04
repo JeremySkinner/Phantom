@@ -60,7 +60,7 @@ namespace Phantom.Core {
 				var rootTarget = GetTarget(targetName);
 
 				if (rootTarget == null) {
-					throw new PhantomException("Target '{0}' does not exist.");
+					throw new PhantomException(string.Format("Target '{0}' does not exist.", targetName));
 				}
 
 				foreach (var targetInSequence in rootTarget.GetExecutionSequence()) {

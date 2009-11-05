@@ -60,11 +60,11 @@ target runNotepad:
 
 FileLists can be used to find all paths matching a pattern:
 
-FileList.Create def(fl):
-	fl.Include("path/to/compilation/directory/*.{dll,exe}")
-	fl.Include("License.txt")
-	fl.ForEach def(file):
-		file.CopyTo("build")
+fl = FileList()
+fl.Include("path/to/compilation/directory/*.{dll,exe}")
+fl.Include("License.txt")
+fl.ForEach def(file):
+	file.CopyToDir("build")
 
 Directories can be zipped using 'zip':
 

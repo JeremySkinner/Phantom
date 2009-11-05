@@ -6,7 +6,10 @@ test_assemblies = "src/Phantom.Tests/bin/${configuration}/Phantom.Tests.dll"
 
 target default, (compile, test, deploy, package):
   pass
-  
+
+target ci, default:
+  pass
+
 desc "Compiles the solution"
 target compile:
   msbuild(solution_file, { @configuration: configuration })

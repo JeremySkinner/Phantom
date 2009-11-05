@@ -17,32 +17,31 @@
 #endregion
 
 namespace Phantom.Core.Builtins {
-	using System;
+	using System.Collections;
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
 
-	public class FileList {
-		List<string> includes = new List<string>();
+	public class FileList : IEnumerable<FileInfo> {
+		readonly List<string> includes = new List<string>();
 
-		public static FileList Create(Action<FileList> configurator) {
-			var list = new FileList();
-			configurator(list);
-			return list;
-		}
-
-		public void Include(string pattern) {
+		public FileList Include(string pattern) {
 			includes.Add(pattern);
+			return this;
 		}
 
-		public void ForEach(Action<FileInfo> forEachFile) {
-			var files = from include in includes
-			            from file in Glob.GlobResults(include)
-			            select file;
+		IEnumerable<FileInfo> Execute() {
+			return from include in includes
+			       from file in Glob.GlobResults(include)
+			       select new FileInfo(file);
+		}
 
-			foreach(var file in files) {
-				forEachFile(new FileInfo(file));
-			}
+		public IEnumerator<FileInfo> GetEnumerator() {
+			return Execute().GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator() {
+			return GetEnumerator();
 		}
 	}
 }

@@ -22,7 +22,7 @@ target deploy:
 	mkdir('build')
 	
 	with FileList():
-		.Include("src/MyApp/bin/rlease/*.{dll,exe}")
+		.Include("src/MyApp/bin/release/*.{dll,exe}")
 		.Include("readme.txt")
 		.ForEach def(file):
 			file.CopyToDir("build")

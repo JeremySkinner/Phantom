@@ -88,6 +88,7 @@
     <Compile Include="PhantomDslEngine.cs" />
     <Compile Include="PhantomException.cs" />
     <Compile Include="Target.cs" />
+    <Compile Include="Builtins\WithMacro.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

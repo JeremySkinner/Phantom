@@ -25,11 +25,12 @@ target deploy:
 	mkdir("build\\${configuration}")
 	
 	print "Copying to build dir"
-	fl = FileList()
-	fl.Include("src/Phantom/bin/${configuration}/*.{dll,exe}")
-	fl.Include("License.html")
-	fl.ForEach def(file):
-		file.CopyToDir("build/${configuration}")
+
+	with FileList():
+		.Include("src/Phantom/bin/${configuration}/*.{dll,exe}")
+		.Include("License.html")
+		.ForEach def(file):
+			file.CopyToDir("build/${configuration}")
 	
 desc "Creates zip package"
 target package:

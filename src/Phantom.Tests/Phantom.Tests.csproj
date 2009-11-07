@@ -70,6 +70,7 @@
     <Compile Include="PhantomOptionsTester.cs" />
     <Compile Include="PhantomBaseTester.cs" />
     <Compile Include="TestHelper.cs" />
+    <Compile Include="WithMacroTester.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\Dependencies.boo">
@@ -97,6 +98,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Scripts\UsesGlobals.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\WithMacroTest.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

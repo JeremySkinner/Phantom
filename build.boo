@@ -1,5 +1,3 @@
-import System.IO
-
 solution_file = "Phantom.sln"
 configuration = "release"
 test_assemblies = "src/Phantom.Tests/bin/${configuration}/Phantom.Tests.dll"
@@ -29,6 +27,7 @@ target deploy:
 	with FileList():
 		.Include("src/Phantom/bin/${configuration}/*.{dll,exe}")
 		.Include("License.html")
+		.Include("readme.txt")
 		.ForEach def(file):
 			file.CopyToDir("build/${configuration}")
 	

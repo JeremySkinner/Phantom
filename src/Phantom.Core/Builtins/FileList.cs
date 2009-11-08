@@ -24,6 +24,12 @@ namespace Phantom.Core.Builtins {
 
 	public class FileList : IEnumerable<FileInfo> {
 		readonly List<string> includes = new List<string>();
+		readonly List<string> excludes = new List<string>();
+
+		public FileList Exclude(string pattern) {
+			excludes.Add(pattern);
+			return this;
+		}
 
 		public FileList Include(string pattern) {
 			includes.Add(pattern);
@@ -31,9 +37,15 @@ namespace Phantom.Core.Builtins {
 		}
 
 		IEnumerable<FileInfo> Execute() {
-			return from include in includes
-			       from file in Glob.GlobResults(include)
-			       select new FileInfo(file);
+			var includedFiles = from include in includes
+			                    from file in Glob.GlobResults(include)
+			                    select file;
+
+			var excludesFiles = from exclude in excludes
+			                    from file in Glob.GlobResults(exclude)
+			                    select file;
+
+			return includedFiles.Except(excludesFiles).Select(f => new FileInfo(f));
 		}
 
 		public IEnumerator<FileInfo> GetEnumerator() {

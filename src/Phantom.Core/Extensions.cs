@@ -18,6 +18,7 @@
 
 namespace Phantom.Core {
 	using System.Collections.Generic;
+	using System.Linq;
 	using Boo.Lang;
 
 	internal static class Extensions {
@@ -40,6 +41,10 @@ namespace Phantom.Core {
 				return defaultValue;
 			}
 			return defaultValue;
+		}
+
+		public static string JoinWith(this IEnumerable<string> strings, string separator) {
+			return string.Join(separator, strings.ToArray());
 		}
 	}
 }

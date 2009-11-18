@@ -17,6 +17,7 @@
 #endregion
 
 namespace Phantom.Core.Builtins {
+	using System;
 	using System.Runtime.CompilerServices;
 	using Boo.Lang;
 
@@ -47,17 +48,32 @@ namespace Phantom.Core.Builtins {
 			string path = options.ObtainAndRemove("path", "lib\\nunit\\nunit-console.exe");
 			string include = options.ObtainAndRemove("include", (string) null);
 			string exclude = options.ObtainAndRemove("exclude", (string) null);
+			bool enableTeamCity = options.ObtainAndRemove("enableTeamCity", false);
+			string teamCityArgs = options.ObtainAndRemove("teamCityArgs", "v2.0 x86 NUnit-2.4.6");
 
-			string args = string.Empty;
+			var args = new List<string>();
+			
+			if(enableTeamCity) {
+				string teamcityLauncherPath = UtilityFunctions.env("teamcity.dotnet.nunitlauncher");
+				if(! string.IsNullOrEmpty(teamcityLauncherPath)) {
+					path = teamcityLauncherPath;
+				}
+
+				if (!string.IsNullOrEmpty(teamCityArgs)) {
+					args.Add(teamCityArgs);
+				}
+			}
+			
 			if (!string.IsNullOrEmpty(include)) {
-				args = string.Format("/include:{0}", include);
+				args.Add(string.Format("/include:{0}", include));
 			}
 			else if (!string.IsNullOrEmpty(exclude)) {
-				args = string.Format("/exclude:{0}", exclude);
+				args.Add(string.Format("/exclude:{0}", exclude));
 			}
 
 			foreach (var assembly in assemblyPaths) {
-				IOFunctions.exec(path, string.Format("\"{0}\" {1}", assembly, args));
+				string nunitArguments = string.Format("\"{0}\" {1}", assembly, args.JoinWith(" "));
+				IOFunctions.exec(path, nunitArguments);
 			}
 		}
 

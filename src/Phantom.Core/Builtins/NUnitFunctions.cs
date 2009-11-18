@@ -58,19 +58,33 @@ namespace Phantom.Core.Builtins {
 				if(! string.IsNullOrEmpty(teamcityLauncherPath)) {
 					path = teamcityLauncherPath;
 					args.Add(teamCityArgs);
+				} else {
+					enableTeamCity = false;
 				}
 			}
 			
 			if (!string.IsNullOrEmpty(include)) {
-				args.Add(string.Format("/include:{0}", include));
+				if(enableTeamCity) {
+					args.Add(string.Format("/category-include:{0}", exclude));
+				}
+				else {
+					args.Add(string.Format("/include:{0}", include));					
+				}
 			}
 			else if (!string.IsNullOrEmpty(exclude)) {
-				args.Add(string.Format("/exclude:{0}", exclude));
+				if(enableTeamCity) {
+					args.Add(string.Format("/category-exclude:{0}", exclude));
+				}
+				else {
+					args.Add(string.Format("/exclude:{0}", exclude));
+				}
 			}
 
 			foreach (var assembly in assemblyPaths) {
-				string nunitArguments = string.Format("\"{0}\" {1}", assembly, args.JoinWith(" "));
-				IOFunctions.exec(path, nunitArguments);
+				var nunitArgs = new List<string>(args);
+				nunitArgs.Add(assembly);
+
+				IOFunctions.exec(path, nunitArgs.JoinWith(" "));
 			}
 		}
 

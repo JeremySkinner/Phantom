@@ -14,22 +14,22 @@ target compile:
 
 desc "Executes tests"
 target test:
-  nunit(test_assemblies)
+  nunit(test_assemblies, { @enableTeamCity: true })
 
 desc "Copies the binaries to the 'build' directory"
 target deploy:
-	rmdir('build')
-	mkdir('build')
-	mkdir("build\\${configuration}")
+  rmdir('build')
+  mkdir('build')
+  mkdir("build\\${configuration}")
 	
-	print "Copying to build dir"
+  print "Copying to build dir"
 
-	with FileList():
-		.Include("src/Phantom/bin/${configuration}/*.{dll,exe}")
-		.Include("License.html")
-		.Include("readme.txt")
-		.ForEach def(file):
-			file.CopyToDir("build/${configuration}")
+  with FileList():
+    .Include("src/Phantom/bin/${configuration}/*.{dll,exe}")
+    .Include("License.html")
+    .Include("readme.txt")
+    .ForEach def(file):
+      file.CopyToDir("build/${configuration}")
 	
 desc "Creates zip package"
 target package:

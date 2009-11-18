@@ -57,9 +57,6 @@ namespace Phantom.Core.Builtins {
 				string teamcityLauncherPath = UtilityFunctions.env("teamcity.dotnet.nunitlauncher");
 				if(! string.IsNullOrEmpty(teamcityLauncherPath)) {
 					path = teamcityLauncherPath;
-				}
-
-				if (!string.IsNullOrEmpty(teamCityArgs)) {
 					args.Add(teamCityArgs);
 				}
 			}

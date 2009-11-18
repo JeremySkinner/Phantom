@@ -80,6 +80,7 @@ namespace Phantom.Core {
 			catch (PhantomException e) {
 				Console.WriteLine(
 					string.Format("Target failed: {0}", e.Message));
+				Environment.ExitCode = 1;
 			}
 		}
 

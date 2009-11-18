@@ -87,5 +87,13 @@ namespace Phantom.Tests {
 			runner.Execute(options);
 			writer.AssertOutput("non_zero_exit_ignore_singlestr:", "", "foo:", "foo");
 		}
+
+		[Test]
+		public void Phantom_returns_non_zero_exit_code_on_failed_target() {
+			var options = new PhantomOptions { File = "Scripts\\Exec.boo" };
+			options.AddTarget("non_zero_exit");
+			runner.Execute(options);
+			Environment.ExitCode.ShouldEqual(1);
+		}
 	}
 }

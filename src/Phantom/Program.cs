@@ -59,6 +59,7 @@ namespace Phantom {
 				runner.Execute(options);
 			}
 			catch (Exception exception) {
+				Environment.ExitCode = 1;
 				Console.WriteLine(exception);
 			}
 		}

@@ -50,7 +50,7 @@ namespace Phantom.Tests {
 		[Test]
 		public void Does_not_allow_same_target_to_be_added_multiple_times() {
 			script.target("foo", null);
-			typeof (PhantomException).ShouldBeThrownBy(() => script.target("foo", null));
+			typeof (TargetAlreadyExistsException).ShouldBeThrownBy(() => script.target("foo", null));
 		}
 
 		[Test]
@@ -91,7 +91,7 @@ namespace Phantom.Tests {
 			script.target("test", new[] {"NOTFOUND"}, null);
 			script.target("deploy", new[] {"test"}, null);
 			var target = script.Model.GetTarget("deploy");
-			typeof (PhantomException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
+			typeof (TargetNotFoundException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
 		}
 
 		[Test]
@@ -99,7 +99,7 @@ namespace Phantom.Tests {
 			script.target("foo", new[] {"bar"}, null);
 			script.target("bar", new[] {"foo"}, null);
 			var target = script.Model.GetTarget("bar");
-			typeof (PhantomException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
+			typeof (RecursiveDependencyException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
 		}
 
 		[Test]
@@ -108,7 +108,30 @@ namespace Phantom.Tests {
 			script.target("baz", new[] {"foo"}, null);
 			script.target("bar", new[] {"foo"}, null);
 			var target = script.Model.GetTarget("bar");
-			typeof (PhantomException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
+			typeof (RecursiveDependencyException).ShouldBeThrownBy(() => target.GetExecutionSequence().ToList());
+		}
+
+		[Test]
+		public void Valid_multiple_dependencies_should_not_be_treated_as_recursive() {
+			/* target default, (build, test):
+			 *	pass
+			 * target build:
+			 *  pass
+			 * target test, build:
+			 *  pass
+			 * */
+
+			script.target("default", new[] { "build", "test" }, null);
+			script.target("build", null);
+			script.target("test", new[] { "build" }, null);
+
+			var target = script.Model.GetTarget("default");
+			var executionSequence = target.GetExecutionSequence().ToList();
+			executionSequence.Count.ShouldEqual(3);
+			executionSequence[0].Name.ShouldEqual("build");
+			executionSequence[1].Name.ShouldEqual("test");
+			executionSequence[2].Name.ShouldEqual("default");
+
 		}
 
 		[Test]
@@ -121,7 +144,7 @@ namespace Phantom.Tests {
 
 		[Test]
 		public void Throws_when_trying_to_execute_nonexistent_target() {
-			typeof (PhantomException).ShouldBeThrownBy(() => script.Model.ExecuteTargets("foo"));
+			typeof (TargetNotFoundException).ShouldBeThrownBy(() => script.Model.ExecuteTargets("foo"));
 		}
 
 		[Test]

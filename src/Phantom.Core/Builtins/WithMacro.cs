@@ -51,7 +51,7 @@ namespace Phantom.Core.Builtins {
 
 		public override Statement Expand(MacroStatement macro) {
 			if(macro.Arguments.Count != 1) {
-				throw new PhantomException("'with' must be called with only a single argument followed by a block.");
+				throw new ScriptParsingException("'with' must be called with only a single argument followed by a block.");
 			}
 
 			var arg = macro.Arguments[0];

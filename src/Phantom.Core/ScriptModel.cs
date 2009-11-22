@@ -47,8 +47,7 @@ namespace Phantom.Core {
 			var target = new Target(name, block, dependencies, currentDescription, this);
 			currentDescription = null;
 			if (targets.ContainsKey(target.Name)) {
-				throw new PhantomException(string.Format(
-				                           	"A target already exists with the name '{0}'. Target names must be unique.", target.Name));
+				throw new TargetAlreadyExistsException(target.Name);
 			}
 			targets.Add(target.Name, target);
 		}
@@ -60,7 +59,7 @@ namespace Phantom.Core {
 				var rootTarget = GetTarget(targetName);
 
 				if (rootTarget == null) {
-					throw new PhantomException(string.Format("Target '{0}' does not exist.", targetName));
+					throw new TargetNotFoundException(targetName);
 				}
 
 				foreach (var targetInSequence in rootTarget.GetExecutionSequence()) {

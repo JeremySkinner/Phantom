@@ -19,8 +19,51 @@
 namespace Phantom.Core {
 	using System;
 
-	public class PhantomException : ApplicationException {
+	public abstract class PhantomException : ApplicationException {
 		public PhantomException(string message) : base(message) {
+		}
+	}
+
+	public class RecursiveDependencyException : PhantomException {
+		public RecursiveDependencyException(string targetName) 
+			: base(string.Format("Detected recursive dependency for target '{0}'", targetName)) {
+			TargetName = targetName;
+		}
+
+		public string TargetName { get; private set; }
+	}
+
+	public class TargetAlreadyExistsException : PhantomException {
+		public TargetAlreadyExistsException(string name)
+			: base(string.Format("A target already exists with the name '{0}'. Target names must be unique.",name )) {
+			TargetName = name;			
+		}
+		public string TargetName { get; private set; }
+
+	}
+
+	public class TargetNotFoundException : PhantomException {
+		public TargetNotFoundException(string parentTarget, string dependency)
+			: base(string.Format("Target '{0}' depenends upon a target named '{1}' but it does not exist.", parentTarget, dependency)) {
+			TargetName = dependency;
+		}
+
+		public TargetNotFoundException(string name)
+			: base(string.Format("Target '{0}' does not exist.", name)) {
+			TargetName = name;
+		}
+
+		public string TargetName { get; private set; }
+	}
+
+	public class ScriptParsingException : PhantomException {
+		public ScriptParsingException(string message) : base(message) {
+		}
+	}
+
+	public class ExecutionFailedException : PhantomException {
+		public ExecutionFailedException(int exitCode)
+			: base(string.Format("Operation exited with exit code {0}.", exitCode)) {
 		}
 	}
 }

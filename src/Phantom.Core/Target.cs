@@ -39,29 +39,45 @@ namespace Phantom.Core {
 		public string Description { get; private set; }
 
 		public IEnumerable<Target> GetExecutionSequence() {
-			var executionSequence = new List<Target>() {this};
-			PopulateExecutionSequence(executionSequence);
+			var executionSequence = new List<Target>();
+			var parsedSequence = new List<Target>();
+
+			PopulateExecutionSequence(executionSequence, parsedSequence);
+
 			return executionSequence.AsEnumerable().Reverse();
 		}
 
-		void PopulateExecutionSequence(ICollection<Target> sequence) {
-			foreach (var dependencyName in dependencyNames.Reverse()) {
-				var dependency = parentScript.GetTarget(dependencyName);
 
-				if (dependency == null) {
-					throw new PhantomException(string.Format("Target '{0}' depenends upon a target named '{1}' but it does not exist.",
-					                                         Name, dependencyName));
-				}
+		void PopulateExecutionSequence(ICollection<Target> executionSequence, ICollection<Target> parsedSequence) {
 
-				if (sequence.Contains(dependency)) {
-					throw new PhantomException(string.Format("Detected recursive dependency for target '{0}'", dependency.Name));
-				}
-
-				sequence.Add(dependency);
-				dependency.PopulateExecutionSequence(sequence);
+			if(parsedSequence.Contains(this)) {
+				return;
 			}
+
+			if(executionSequence.Contains(this)) {
+				throw new RecursiveDependencyException(Name);
+			}
+
+			executionSequence.Add(this);
+
+			foreach(var dependencyName in dependencyNames.Reverse()) {
+				var dependency = EnsureTargetExists(dependencyName);
+
+				dependency.PopulateExecutionSequence(executionSequence, parsedSequence);
+			}
+
+			parsedSequence.Add(this);
 		}
 
+		Target EnsureTargetExists(string dependencyName) {
+			var dependency = parentScript.GetTarget(dependencyName);
+
+			if (dependency == null) {
+				throw new TargetNotFoundException(Name, dependencyName);
+			}
+
+			return dependency;
+		}
 
 		public void Execute() {
 			if (block != null) {

@@ -54,8 +54,7 @@ namespace Phantom.Core.Builtins {
 			var exitCode = process.ExitCode;
 
 			if (exitCode != 0 && ignoreNonZeroExitCode == false) {
-				throw new PhantomException(
-					String.Format("Operation exited with exit code {0}.", exitCode));
+				throw new ExecutionFailedException(exitCode);
 			}
 		}
 

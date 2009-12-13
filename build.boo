@@ -29,7 +29,7 @@ target deploy:
     .Include("License.html")
     .Include("readme.txt")
     .ForEach def(file):
-      file.CopyToDir("build/${configuration}")
+      file.CopyToDirectory("build/${configuration}")
 	
 desc "Creates zip package"
 target package:

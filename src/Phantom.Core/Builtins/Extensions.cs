@@ -24,7 +24,7 @@ namespace Phantom.Core.Builtins {
 
 	[CompilerGlobalScope]
 	public static class Extensions {
-		public static void CopyToDir(this FileInfo file, string directory) {
+		public static void CopyToDirectory(this FileInfo file, string directory) {
 			string destination = Path.Combine(directory, file.Name);
 			file.CopyTo(destination);
 		}

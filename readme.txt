@@ -1,5 +1,8 @@
 Phantom is a .NET build system written in C# and Boo.
 
+For discussion, please use the mailing list.
+http://groups.google.com/group/phantom-discuss
+
 For complete documentation see the Phantom wiki.
 http://wiki.github.com/JeremySkinner/Phantom
 

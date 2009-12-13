@@ -18,7 +18,6 @@
 
 namespace Phantom.Core {
     using System;
-    using System.Collections.Generic;
     using Boo.Lang.Compiler;
 	using Boo.Lang.Compiler.Ast;
 	using Boo.Lang.Compiler.Pipelines;
@@ -30,11 +29,11 @@ namespace Phantom.Core {
     using Rhino.DSL;
 
 	public class PhantomDslEngine : DslEngine, IIncludeCompiler {
-        private bool IncludeMode { get; set; }
+        private bool InIncludeMode { get; set; }
 
 	    protected override void CustomizeCompiler(BooCompiler compiler, CompilerPipeline pipeline, string[] urls) {
 	        var index = 1;
-            if (!this.IncludeMode) {
+            if (!this.InIncludeMode) {
                 pipeline.Insert(index, new ImplicitBaseClassCompilerStep(typeof (PhantomBase), "Execute", typeof (UtilityFunctions).Namespace));
                 index += 1;
             }
@@ -44,7 +43,7 @@ namespace Phantom.Core {
             pipeline.Insert(index+2, new ExpressionToCallTargetNameStep());
             pipeline.Insert(index+3, new UseSymbolsStep());
             pipeline.Insert(index+4, new AutoReferenceFilesCompilerStep());
-            pipeline.Insert(index+5, new AddIncludeSupportStep(new PhantomDslEngine { IncludeMode = true }));
+            pipeline.Insert(index+5, new IncludeSupportStep(new PhantomDslEngine { InIncludeMode = true }));
 		}
 
 		static bool IsTargetMethod(Node node) {
@@ -65,7 +64,7 @@ namespace Phantom.Core {
 
         // practically the same as ForceCompile, but without saving to disk
         CompilerContext IIncludeCompiler.CompileInclude(string url) {
-            if (!this.IncludeMode)
+            if (!this.InIncludeMode)
                 throw new InvalidOperationException("Cannot CompileInclude when not in include mode.");
 
             var compiler = new BooCompiler {

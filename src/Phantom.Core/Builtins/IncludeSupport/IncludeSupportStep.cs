@@ -19,10 +19,10 @@
 namespace Phantom.Core.Builtins.IncludeSupport {
     using Boo.Lang.Compiler;
 
-    public class AddIncludeSupportStep : ICompilerStep {
+    public class IncludeSupportStep : ICompilerStep {
         readonly IIncludeCompiler includeCompiler;
 
-        public AddIncludeSupportStep(IIncludeCompiler includeCompiler) {
+        public IncludeSupportStep(IIncludeCompiler includeCompiler) {
             this.includeCompiler = includeCompiler;
         }
 

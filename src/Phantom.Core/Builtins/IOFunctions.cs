@@ -80,9 +80,35 @@ namespace Phantom.Core.Builtins {
 		}
 
 		/// <summary>
+		/// Deletes a file or directory
+		/// </summary>
+		/// <param name="file">File or directory to delete</param>
+		public static void rm(FileSystemInfo file) {
+			if (file != null && file.Exists) {
+				rm(file.FullName);
+			}
+		}
+
+		/// <summary>
+		/// Deletes a file or directory
+		/// </summary>
+		/// <param name="path">File or directory to delete</param>
+		public static void rm(string path) {
+			if (Directory.Exists(path)) {
+				Console.WriteLine("Deleting directory '{0}'", path);
+				DeleteDirectory(path);
+			}
+			else if (File.Exists(path)) {
+				Console.WriteLine("Deleting file: '{0}'", path);
+				DeleteFile(path);
+			}
+		}
+
+		/// <summary>
 		/// Deletes a file or directory.
 		/// </summary>
 		/// <param name="path"></param>
+		[Obsolete("use 'rm' instead or 'rmdir'")]
 		public static void rmdir(string path) {
 			if (Directory.Exists(path)) {
 				Console.WriteLine("Deleting directory '{0}'", path);

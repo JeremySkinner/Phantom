@@ -1,7 +1,7 @@
-﻿#region License (ashmind)
+﻿#region License (+ashmind)
 
-// Copyright Andrey Shchekin (http://www.ashmind.com)
 // Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
+// Copyright Andrey Shchekin (http://www.ashmind.com)
 //
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
@@ -17,10 +17,10 @@
 
 #endregion
 
-namespace Phantom.Core.Builtins.IncludeSupport {
-    using Boo.Lang.Compiler;
+namespace Phantom.Core.Integration {
+    using Boo.Lang.Compiler.Ast;
 
-    public interface IIncludeCompiler {
-        CompilerContext CompileInclude(string url);
+    public interface ITaskImportBuilder {
+        Import BuildImportFrom(string assemblyNameOrPath);
     }
 }

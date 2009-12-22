@@ -18,18 +18,38 @@
 
 namespace Phantom.Core {
 	using System;
+    using System.Collections.Generic;
+	using System.ComponentModel.Composition.Hosting;
+	using System.IO;
 	using System.Linq;
+	using System.Reflection;
+	using Integration;
 	using Rhino.DSL;
 
 	public class BuildRunner {
-		static readonly DslFactory dslFactory;
+	    static readonly CompositionContainer container;
+		private readonly DslFactory dslFactory;
 
-		static BuildRunner() {
+        static BuildRunner() {
+            var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var catalog = new DirectoryCatalog(directory);
+            container = new CompositionContainer(catalog);
+        }
+
+		public BuildRunner() {
+		    var importBuilders = this.FindAddIns<ITaskImportBuilder>();
+
 			dslFactory = new DslFactory();
-			dslFactory.Register<PhantomBase>(new PhantomDslEngine());
+			dslFactory.Register<PhantomBase>(
+                new PhantomDslEngine(importBuilders.ToArray())
+            );
 		}
 
-		public ScriptModel GenerateBuildScript(string path) {
+	    public IEnumerable<TService> FindAddIns<TService>() {
+	        return container.GetExports<TService>().Select(lazy => lazy.Value);
+	    }
+
+	    public ScriptModel GenerateBuildScript(string path) {
 			var script = dslFactory.Create<PhantomBase>(path);
 			script.Execute();
 			return script.Model;

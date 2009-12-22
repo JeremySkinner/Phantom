@@ -18,6 +18,9 @@
 
 namespace Phantom.Core {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Boo.Lang.Compiler;
 	using Boo.Lang.Compiler.Ast;
 	using Boo.Lang.Compiler.Pipelines;
@@ -25,25 +28,34 @@ namespace Phantom.Core {
 
 	using Builtins;
     using Builtins.IncludeSupport;
-       
+    using Integration;
     using Rhino.DSL;
 
+
 	public class PhantomDslEngine : DslEngine, IIncludeCompiler {
-        private bool InIncludeMode { get; set; }
+        private readonly IList<ITaskImportBuilder> importBuilders;
+	    private bool InIncludeMode { get; set; }
+
+        public PhantomDslEngine(IList<ITaskImportBuilder> importBuilders) {
+            this.importBuilders = importBuilders;
+        }
 
 	    protected override void CustomizeCompiler(BooCompiler compiler, CompilerPipeline pipeline, string[] urls) {
 	        var index = 1;
+
             if (!this.InIncludeMode) {
                 pipeline.Insert(index, new ImplicitBaseClassCompilerStep(typeof (PhantomBase), "Execute", typeof (UtilityFunctions).Namespace));
                 index += 1;
             }
 
-            pipeline.Insert(index, new ExpressionToTargetNameStep());
-            pipeline.Insert(index+1, new ExpressionToDependencyNamesStep());
-            pipeline.Insert(index+2, new ExpressionToCallTargetNameStep());
-            pipeline.Insert(index+3, new UseSymbolsStep());
+	        pipeline.Insert(index, new UnescapeNamesStep());
+            pipeline.Insert(index+1, new ExpressionToTargetNameStep());
+            pipeline.Insert(index+2, new ExpressionToDependencyNamesStep());
+            pipeline.Insert(index+3, new ExpressionToCallTargetNameStep());
             pipeline.Insert(index+4, new AutoReferenceFilesCompilerStep());
-            pipeline.Insert(index+5, new IncludeSupportStep(new PhantomDslEngine { InIncludeMode = true }));
+            pipeline.Insert(index+5, new TaskImportStep(this.importBuilders.ToArray()));
+            pipeline.Insert(index+6, new IncludeSupportStep(new PhantomDslEngine(this.importBuilders) { InIncludeMode = true }));
+            pipeline.InsertBefore(typeof(ProcessMethodBodiesWithDuckTyping), new NotifyOfConstructionStep());
 		}
 
 		static bool IsTargetMethod(Node node) {

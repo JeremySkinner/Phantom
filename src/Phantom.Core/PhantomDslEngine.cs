@@ -29,6 +29,7 @@ namespace Phantom.Core {
 	using Builtins;
     using Builtins.IncludeSupport;
     using Integration;
+    using Language;
     using Rhino.DSL;
 
 
@@ -55,7 +56,7 @@ namespace Phantom.Core {
             pipeline.Insert(index+4, new AutoReferenceFilesCompilerStep());
             pipeline.Insert(index+5, new TaskImportStep(this.importBuilders.ToArray()));
             pipeline.Insert(index+6, new IncludeSupportStep(new PhantomDslEngine(this.importBuilders) { InIncludeMode = true }));
-            pipeline.InsertBefore(typeof(ProcessMethodBodiesWithDuckTyping), new NotifyOfConstructionStep());
+            pipeline.InsertBefore(typeof(ProcessMethodBodiesWithDuckTyping), new AutoRunAllRunnablesStep());
 		}
 
 		static bool IsTargetMethod(Node node) {

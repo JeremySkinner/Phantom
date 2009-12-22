@@ -17,16 +17,14 @@
 
 #endregion
 
-namespace Phantom.Core.Integration {
+namespace Phantom.Core.Language {
     using System.Linq;
-
     using Boo.Lang.Compiler.Ast;
     using Boo.Lang.Compiler.Steps;
     using Boo.Lang.Compiler.TypeSystem;
-    using Boo.Lang.Compiler.TypeSystem.Generics;
     using Boo.Lang.Compiler.TypeSystem.Reflection;
 
-    public class NotifyOfConstructionStep : AbstractTransformerCompilerStep {
+    public class AutoRunAllRunnablesStep : AbstractTransformerCompilerStep {
         public override void Run() {
             this.Visit(this.CompileUnit);
         }
@@ -49,15 +47,15 @@ namespace Phantom.Core.Integration {
                 return node;
 
             var interfaces = targetType.GetInterfaces();
-            if (!interfaces.Any(IsConstructionAware))
+            if (!interfaces.Any(IsRunnable))
                 return node;
 
             return new MethodInvocationExpression(
-                new MemberReferenceExpression(node, "Constructed")
+                new MemberReferenceExpression(node, "Run")
             );
         }
 
-        private bool IsConstructionAware(IType @interface) {
+        private bool IsRunnable(IType @interface) {
             if (@interface.ConstructedInfo == null) // not a generic
                 return false;
 
@@ -65,7 +63,7 @@ namespace Phantom.Core.Integration {
             if (definitionAsExternal == null)
                 return false;
 
-            return definitionAsExternal.ActualType == typeof(IConstructionAware<>);
+            return definitionAsExternal.ActualType == typeof(IRunnable<>);
         }
     }
 }

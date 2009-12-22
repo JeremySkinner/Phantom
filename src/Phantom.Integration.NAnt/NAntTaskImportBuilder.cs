@@ -31,7 +31,7 @@ namespace Phantom.Integration.NAnt {
     using Boo.Lang.Compiler.IO;
     using Boo.Lang.Compiler.Pipelines;
     using Boo.Lang.Compiler.Steps;
-
+    using Core.Language;
     using global::NAnt.Core;
     using global::NAnt.Core.Attributes;
 
@@ -44,9 +44,9 @@ namespace Phantom.Integration.NAnt {
         private const string Indent2 = Indent + Indent;
         private const string Indent3 = Indent2 + Indent;
 
-        #region TaskArgument Class
+        #region TaskParameter Class
 
-        private class TaskArgument {
+        private class TaskParameter {
             public string Name           { get; set; }
             public PropertyInfo Property { get; set; }
         }
@@ -84,6 +84,7 @@ namespace Phantom.Integration.NAnt {
             builder.Append("namespace ").AppendLine(@namespace).AppendLine();
 
             builder.AppendLine("import Phantom.Core.Integration");
+            builder.AppendLine("import Phantom.Core.Language");
             builder.AppendLine("import Phantom.Integration.NAnt");
 
             foreach (var task in tasks) {
@@ -101,7 +102,7 @@ namespace Phantom.Integration.NAnt {
                 }
             };
             compiler.Parameters.Pipeline.InsertBefore(typeof(ExpandAstLiterals), new UnescapeNamesStep());
-            compiler.Parameters.Pipeline.InsertBefore(typeof(ProcessMethodBodiesWithDuckTyping), new NotifyOfConstructionStep());
+            compiler.Parameters.Pipeline.InsertBefore(typeof(ProcessMethodBodiesWithDuckTyping), new AutoRunAllRunnablesStep());
             foreach (var reference in references) {
                 compiler.Parameters.References.Add(reference);
             }
@@ -115,13 +116,14 @@ namespace Phantom.Integration.NAnt {
 
         private void AppendTaskWrapper(StringBuilder builder, Type taskType, HashSet<Assembly> references) {
             var name = GetTaskName(taskType);
-            var arguments = GetTaskArguments(taskType).ToArray();
 
-            builder.AppendFormat("class @{0}(IConstructionAware[of @{0}]):", name).AppendLine();
+            builder.AppendFormat("class @{0}(IRunnable[of @{0}]):", name).AppendLine();
             AppendTaskWrapperConstructorAndField(builder, taskType);
-            AppendTaskWrapperProperties(builder, arguments, references);
+            foreach (var parameter in GetTaskParameters(taskType)) {
+                AppendTaskWrapperProperty(builder, parameter, references);
+            }
 
-            builder.Append(Indent).AppendLine("def Constructed():")
+            builder.Append(Indent).AppendLine("def Run():")
                    .Append(Indent2).AppendFormat("{0}().Run(task)", typeof(NAntTaskRunner).Name).AppendLine()
                    .Append(Indent2).AppendLine("return self");
         }
@@ -133,21 +135,19 @@ namespace Phantom.Integration.NAnt {
                    .AppendLine().AppendLine();
         }
 
-        private void AppendTaskWrapperProperties(StringBuilder builder, IEnumerable<TaskArgument> arguments, HashSet<Assembly> references) {
-            foreach (var argument in arguments) {
-                var type = argument.Property.PropertyType;
+        private void AppendTaskWrapperProperty(StringBuilder builder, TaskParameter parameter, HashSet<Assembly> references) {
+            var type = parameter.Property.PropertyType;
 
-                references.Add(type.Assembly);
-                
-                builder.Append(Indent).AppendFormat("@{0} as {1}:", argument.Name, type.FullName.Replace('+', '.')).AppendLine();
-                if (argument.Property.GetGetMethod() != null) { // yes, there are such properties in NAnt
-                    builder.Append(Indent2).AppendLine("get:");
-                    builder.Append(Indent3).AppendLine("return task." + argument.Property.Name);
-                }
-                if (argument.Property.GetSetMethod() != null) {
-                    builder.Append(Indent2).AppendLine("set:");
-                    builder.Append(Indent3).AppendFormat("task.{0} = value", argument.Property.Name).AppendLine().AppendLine();
-                }
+            references.Add(type.Assembly);
+
+            builder.Append(Indent).AppendFormat("@{0} as {1}:", parameter.Name, type.FullName.Replace('+', '.')).AppendLine();
+            if (parameter.Property.GetGetMethod() != null) { // yes, there are such properties in NAnt
+                builder.Append(Indent2).AppendLine("get:");
+                builder.Append(Indent3).AppendLine("return task." + parameter.Property.Name);
+            }
+            if (parameter.Property.GetSetMethod() != null) {
+                builder.Append(Indent2).AppendLine("set:");
+                builder.Append(Indent3).AppendFormat("task.{0} = value", parameter.Property.Name).AppendLine().AppendLine();
             }
         }
 
@@ -156,13 +156,12 @@ namespace Phantom.Integration.NAnt {
             return nameAttribute != null ? nameAttribute.Name : taskType.Name.ToLowerInvariant();
         }
 
-        private IEnumerable<TaskArgument> GetTaskArguments(Type taskType) {
+        private IEnumerable<TaskParameter> GetTaskParameters(Type taskType) {
             return from property in taskType.GetProperties()
                    let attribute = (TaskAttributeAttribute)System.Attribute.GetCustomAttribute(property, typeof(TaskAttributeAttribute))
                    where attribute != null
-                   where attribute.Name != "if" && attribute.Name != "unless" // no pointin having these + they clash with keywords
                    let name = attribute.Name.Replace("-", "")
-                   select new TaskArgument { Name = name, Property = property };
+                   select new TaskParameter { Name = name, Property = property };
         }
     }
 }

@@ -89,10 +89,10 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Builtins\UtilityFunctions.cs" />
     <Compile Include="Glob.cs" />
-    <Compile Include="Integration\IConstructionAware.cs" />
     <Compile Include="Integration\ITaskImportBuilder.cs" />
-    <Compile Include="Integration\NotifyOfConstructionStep.cs" />
     <Compile Include="Integration\TaskImportStep.cs" />
+    <Compile Include="Language\AutoRunAllRunnablesStep.cs" />
+    <Compile Include="Language\IRunnable.cs" />
     <Compile Include="ScriptModel.cs" />
     <Compile Include="PhantomOptions.cs" />
     <Compile Include="PhantomBase.cs" />

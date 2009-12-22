@@ -93,6 +93,7 @@
     <Compile Include="Integration\TaskImportStep.cs" />
     <Compile Include="Language\AutoRunAllRunnablesStep.cs" />
     <Compile Include="Language\IRunnable.cs" />
+    <Compile Include="Language\UnescapeNamesStep.cs" />
     <Compile Include="ScriptModel.cs" />
     <Compile Include="PhantomOptions.cs" />
     <Compile Include="PhantomBase.cs" />
@@ -100,7 +101,6 @@
     <Compile Include="PhantomException.cs" />
     <Compile Include="Target.cs" />
     <Compile Include="Builtins\WithMacro.cs" />
-    <Compile Include="UnescapeNamesStep.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

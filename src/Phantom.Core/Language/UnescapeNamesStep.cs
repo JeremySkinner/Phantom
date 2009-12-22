@@ -1,4 +1,4 @@
-﻿namespace Phantom.Core {
+﻿namespace Phantom.Core.Language {
     using Boo.Lang.Compiler.Ast;
     using Boo.Lang.Compiler.Steps;
 
@@ -33,3 +33,5 @@
         }
     }
 }
+
+

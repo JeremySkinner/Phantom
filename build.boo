@@ -19,13 +19,15 @@ target test:
 desc "Copies the binaries to the 'build' directory"
 target deploy:
   rmdir('build')
-  mkdir('build')
-  mkdir("build\\${configuration}")
 	
   print "Copying to build dir"
 
+  with FileList("src/Phantom/bin/${configuration}"):
+    .Include("*.{dll,exe}")
+    .ForEach def(file):
+      file.CopyToDirectory("build/${configuration}")
+      
   with FileList():
-    .Include("src/Phantom/bin/${configuration}/*.{dll,exe}")
     .Include("License.html")
     .Include("readme.txt")
     .ForEach def(file):

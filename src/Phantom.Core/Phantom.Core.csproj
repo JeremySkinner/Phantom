@@ -89,6 +89,7 @@
     <Compile Include="PhantomException.cs" />
     <Compile Include="Target.cs" />
     <Compile Include="Builtins\WithMacro.cs" />
+    <Compile Include="WrappedFileInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

@@ -22,9 +22,18 @@ namespace Phantom.Core.Builtins {
 	using System.IO;
 	using System.Linq;
 
-	public class FileList : IEnumerable<FileInfo> {
+	public class FileList : IEnumerable<WrappedFileSystemInfo> {
 		readonly List<string> includes = new List<string>();
 		readonly List<string> excludes = new List<string>();
+		readonly string baseDir = "";
+
+		public FileList() {
+			
+		}
+
+		public FileList(string baseDir) {
+			this.baseDir = baseDir;
+		}
 
 		public FileList Exclude(string pattern) {
 			excludes.Add(pattern);
@@ -36,19 +45,31 @@ namespace Phantom.Core.Builtins {
 			return this;
 		}
 
-		IEnumerable<FileInfo> Execute() {
+		private string FixupPath(string path) {
+			//Glob likes forward slashes
+			return Path.Combine(baseDir, path).Replace('\\', '/');
+		}
+
+		IEnumerable<WrappedFileSystemInfo> Execute() {
 			var includedFiles = from include in includes
-			                    from file in Glob.GlobResults(include)
+			                    from file in Glob.GlobResults(FixupPath(include))
 			                    select file;
 
 			var excludesFiles = from exclude in excludes
-			                    from file in Glob.GlobResults(exclude)
+			                    from file in Glob.GlobResults(FixupPath(exclude))
 			                    select file;
 
-			return includedFiles.Except(excludesFiles).Select(f => new FileInfo(f));
+			foreach(var path in includedFiles.Except(excludesFiles)) {
+				if(Directory.Exists(path)) {
+					yield return new WrappedDirectoryInfo(baseDir, path);
+				}
+				else {
+					yield return new WrappedFileInfo(baseDir, path);
+				}
+			}
 		}
 
-		public IEnumerator<FileInfo> GetEnumerator() {
+		public IEnumerator<WrappedFileSystemInfo> GetEnumerator() {
 			return Execute().GetEnumerator();
 		}
 

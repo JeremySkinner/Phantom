@@ -64,6 +64,7 @@
     <Compile Include="DescriptionTester.cs" />
     <Compile Include="DslTester.cs" />
     <Compile Include="ExecTester.cs" />
+    <Compile Include="FileCopyTester.cs" />
     <Compile Include="GlobalsTester.cs" />
     <Compile Include="ImportTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +81,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Scripts\Exec.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\FileCopy.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Scripts\Import.boo">
@@ -113,6 +117,20 @@
       <Project>{8080E03B-6DDD-4CF0-A473-355AECC0E8B0}</Project>
       <Name>Phantom</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SubDirectory\SubDirectory2\Test1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SubDirectory\SubDirectory3\SubDirectory4\Test4.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SubDirectory\SubDirectory3\Test3.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SubDirectory\SubDirectory3\Test2.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

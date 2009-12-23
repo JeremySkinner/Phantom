@@ -20,10 +20,13 @@ namespace Phantom.Core {
 	using System;
     using System.Collections.Generic;
 	using System.ComponentModel.Composition.Hosting;
+	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
 	using System.Reflection;
+
 	using Integration;
+
 	using Rhino.DSL;
 
 	public class BuildRunner {
@@ -56,6 +59,9 @@ namespace Phantom.Core {
 		}
 
 		public void Execute(PhantomOptions options) {
+            if (options.AttachDebugger && !Debugger.IsAttached)
+                Debugger.Launch();
+
 			var script = GenerateBuildScript(options.File);
 			script.ExecuteTargets(options.TargetNames.ToArray());
 		}

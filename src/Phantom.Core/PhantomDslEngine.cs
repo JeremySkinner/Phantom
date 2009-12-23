@@ -32,7 +32,6 @@ namespace Phantom.Core {
     using Language;
     using Rhino.DSL;
 
-
 	public class PhantomDslEngine : DslEngine, IIncludeCompiler {
         private readonly IList<ITaskImportBuilder> importBuilders;
 	    private bool InIncludeMode { get; set; }
@@ -42,21 +41,27 @@ namespace Phantom.Core {
         }
 
 	    protected override void CustomizeCompiler(BooCompiler compiler, CompilerPipeline pipeline, string[] urls) {
-	        var index = 1;
+            var steps = new List<ICompilerStep>();
 
+            steps.Add(new IncludeSupportStep(new PhantomDslEngine(this.importBuilders) { InIncludeMode = true }));
             if (!this.InIncludeMode) {
-                pipeline.Insert(index, new ImplicitBaseClassCompilerStep(typeof (PhantomBase), "Execute", typeof (UtilityFunctions).Namespace));
-                index += 1;
+                steps.Add(new UnescapeNamesStep());
+                steps.Add(new ExpressionToTargetNameStep());
+                steps.Add(new ExpressionToDependencyNamesStep());
+                steps.Add(new ExpressionToCallTargetNameStep());
+                steps.Add(new AutoReferenceFilesCompilerStep());
+                steps.Add(new TaskImportStep(this.importBuilders.ToArray()));
+
+                steps.Add(new ImplicitBaseClassCompilerStep(typeof(PhantomBase), "Execute", typeof(UtilityFunctions).Namespace));
             }
 
-	        pipeline.Insert(index, new UnescapeNamesStep());
-            pipeline.Insert(index+1, new ExpressionToTargetNameStep());
-            pipeline.Insert(index+2, new ExpressionToDependencyNamesStep());
-            pipeline.Insert(index+3, new ExpressionToCallTargetNameStep());
-            pipeline.Insert(index+4, new AutoReferenceFilesCompilerStep());
-            pipeline.Insert(index+5, new TaskImportStep(this.importBuilders.ToArray()));
-            pipeline.Insert(index+6, new IncludeSupportStep(new PhantomDslEngine(this.importBuilders) { InIncludeMode = true }));
-            pipeline.InsertBefore(typeof(ProcessMethodBodiesWithDuckTyping), new AutoRunAllRunnablesStep());
+            steps.Reverse();
+            foreach (var step in steps) {
+                pipeline.Insert(1, step);
+            }
+
+            if (!this.InIncludeMode)
+                pipeline.InsertBefore(typeof(ProcessMethodBodiesWithDuckTyping), new AutoRunAllRunnablesStep());
 		}
 
 		static bool IsTargetMethod(Node node) {

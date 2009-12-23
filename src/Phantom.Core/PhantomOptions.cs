@@ -34,6 +34,10 @@ namespace Phantom.Core {
 		[Option("Shows all the targets in the specified build file", LongForm = "targets", ShortForm = "t")]
 		public bool ShowTargets;
 
+        // Useful for debugging of scripts or Phantom itself
+        [Option("Attaches debugger before build starts", LongForm = "debugger")]
+        public bool AttachDebugger;
+
 		[Argument]
 		public void AddTarget(string targetName) {
 			targetNames.Add(targetName);

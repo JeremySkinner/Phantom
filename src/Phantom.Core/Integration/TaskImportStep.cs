@@ -58,14 +58,10 @@ namespace Phantom.Core.Integration {
         private IEnumerable<Import> ImportTasks(Import import) {
             if (import.AssemblyReference == null)
                 throw new InvalidOperationException("Cannot import tasks: 'from' assembly is not specified.");
-                       
-            foreach (var importer in this.importers) {
-                var newImport = importer.BuildImportFrom(import.AssemblyReference.Name);
-                if (newImport == null)
-                    continue;
 
-                yield return newImport;
-            }
+            return from importer in this.importers
+                   from newImport in importer.BuildImportsFrom(import.AssemblyReference.Name)
+                   select newImport;
         }
     }
 }

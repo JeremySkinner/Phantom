@@ -18,9 +18,10 @@
 #endregion
 
 namespace Phantom.Core.Integration {
+    using System.Collections.Generic;
     using Boo.Lang.Compiler.Ast;
 
     public interface ITaskImportBuilder {
-        Import BuildImportFrom(string assemblyNameOrPath);
+        IEnumerable<Import> BuildImportsFrom(string assemblyNameOrPath);
     }
 }

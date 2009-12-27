@@ -79,6 +79,9 @@
     <Compile Include="BuildRunner.cs" />
     <Compile Include="Builtins\Extensions.cs" />
     <Compile Include="Builtins\FileList.cs" />
+    <Compile Include="Language\ExpressionToCallTargetNameStep.cs" />
+    <Compile Include="Language\ExpressionToDependencyNamesStep.cs" />
+    <Compile Include="Language\ExpressionToTargetNameStep.cs" />
     <Compile Include="Language\IncludeSupportStep.cs" />
     <Compile Include="Language\IIncludeCompiler.cs" />
     <Compile Include="Builtins\IOFunctions.cs" />

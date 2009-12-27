@@ -63,22 +63,6 @@ namespace Phantom.Core {
                 pipeline.InsertBefore(typeof(ProcessMethodBodiesWithDuckTyping), new AutoRunAllRunnablesStep());
 		}
 
-		static bool IsTargetMethod(Node node) {
-			var macro = node as MacroStatement;
-			if (macro != null && macro.Name == "target") {
-				return true;
-			}
-			return false;
-		}
-
-		static bool IsCallMethod(Node node) {
-			var macro = node as MacroStatement;
-			if (macro != null && macro.Name == "call") {
-				return true;
-			}
-			return false;
-		}
-
         // practically the same as ForceCompile, but without saving to disk
         CompilerContext IIncludeCompiler.CompileInclude(string url) {
             if (!this.InIncludeMode)
@@ -106,40 +90,12 @@ namespace Phantom.Core {
             compiler.Parameters.Input.Add(input);
         }
 
-		class ExpressionToTargetNameStep : AbstractTransformerCompilerStep {
-			public override void Run() {
-				Visit(CompileUnit);
+		public static bool IsTargetMethod(Node node) {
+			var macro = node as MacroStatement;
+			if (macro != null && macro.Name == "target") {
+				return true;
 			}
-
-			public override void OnReferenceExpression(ReferenceExpression node) {
-				if (IsTargetMethod(node.ParentNode)) {
-					ReplaceCurrentNode(new StringLiteralExpression(node.Name));
-				}
-			}
-		}
-
-		class ExpressionToDependencyNamesStep : AbstractTransformerCompilerStep {
-			public override void Run() {
-				Visit(CompileUnit);
-			}
-
-			public override void OnReferenceExpression(ReferenceExpression node) {
-				if (node.ParentNode is ArrayLiteralExpression && IsTargetMethod(node.ParentNode.ParentNode)) {
-					ReplaceCurrentNode(new StringLiteralExpression(node.Name));
-				}
-			}
-		}
-
-		class ExpressionToCallTargetNameStep : AbstractTransformerCompilerStep {
-			public override void Run() {
-				Visit(CompileUnit);
-			}
-
-			public override void OnReferenceExpression(ReferenceExpression node) {
-				if (IsCallMethod(node.ParentNode)) {
-					ReplaceCurrentNode(new StringLiteralExpression(node.Name));
-				}
-			}
+			return false;
 		}
     }
 }

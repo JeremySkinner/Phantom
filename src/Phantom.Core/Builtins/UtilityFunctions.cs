@@ -22,14 +22,6 @@ namespace Phantom.Core.Builtins {
 
 	[CompilerGlobalScope]
 	public sealed class UtilityFunctions {
-		/// <summary>
-		/// Gets the current version of Phantom.
-		/// </summary>
-		public static string version() {
-			return typeof (UtilityFunctions).Assembly.GetName().Version.ToString();
-		}
-
-		/// <summary>
 		/// Gets an environment variable
 		/// </summary>
 		/// <param name="variableName">Name of the variable</param>

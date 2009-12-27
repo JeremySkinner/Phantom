@@ -31,24 +31,22 @@ namespace Phantom.Core {
 
 	public class BuildRunner {
 	    static readonly CompositionContainer container;
-		private readonly DslFactory dslFactory;
+		static readonly DslFactory dslFactory;
 
         static BuildRunner() {
             var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var catalog = new DirectoryCatalog(directory);
             container = new CompositionContainer(catalog);
-        }
 
-		public BuildRunner() {
-		    var importBuilders = this.FindAddIns<ITaskImportBuilder>();
+			var importBuilders = FindAddIns<ITaskImportBuilder>();
 
 			dslFactory = new DslFactory();
 			dslFactory.Register<PhantomBase>(
-                new PhantomDslEngine(importBuilders.ToArray())
-            );
-		}
+				new PhantomDslEngine(importBuilders.ToArray())
+			);
+        }
 
-	    public IEnumerable<TService> FindAddIns<TService>() {
+	    public static IEnumerable<TService> FindAddIns<TService>() {
 	        return container.GetExports<TService>().Select(lazy => lazy.Value);
 	    }
 

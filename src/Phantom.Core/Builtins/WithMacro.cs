@@ -17,8 +17,12 @@
 #endregion
 
 namespace Phantom.Core.Builtins {
+	using System.Linq;
 	using Boo.Lang.Compiler;
 	using Boo.Lang.Compiler.Ast;
+	using Boo.Lang.Compiler.TypeSystem;
+	using Boo.Lang.Compiler.TypeSystem.Reflection;
+	using Language;
 
 	/// <summary>
 	/// The 'with' macro can be used to turn this:
@@ -50,12 +54,17 @@ namespace Phantom.Core.Builtins {
 	public class WithMacro : AbstractAstMacro {
 
 		public override Statement Expand(MacroStatement macro) {
-			if(macro.Arguments.Count != 1) {
+			if (macro.Arguments.Count != 1) {
 				throw new ScriptParsingException("'with' must be called with only a single argument followed by a block.");
 			}
 
 			var arg = macro.Arguments[0];
 			var instanceExpression = ConvertExpressionToTemporaryVariable(arg, macro.Body);
+
+			if (IsRunnable(arg)) {
+				AddRunExpressionToBody(macro.Body, instanceExpression);
+			}
+
 			var visitor = new OmittedReferenceVisitor(instanceExpression);
 
 			visitor.Visit(macro.Body);
@@ -63,10 +72,10 @@ namespace Phantom.Core.Builtins {
 			return macro.Body;
 		}
 
-        Expression ConvertExpressionToTemporaryVariable(Expression methodInvocation, Block block) {
+		Expression ConvertExpressionToTemporaryVariable(Expression methodInvocation, Block block) {
 			var temporaryVariable = new ReferenceExpression(Context.GetUniqueName("with"));
 
-			var assignment = new BinaryExpression {
+			var assignment = new WithBinaryExpression {
 				Operator = BinaryOperatorType.Assign,
 				Left = Expression.Lift(temporaryVariable),
 				Right = methodInvocation
@@ -75,6 +84,39 @@ namespace Phantom.Core.Builtins {
 			block.Insert(0, assignment);
 
 			return temporaryVariable;
+		}
+
+		void AddRunExpressionToBody(Block block, Expression temporaryVariable) {
+			var method = new MethodInvocationExpression(new MemberReferenceExpression(temporaryVariable, "Run"));
+			block.Add(method);
+		}
+
+		//TODO: Clean this up. Duplicates what's in AutoRunAllRunnableSteps.
+		bool IsRunnable(Expression expression) {
+			var method = expression as MethodInvocationExpression;
+			if (method == null) return false;
+
+			var reference = method.Target as ReferenceExpression;
+			if (reference == null) return false;
+
+			var targetType = NameResolutionService.Resolve(reference.Name, EntityType.Type) as IType;
+			if (targetType == null) return false;
+
+			var interfaces = targetType.GetInterfaces();
+			if (!interfaces.Any(IsRunnable)) return false;
+
+			return true;
+		}
+
+		private bool IsRunnable(IType @interface) {
+			if (@interface.ConstructedInfo == null) // not a generic
+				return false;
+
+			var definitionAsExternal = @interface.ConstructedInfo.GenericDefinition as ExternalType;
+			if (definitionAsExternal == null)
+				return false;
+
+			return definitionAsExternal.ActualType == typeof(IRunnable<>);
 		}
 
 		private class OmittedReferenceVisitor : DepthFirstTransformer {
@@ -89,6 +131,10 @@ namespace Phantom.Core.Builtins {
 					node.Target = instanceExpr;
 				}
 			}
+		}
+
+		public class WithBinaryExpression : BinaryExpression {
+
 		}
 	}
 }

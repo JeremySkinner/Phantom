@@ -18,52 +18,62 @@
 #endregion
 
 namespace Phantom.Core.Language {
-    using System.Linq;
-    using Boo.Lang.Compiler.Ast;
-    using Boo.Lang.Compiler.Steps;
-    using Boo.Lang.Compiler.TypeSystem;
-    using Boo.Lang.Compiler.TypeSystem.Reflection;
+	using System.Linq;
+	using Boo.Lang.Compiler.Ast;
+	using Boo.Lang.Compiler.Steps;
+	using Boo.Lang.Compiler.TypeSystem;
+	using Boo.Lang.Compiler.TypeSystem.Reflection;
+	using Builtins;
 
-    public class AutoRunAllRunnablesStep : AbstractTransformerCompilerStep {
-        public override void Run() {
-            this.Visit(this.CompileUnit);
-        }
+	public class AutoRunAllRunnablesStep : AbstractTransformerCompilerStep {
+		public override void Run() {
+			this.Visit(this.CompileUnit);
+		}
 
-        public override void OnMethodInvocationExpression(MethodInvocationExpression node) {
-            base.OnMethodInvocationExpression(node);
+		public override void OnMethodInvocationExpression(MethodInvocationExpression node) {
+			base.OnMethodInvocationExpression(node);
 
-            var processed = this.AnalyzeAndProcess(node);
-            if (processed != node)
-                ReplaceCurrentNode(processed);
-        }
+			var processed = this.AnalyzeAndProcess(node);
+			if (processed != node)
+				ReplaceCurrentNode(processed);
+		}
 
-        private MethodInvocationExpression AnalyzeAndProcess(MethodInvocationExpression node) {
-            var reference = node.Target as ReferenceExpression;
-            if (reference == null)
-                return node;
+		private MethodInvocationExpression AnalyzeAndProcess(MethodInvocationExpression node) {
+			var reference = node.Target as ReferenceExpression;
+			if (reference == null)
+				return node;
 
-            var targetType = NameResolutionService.Resolve(reference.Name, EntityType.Type) as IType;
-            if (targetType == null)
-                return node;
+			var targetType = NameResolutionService.Resolve(reference.Name, EntityType.Type) as IType;
+			if (targetType == null)
+				return node;
 
-            var interfaces = targetType.GetInterfaces();
-            if (!interfaces.Any(IsRunnable))
-                return node;
+			var interfaces = targetType.GetInterfaces();
+			if (!interfaces.Any(IsRunnable))
+				return node;
 
-            return new MethodInvocationExpression(
-                new MemberReferenceExpression(node, "Run")
-            );
-        }
+			if (IsInsideWithBlock(node))
+				return node;
 
-        private bool IsRunnable(IType @interface) {
-            if (@interface.ConstructedInfo == null) // not a generic
-                return false;
+			return new MethodInvocationExpression(
+				new MemberReferenceExpression(node, "Run")
+			);
+		}
 
-            var definitionAsExternal = @interface.ConstructedInfo.GenericDefinition as ExternalType;
-            if (definitionAsExternal == null)
-                return false;
+		private bool IsRunnable(IType @interface) {
+			if (@interface.ConstructedInfo == null) // not a generic
+				return false;
 
-            return definitionAsExternal.ActualType == typeof(IRunnable<>);
-        }
-    }
+			var definitionAsExternal = @interface.ConstructedInfo.GenericDefinition as ExternalType;
+			if (definitionAsExternal == null)
+				return false;
+
+			return definitionAsExternal.ActualType == typeof(IRunnable<>);
+		}
+
+		bool IsInsideWithBlock(MethodInvocationExpression expression) {
+			return expression.ParentNode is WithMacro.WithBinaryExpression;
+		}
+	}
+
+
 }

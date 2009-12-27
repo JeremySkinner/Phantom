@@ -27,7 +27,6 @@ namespace Phantom.Core {
 	using Boo.Lang.Compiler.Steps;
 
 	using Builtins;
-    using Builtins.IncludeSupport;
     using Integration;
     using Language;
     using Rhino.DSL;

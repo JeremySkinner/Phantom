@@ -17,10 +17,10 @@
 
 #endregion
 
-namespace Phantom.Core.Builtins.IncludeSupport {
-    using Boo.Lang.Compiler;
+namespace Phantom.Core.Language {
+	using Boo.Lang.Compiler;
 
-    public interface IIncludeCompiler {
-        CompilerContext CompileInclude(string url);
-    }
+	public interface IIncludeCompiler {
+		CompilerContext CompileInclude(string url);
+	}
 }

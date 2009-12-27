@@ -79,8 +79,8 @@
     <Compile Include="BuildRunner.cs" />
     <Compile Include="Builtins\Extensions.cs" />
     <Compile Include="Builtins\FileList.cs" />
-    <Compile Include="Builtins\IncludeSupport\IncludeSupportStep.cs" />
-    <Compile Include="Builtins\IncludeSupport\IIncludeCompiler.cs" />
+    <Compile Include="Language\IncludeSupportStep.cs" />
+    <Compile Include="Language\IIncludeCompiler.cs" />
     <Compile Include="Builtins\IOFunctions.cs" />
     <Compile Include="Builtins\MSBuildFunctions.cs" />
     <Compile Include="Builtins\NUnitFunctions.cs" />

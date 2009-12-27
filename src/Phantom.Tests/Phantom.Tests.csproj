@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoRunnableTester.cs" />
     <Compile Include="DescriptionTester.cs" />
     <Compile Include="DslTester.cs" />
     <Compile Include="ExecTester.cs" />
@@ -75,6 +76,9 @@
     <Compile Include="WithMacroTester.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\AutoRunnable.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Scripts\Dependencies.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

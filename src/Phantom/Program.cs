@@ -48,7 +48,7 @@ namespace Phantom {
 					return;
 				}
 
-				var runner = new BuildRunner();
+				var runner = BuildRunner.Create();
 
 				if (options.ShowTargets) {
 					runner.OutputTargets(options);

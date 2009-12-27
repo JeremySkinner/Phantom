@@ -2,4 +2,4 @@
 	print "hello"
 
 def PrintVersion():
-	print version()
+	print "0.1"

@@ -17,41 +17,25 @@
 #endregion
 
 namespace Phantom.Tests {
-    using System;
-    using System.IO;
-    using Core;
-    using NUnit.Framework;
+	using NUnit.Framework;
 
     [TestFixture]
-    public class IncludeTester {
-        StringWriter writer;
-        BuildRunner runner;
+    public class IncludeTester : ScriptTest {
 
-        [SetUp]
-        public void Setup() {
-            writer = new StringWriter();
-            Console.SetOut(writer);
-
-            runner = new BuildRunner();
-        }
-
-        private PhantomOptions Target(string name) {
-            var options = new PhantomOptions { File = "Scripts\\Include.boo" };
-            options.AddTarget(name);
-
-            return options;
-        }
+		public override void Setup() {
+			ScriptFile = "Scripts\\Include.boo";
+		}
 
         [Test]
         public void Includes_file_globals() {
-            runner.Execute(Target("globals"));
-            writer.AssertOutput("globals:", "test");
+            Execute("globals");
+            AssertOutput("globals:", "test");
         }
 
         [Test]
         public void Includes_file_methods() {
-            runner.Execute(Target("methods"));
-            writer.AssertOutput("methods:", "hello");
+            Execute("methods");
+            AssertOutput("methods:", "hello");
         }
     }
 }

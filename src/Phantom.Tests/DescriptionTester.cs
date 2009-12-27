@@ -17,28 +17,16 @@
 #endregion
 
 namespace Phantom.Tests {
-	using System;
-	using System.IO;
-	using Core;
 	using NUnit.Framework;
 
-	[TestFixture]
-	public class DescriptionTester {
-		BuildRunner runner;
-		TextWriter writer;
-
-		[SetUp]
-		public void Setup() {
-			runner = new BuildRunner();
-			writer = new StringWriter();
-			Console.SetOut(writer);
-		}
-
+	public class DescriptionTester : ScriptTest {
 		[Test]
 		public void Outputs_description() {
-			runner.OutputTargets(new PhantomOptions {File = "Scripts\\Descriptions.boo"});
-			writer.AssertOutput(
-				"Targets in Scripts\\Descriptions.boo:",
+			ScriptFile = "Scripts/Descriptions.boo";
+			Runner.OutputTargets(Options);
+
+			AssertOutput(
+				"Targets in Scripts/Descriptions.boo:",
 				"compile          Compiles",
 				"default          The default"
 				);
@@ -46,9 +34,10 @@ namespace Phantom.Tests {
 
 		[Test]
 		public void Truncates_long_Descriptions() {
-			runner.OutputTargets(new PhantomOptions {File = "Scripts\\LongDescription.boo"});
-			writer.AssertOutput(
-				"Targets in Scripts\\LongDescription.boo:",
+			ScriptFile = "Scripts/LongDescription.boo";
+			Runner.OutputTargets(Options);
+			AssertOutput(
+				"Targets in Scripts/LongDescription.boo:",
 				"default          The quick brown fox jumped over the lazy dog th..."
 				);
 		}

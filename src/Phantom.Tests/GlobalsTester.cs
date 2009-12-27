@@ -17,39 +17,25 @@
 #endregion
 
 namespace Phantom.Tests {
-	using System;
-	using System.IO;
-	using Core;
 	using NUnit.Framework;
 
 	[TestFixture]
-	public class GlobalsTester {
-		BuildRunner runner;
-		StringWriter writer;
-
-		[SetUp]
-		public void Setup() {
-			writer = new StringWriter();
-			runner = new BuildRunner();
-			Console.SetOut(writer);
-		}
+	public class GlobalsTester : ScriptTest {
+		const string expected = "0.1";
 
 		[Test]
 		public void Executes_global_function() {
-			string expected = typeof (BuildRunner).Assembly.GetName().Version.ToString();
-			runner.Execute(new PhantomOptions {File = "Scripts\\UsesGlobals.boo"});
-			writer.AssertOutput("default:", expected);
+			ScriptFile = "Scripts\\UsesGlobals.boo";
+			Execute();
+			AssertOutput("default:", expected);
 		}
 
 		[Test]
 		public void Executes_global_function_from_imported_script() {
-			string expected = typeof (BuildRunner).Assembly.GetName().Version.ToString();
+			ScriptFile = "Scripts\\UsesGlobals.boo";
 
-			var options = new PhantomOptions {File = "Scripts\\UsesGlobals.boo"};
-			options.AddTarget("printVersion");
-
-			runner.Execute(options);
-			writer.AssertOutput("printVersion:", expected);
+			Execute("printVersion");
+			AssertOutput("printVersion:", expected);
 		}
 	}
 }

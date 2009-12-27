@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PhantomOptionsTester.cs" />
     <Compile Include="PhantomBaseTester.cs" />
+    <Compile Include="ScriptTest.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="WithMacroTester.cs" />
   </ItemGroup>

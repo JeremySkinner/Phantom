@@ -18,16 +18,23 @@
 
 namespace Phantom.Core.Builtins {
 	using System;
+	using System.Collections.Generic;
 	using System.Runtime.CompilerServices;
 
 	[CompilerGlobalScope]
-	public sealed class UtilityFunctions {
+	public static class UtilityFunctions {
 		/// Gets an environment variable
 		/// </summary>
 		/// <param name="variableName">Name of the variable</param>
 		/// <returns>The variable's value</returns>
 		public static string env(string variableName) {
 			return Environment.GetEnvironmentVariable(variableName);
+		}
+
+		public static void ForEach<T>(this IEnumerable<T> source, Action<T> action) {
+			foreach (var item in source) {
+				action(item);
+			}
 		}
 	}
 }

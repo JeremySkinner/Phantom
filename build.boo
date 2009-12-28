@@ -10,11 +10,11 @@ target ci, default:
 
 desc "Compiles the solution"
 target compile:
-  msbuild(solution_file, { @configuration: configuration })
+  msbuild(file: solution_file, configuration: configuration)
 
 desc "Executes tests"
 target test:
-  nunit(test_assemblies, { @enableTeamCity: true })
+  nunit(assembly: test_assemblies, enableTeamCity: true)
 
 desc "Copies the binaries to the 'build' directory"
 target deploy:

@@ -13,22 +13,20 @@ Example:
 
 desc "Compiles the solution"
 target compile:
-  msbuild("MySolution.sln", { @configuration: configuration })
+  msbuild(file: "MySolution.sln", configuration: "release")
 
 desc "Executes tests"
 target test:
-  nunit("path/to/TestAssembly.dll")
+  nunit(assembly: "path/to/TestAssembly.dll")
 
 desc "Copies the binaries to the 'build' directory"
 target deploy:
 	rmdir('build')
-	mkdir('build')
 	
-	with FileList():
-		.Include("src/MyApp/bin/release/*.{dll,exe}")
-		.Include("readme.txt")
+	with FileList("src/MyApp/bin/release"):
+		.Include("*.{dll,exe}")
 		.ForEach def(file):
-			file.CopyToDir("build")
+			file.CopyToDirectory("build")
 	
 desc "Creates zip package"
 target package:

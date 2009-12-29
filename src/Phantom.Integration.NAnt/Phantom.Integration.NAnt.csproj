@@ -65,6 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonAssemblyInfo.cs" />
     <Compile Include="NAntTaskImportBuilder.cs" />
     <Compile Include="NAntTaskRunner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

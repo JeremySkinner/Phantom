@@ -6,11 +6,13 @@ namespace Phantom.Core {
 		readonly FileSystemInfo inner;
 		protected string BaseDir { get; private set; }
 		protected string MatchedPath { get; private set; }
+		protected bool Flatten { get; private set; }
 
-		protected WrappedFileSystemInfo(string baseDir, string originalPath, FileSystemInfo inner) {
+		protected WrappedFileSystemInfo(string baseDir, string originalPath, FileSystemInfo inner, bool flatten) {
 			this.inner = inner;
 			BaseDir = baseDir;
 			this.MatchedPath = originalPath;
+			Flatten = flatten;
 		}
 
 		public override void Delete() {
@@ -43,7 +45,7 @@ namespace Phantom.Core {
 	}
 
 	public class WrappedFileInfo : WrappedFileSystemInfo {
-		public WrappedFileInfo(string baseDir, string path) : base(baseDir, path, new FileInfo(path)) {
+		public WrappedFileInfo(string baseDir, string path, bool flatten) : base(baseDir, path, new FileInfo(path), flatten) {
 			
 		}
 
@@ -52,10 +54,14 @@ namespace Phantom.Core {
 				Directory.CreateDirectory(path);
 			}
 
-			var combinedPath = Path.Combine(path, PathWithoutBaseDirectory);
-			
-			File.Copy(FullName, combinedPath, true);
-
+			if (Flatten) {
+				var combinedPath = Path.Combine(path, Name);
+				File.Copy(FullName, combinedPath, true);
+			}
+			else {
+				var combinedPath = Path.Combine(path, PathWithoutBaseDirectory);
+				File.Copy(FullName, combinedPath, true);
+			}
 			//ensure all segments of "path" exist
 			//all subdirectories in current file's path
  
@@ -67,11 +73,13 @@ namespace Phantom.Core {
 	}
 
 	public class WrappedDirectoryInfo : WrappedFileSystemInfo {
-		public WrappedDirectoryInfo(string baseDir, string path) : base(baseDir, path, new DirectoryInfo(path)) {
+		public WrappedDirectoryInfo(string baseDir, string path, bool flatten) : base(baseDir, path, new DirectoryInfo(path), flatten) {
 			
 		}
 
 		public override void CopyToDirectory(string path) {
+			if(Flatten) return; //copying directories is a no-op when flattened.
+
 			var combinedPath = Path.Combine(path, PathWithoutBaseDirectory);
 			if(! Directory.Exists(combinedPath)) {
 				Directory.CreateDirectory(combinedPath);

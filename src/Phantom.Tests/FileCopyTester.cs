@@ -41,5 +41,15 @@ namespace Phantom.Tests {
 			new FileInfo("copy_output/SubDirectory3/Test3.txt").Exists.ShouldBeTrue();
 			new FileInfo("copy_output/SubDirectory3/SubDirectory4/Test4.txt").Exists.ShouldBeTrue();
 		}
+		
+		[Test]
+		public void Copies_files_flattened() {
+			Execute("copyFlattened");
+
+			new FileInfo("copy_output/Test1.txt").Exists.ShouldBeTrue();
+			new FileInfo("copy_output/Test2.txt").Exists.ShouldBeTrue();
+			new FileInfo("copy_output/Test3.txt").Exists.ShouldBeTrue();
+			new FileInfo("copy_output/Test4.txt").Exists.ShouldBeTrue();
+		}
 	}
 }

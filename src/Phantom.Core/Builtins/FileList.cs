@@ -26,6 +26,7 @@ namespace Phantom.Core.Builtins {
 		readonly List<string> includes = new List<string>();
 		readonly List<string> excludes = new List<string>();
 		readonly string baseDir = "";
+		private bool flatten;
 
 		public FileList() {
 			
@@ -33,6 +34,11 @@ namespace Phantom.Core.Builtins {
 
 		public FileList(string baseDir) {
 			this.baseDir = baseDir;
+		}
+
+		public FileList Flatten(bool flatten) {
+			this.flatten = flatten;
+			return this;
 		}
 
 		public FileList Exclude(string pattern) {
@@ -61,10 +67,10 @@ namespace Phantom.Core.Builtins {
 
 			foreach(var path in includedFiles.Except(excludesFiles)) {
 				if(Directory.Exists(path)) {
-					yield return new WrappedDirectoryInfo(baseDir, path);
+					yield return new WrappedDirectoryInfo(baseDir, path, flatten);
 				}
 				else {
-					yield return new WrappedFileInfo(baseDir, path);
+					yield return new WrappedFileInfo(baseDir, path, flatten);
 				}
 			}
 		}

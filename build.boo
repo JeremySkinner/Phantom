@@ -2,11 +2,14 @@ solution_file = "Phantom.sln"
 configuration = "release"
 test_assemblies = "src/Phantom.Tests/bin/${configuration}/Phantom.Tests.dll"
 
-target default, (compile, test, deploy, package):
+target default, (init, compile, test, deploy, package):
   pass
 
-target ci, (compile, coverage, deploy, package):
+target ci, (init, compile, coverage, deploy, package):
   pass
+
+target init:
+  rmdir("build")
 
 desc "Compiles the solution"
 target compile:
@@ -18,8 +21,6 @@ target test:
 
 desc "Copies the binaries to the 'build' directory"
 target deploy:
-  rmdir('build')
-	
   print "Copying to build dir"
 
   with FileList("src/Phantom/bin/${configuration}"):
@@ -43,6 +44,7 @@ target deploy:
 desc "Creates zip package"
 target package:
   zip("build/${configuration}", 'build/Phantom.zip')
+
 desc "Runs code coverage with ncover (only runs on build server)"
 target coverage:
   ncover_path = "C:/Program Files (x86)/ncover"

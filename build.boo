@@ -51,6 +51,16 @@ target coverage:
   app_assemblies = ("Phantom.Core",)
   teamcity_launcher = env("teamcity.dotnet.nunitlauncher")
   
-  ncover(toolPath: "${ncover_path}/NCover.console.exe", reportDirectory: "build/Coverage", workingDirectory: "src/Phantom.Tests/bin/${configuration}", applicationAssemblies: app_assemblies, program: "${teamcity_launcher} v2.0 x86 NUnit-2.4.6", testAssembly: "Phantom.Tests.dll", excludeAttributes: "Phantom.Core.ExcludeFromCoverageAttribute;System.Runtime.CompilerServices.CompilerGeneratedAttribute")
+  with ncover():
+    toolPath = "${ncover_path}/NCover.console.exe"
+    reportDirectory = "build/Coverage"
+    workingDirectory = "src/Phantom.Tests/bin/${configuration}"
+    applicationAssemblies = app_assemblies
+    program = "${teamcity_launcher} v2.0 x86 NUnit-2.4.6"
+    testAssembly = "Phantom.Tests.dll"
+    excludeAttributes = "Phantom.Core.ExcludeFromCoverageAttribute;System.Runtime.CompilerServices.CompilerGeneratedAttribute"
   
-  ncover_explorer(toolPath: "${ncover_path}/NCoverExplorer.console.exe", project: "Phantom", reportDirectory: "build/Coverage")
+  with ncover_explorer():
+    toolPath = "${ncover_path}/NCoverExplorer.console.exe"
+    project = "Phantom"
+    reportDirectory = "build/Coverage"

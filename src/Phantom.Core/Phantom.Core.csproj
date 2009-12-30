@@ -79,6 +79,9 @@
     <Compile Include="BuildRunner.cs" />
     <Compile Include="Builtins\ExecutableTool.cs" />
     <Compile Include="Builtins\FileList.cs" />
+    <Compile Include="Builtins\NCover.cs" />
+    <Compile Include="Builtins\NCoverExplorer.cs" />
+    <Compile Include="ExcludeFromCoverageAttribute.cs" />
     <Compile Include="Language\ExpressionToCallTargetNameStep.cs" />
     <Compile Include="Language\ExpressionToDependencyNamesStep.cs" />
     <Compile Include="Language\ExpressionToTargetNameStep.cs" />

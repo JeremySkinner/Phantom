@@ -35,14 +35,13 @@ namespace Phantom.Core.Builtins {
 		public bool failUnderMinimum { get; set; }
 		public string sort { get; set; }
 
-
 		protected override void Execute() {
 			if (string.IsNullOrEmpty(project)) {
 				throw new InvalidOperationException("The 'project' property must be specified.");
 			}
 
-			string htmlReport = Path.Combine(reportDirectory, "Coverage.html");
-			string xmlReport = Path.Combine(reportDirectory, "Coverage.xml");
+			string htmlReport = Path.Combine(reportDirectory, "CoverageReport.html");
+			string xmlReport = Path.Combine(reportDirectory, "CoverageReport.xml");
 
 			var files = new FileList(reportDirectory)
 				.Include("*.Coverage.xml")

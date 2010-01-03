@@ -1,8 +1,7 @@
-﻿#region License (ashmind)
+﻿#region License
 
-// Copyright Andrey Shchekin (http://www.ashmind.com)
-// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
-//
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
+// 
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
 // 
@@ -12,8 +11,6 @@
 // to be bound by the terms of the Microsoft Public License.
 // 
 // You must not remove this notice, or any other, from this software.
-// 
-// The latest version of this file can be found at http://github.com/ashmind/Phantom
 
 #endregion
 
@@ -31,7 +28,7 @@ namespace Phantom.Core.Language {
 		}
 
 		public override void Run() {
-			this.Visit(this.CompileUnit);
+			Visit(CompileUnit);
 		}
 
 		public override void OnMacroStatement(MacroStatement node) {
@@ -41,7 +38,7 @@ namespace Phantom.Core.Language {
 				ExpandIncludeMacro(node);
 		}
 
-		private void ExpandIncludeMacro(MacroStatement macro) {
+		void ExpandIncludeMacro(MacroStatement macro) {
 			if (macro.Arguments.Count != 1)
 				throw new ScriptParsingException("include requires a single literal string argument ('filename').");
 
@@ -66,7 +63,7 @@ namespace Phantom.Core.Language {
 				type.Members.Add(member);
 			}
 
-			var parent = (Block)macro.ParentNode;
+			var parent = (Block) macro.ParentNode;
 			var currentPosition = parent.Statements.IndexOf(macro);
 
 			RemoveCurrentNode();

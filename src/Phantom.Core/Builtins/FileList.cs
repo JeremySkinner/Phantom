@@ -1,6 +1,6 @@
 #region License
 
-// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
 // 
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
@@ -11,8 +11,6 @@
 // to be bound by the terms of the Microsoft Public License.
 // 
 // You must not remove this notice, or any other, from this software.
-// 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
@@ -26,10 +24,9 @@ namespace Phantom.Core.Builtins {
 		readonly List<string> includes = new List<string>();
 		readonly List<string> excludes = new List<string>();
 		readonly string baseDir = "";
-		private bool flatten;
+		bool flatten;
 
 		public FileList() {
-			
 		}
 
 		public FileList(string baseDir) {
@@ -51,7 +48,7 @@ namespace Phantom.Core.Builtins {
 			return this;
 		}
 
-		private string FixupPath(string path) {
+		string FixupPath(string path) {
 			//Glob likes forward slashes
 			return Path.Combine(baseDir, path).Replace('\\', '/');
 		}
@@ -65,8 +62,8 @@ namespace Phantom.Core.Builtins {
 			                    from file in Glob.GlobResults(FixupPath(exclude))
 			                    select file;
 
-			foreach(var path in includedFiles.Except(excludesFiles)) {
-				if(Directory.Exists(path)) {
+			foreach (var path in includedFiles.Except(excludesFiles)) {
+				if (Directory.Exists(path)) {
 					yield return new WrappedDirectoryInfo(baseDir, path, flatten);
 				}
 				else {

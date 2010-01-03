@@ -1,8 +1,7 @@
-﻿#region License (+ashmind)
+﻿#region License
 
-// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
-// Copyright Andrey Shchekin (http://www.ashmind.com)
-//
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
+// 
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
 // 
@@ -12,8 +11,6 @@
 // to be bound by the terms of the Microsoft Public License.
 // 
 // You must not remove this notice, or any other, from this software.
-// 
-// The latest version of this file can be found at http://github.com/ashmind/Phantom
 
 #endregion
 
@@ -37,10 +34,10 @@ namespace Phantom.Core.Language {
 			}
 		}
 
-		private MethodInvocationExpression AnalyzeAndProcess(MethodInvocationExpression node) {
+		MethodInvocationExpression AnalyzeAndProcess(MethodInvocationExpression node) {
 			var runnableParser = new RunnableParser(NameResolutionService);
 
-			if(! runnableParser.IsRunnable(node)) {
+			if (! runnableParser.IsRunnable(node)) {
 				return node;
 			}
 
@@ -50,13 +47,11 @@ namespace Phantom.Core.Language {
 
 			return new MethodInvocationExpression(
 				new MemberReferenceExpression(node, "Run")
-			);
+				);
 		}
 
 		bool IsInsideWithBlock(MethodInvocationExpression expression) {
 			return expression.ParentNode is WithMacro.WithBinaryExpression;
 		}
 	}
-
-
 }

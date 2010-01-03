@@ -1,6 +1,6 @@
 #region License
 
-// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
 // 
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
@@ -11,8 +11,6 @@
 // to be bound by the terms of the Microsoft Public License.
 // 
 // You must not remove this notice, or any other, from this software.
-// 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
@@ -36,7 +34,7 @@ namespace Phantom.Core.Builtins {
 		public string[] assemblies { get; set; }
 		public string assembly { get; set; }
 
-		private string GetTeamCityNunitLancherPath() {
+		string GetTeamCityNunitLancherPath() {
 			return UtilityFunctions.env("teamcity.dotnet.nunitlauncher");
 		}
 
@@ -47,7 +45,7 @@ namespace Phantom.Core.Builtins {
 
 			//single assembly takes precedence.
 			if (!string.IsNullOrEmpty(assembly)) {
-				assemblies = new[] { assembly };
+				assemblies = new[] {assembly};
 			}
 
 			var args = new List<string>();
@@ -83,12 +81,11 @@ namespace Phantom.Core.Builtins {
 
 			foreach (var asm in assemblies) {
 				var nunitArgs = new List<string>(args) {
-               		asm
-				};
+				                                       	asm
+				                                       };
 
 				Execute(nunitArgs.JoinWith(" "));
 			}
-
 		}
 	}
 }

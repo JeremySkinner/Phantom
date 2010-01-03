@@ -1,6 +1,6 @@
 #region License
 
-// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
 // 
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
@@ -11,17 +11,12 @@
 // to be bound by the terms of the Microsoft Public License.
 // 
 // You must not remove this notice, or any other, from this software.
-// 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
 namespace Phantom.Core.Builtins {
-	using System.Linq;
 	using Boo.Lang.Compiler;
 	using Boo.Lang.Compiler.Ast;
-	using Boo.Lang.Compiler.TypeSystem;
-	using Boo.Lang.Compiler.TypeSystem.Reflection;
 	using Language;
 
 	/// <summary>
@@ -52,7 +47,6 @@ namespace Phantom.Core.Builtins {
 	/// This would be much simpler if I wrote the macro in Boo rather than C#, but I thought this would be fun...
 	/// </summary>
 	public class WithMacro : AbstractAstMacro {
-
 		public override Statement Expand(MacroStatement macro) {
 			if (macro.Arguments.Count != 1) {
 				throw new ScriptParsingException("'with' must be called with only a single argument followed by a block.");
@@ -92,7 +86,7 @@ namespace Phantom.Core.Builtins {
 			block.Add(method);
 		}
 
-		private class OmittedReferenceVisitor : DepthFirstTransformer {
+		class OmittedReferenceVisitor : DepthFirstTransformer {
 			readonly Expression instanceExpr;
 
 			public OmittedReferenceVisitor(Expression instanceExpr) {
@@ -107,7 +101,6 @@ namespace Phantom.Core.Builtins {
 		}
 
 		public class WithBinaryExpression : BinaryExpression {
-
 		}
 	}
 }

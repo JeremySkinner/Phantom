@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Phantom")]
 [assembly: AssemblyDescription("Phantom")]
 [assembly: AssemblyProduct("Phantom")]
-[assembly: AssemblyCopyright("Copyright (c) Jeremy Skinner 2009")]
+[assembly: AssemblyCopyright("Copyright (c) Jeremy Skinner and Contributors")]
 [assembly: ComVisible(false)]
 [assembly: AssemblyVersion("0.2.0.0")]
 [assembly: AssemblyFileVersion("0.2.0.0")]

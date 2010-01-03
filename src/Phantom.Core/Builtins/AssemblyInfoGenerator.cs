@@ -1,3 +1,19 @@
+#region License
+
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
+// 
+// Licensed under the Microsoft Public License. You may
+// obtain a copy of the license at:
+// 
+// http://www.microsoft.com/opensource/licenses.mspx
+// 
+// By using this source code in any fashion, you are agreeing
+// to be bound by the terms of the Microsoft Public License.
+// 
+// You must not remove this notice, or any other, from this software.
+
+#endregion
+
 namespace Phantom.Core.Builtins {
 	using System;
 	using System.Collections;
@@ -35,7 +51,7 @@ namespace Phantom.Core.Builtins {
 		}
 
 		protected void Execute() {
-			if(string.IsNullOrEmpty(file)) {
+			if (string.IsNullOrEmpty(file)) {
 				throw new InvalidOperationException("'file' must be specified when calling generate_assembly_info");
 			}
 
@@ -50,7 +66,7 @@ namespace Phantom.Core.Builtins {
 		string BuildFileContents() {
 			builder = new StringBuilder();
 
-			foreach(var ns in namespaces) {
+			foreach (var ns in namespaces) {
 				builder.AppendLine(string.Format("using {0};", ns));
 			}
 
@@ -63,9 +79,9 @@ namespace Phantom.Core.Builtins {
 			AddAttribute("AssemblyVersion", version);
 			AddAttribute("AssemblyFileVersion", fileVersion);
 
-			foreach(DictionaryEntry pair in customAttributes) {
-				if(pair.Value is bool) {
-					AddAttribute(pair.Key.ToString(), (bool)pair.Value);
+			foreach (DictionaryEntry pair in customAttributes) {
+				if (pair.Value is bool) {
+					AddAttribute(pair.Key.ToString(), (bool) pair.Value);
 				}
 				else {
 					AddAttribute(pair.Key.ToString(), pair.Value.ToString());
@@ -76,7 +92,7 @@ namespace Phantom.Core.Builtins {
 		}
 
 		void AddAttribute(string attributeName, string value) {
-			if(!string.IsNullOrEmpty(value)) {
+			if (!string.IsNullOrEmpty(value)) {
 				builder.AppendLine(string.Format("[assembly: {0}(\"{1}\")]", attributeName, value));
 			}
 		}
@@ -89,13 +105,12 @@ namespace Phantom.Core.Builtins {
 		}
 
 		void EnsureDefaultNamespaces() {
-			if(! namespaces.Contains(ReflectionNamespace)) {
+			if (! namespaces.Contains(ReflectionNamespace)) {
 				namespaces.Add(ReflectionNamespace);
 			}
 
 			if (!namespaces.Contains(RuntimeServicesNamespace))
 				namespaces.Add(RuntimeServicesNamespace);
-
 		}
 
 		public generate_assembly_info Run() {

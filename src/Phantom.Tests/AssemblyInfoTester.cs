@@ -1,3 +1,19 @@
+#region License
+
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
+// 
+// Licensed under the Microsoft Public License. You may
+// obtain a copy of the license at:
+// 
+// http://www.microsoft.com/opensource/licenses.mspx
+// 
+// By using this source code in any fashion, you are agreeing
+// to be bound by the terms of the Microsoft Public License.
+// 
+// You must not remove this notice, or any other, from this software.
+
+#endregion
+
 namespace Phantom.Tests {
 	using System;
 	using System.IO;
@@ -10,9 +26,9 @@ namespace Phantom.Tests {
 			ScriptFile = "Scripts/AssemblyInfoGenerator.boo";
 			Execute("generate");
 
-			string text = System.IO.File.ReadAllText("TestAssemblyInfo.cs");
-			string[] bits = text.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            
+			string text = File.ReadAllText("TestAssemblyInfo.cs");
+			string[] bits = text.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+
 			bits[0].ShouldEqual("using Foo.Bar;");
 			bits[1].ShouldEqual("using System.Reflection;");
 			bits[2].ShouldEqual("using System.Runtime.InteropServices;");

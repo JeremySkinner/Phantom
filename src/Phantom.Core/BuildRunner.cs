@@ -1,6 +1,6 @@
 #region License
 
-// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
 // 
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
@@ -11,14 +11,12 @@
 // to be bound by the terms of the Microsoft Public License.
 // 
 // You must not remove this notice, or any other, from this software.
-// 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
 namespace Phantom.Core {
 	using System;
-    using System.Collections.Generic;
+	using System.Collections.Generic;
 	using System.ComponentModel.Composition;
 	using System.ComponentModel.Composition.Hosting;
 	using System.Diagnostics;
@@ -46,15 +44,15 @@ namespace Phantom.Core {
 			return container.GetExportedValue<BuildRunner>();
 		}
 
-	    public ScriptModel GenerateBuildScript(string path) {
+		public ScriptModel GenerateBuildScript(string path) {
 			var script = dslFactory.Create<PhantomBase>(path);
 			script.Execute();
 			return script.Model;
 		}
 
 		public void Execute(PhantomOptions options) {
-            if (options.AttachDebugger && !Debugger.IsAttached)
-                Debugger.Launch();
+			if (options.AttachDebugger && !Debugger.IsAttached)
+				Debugger.Launch();
 
 			var script = GenerateBuildScript(options.File);
 			script.ExecuteTargets(options.TargetNames.ToArray());

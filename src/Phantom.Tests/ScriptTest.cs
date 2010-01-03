@@ -1,5 +1,6 @@
 namespace Phantom.Tests {
 	using System;
+	using System.ComponentModel.Composition.Hosting;
 	using System.IO;
 	using Core;
 	using NUnit.Framework;
@@ -13,7 +14,8 @@ namespace Phantom.Tests {
 		[SetUp]
 		public void BaseSetup() {
 			if (Runner == null) {
-				Runner = BuildRunner.Create();
+				var container = new CompositionContainer(new DirectoryCatalog(Directory.GetCurrentDirectory()));
+				Runner = container.GetExportedValue<BuildRunner>();
 			}
 
 			Options = new PhantomOptions();

@@ -60,8 +60,9 @@ namespace Phantom.Core.Builtins {
 
 			var arg = macro.Arguments[0];
 			var instanceExpression = ConvertExpressionToTemporaryVariable(arg, macro.Body);
+			var runnableParser = new RunnableParser(NameResolutionService);
 
-			if (IsRunnable(arg)) {
+			if (runnableParser.IsRunnable(arg)) {
 				AddRunExpressionToBody(macro.Body, instanceExpression);
 			}
 
@@ -89,34 +90,6 @@ namespace Phantom.Core.Builtins {
 		void AddRunExpressionToBody(Block block, Expression temporaryVariable) {
 			var method = new MethodInvocationExpression(new MemberReferenceExpression(temporaryVariable, "Run"));
 			block.Add(method);
-		}
-
-		//TODO: Clean this up. Duplicates what's in AutoRunAllRunnableSteps.
-		bool IsRunnable(Expression expression) {
-			var method = expression as MethodInvocationExpression;
-			if (method == null) return false;
-
-			var reference = method.Target as ReferenceExpression;
-			if (reference == null) return false;
-
-			var targetType = NameResolutionService.Resolve(reference.Name, EntityType.Type) as IType;
-			if (targetType == null) return false;
-
-			var interfaces = targetType.GetInterfaces();
-			if (!interfaces.Any(IsRunnable)) return false;
-
-			return true;
-		}
-
-		private bool IsRunnable(IType @interface) {
-			if (@interface.ConstructedInfo == null) // not a generic
-				return false;
-
-			var definitionAsExternal = @interface.ConstructedInfo.GenericDefinition as ExternalType;
-			if (definitionAsExternal == null)
-				return false;
-
-			return definitionAsExternal.ActualType == typeof(IRunnable<>);
 		}
 
 		private class OmittedReferenceVisitor : DepthFirstTransformer {

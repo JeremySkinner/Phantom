@@ -99,6 +99,7 @@
     <Compile Include="Integration\TaskImportStep.cs" />
     <Compile Include="Language\AutoRunAllRunnablesStep.cs" />
     <Compile Include="Language\IRunnable.cs" />
+    <Compile Include="Language\RunnableParser.cs" />
     <Compile Include="Language\UnescapeNamesStep.cs" />
     <Compile Include="ScriptModel.cs" />
     <Compile Include="PhantomOptions.cs" />

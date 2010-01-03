@@ -19,20 +19,21 @@
 namespace Phantom.Core {
 	using System;
     using System.Collections.Generic;
+	using System.ComponentModel.Composition;
 	using System.ComponentModel.Composition.Hosting;
 	using System.Diagnostics;
 	using System.IO;
 	using System.Linq;
 	using System.Reflection;
-
 	using Integration;
-
 	using Rhino.DSL;
 
+	[Export]
 	public class BuildRunner {
 		readonly DslFactory dslFactory;
 
-		public BuildRunner(IEnumerable<ITaskImportBuilder> taskImportBuilders) {
+		[ImportingConstructor]
+		public BuildRunner([ImportMany] IEnumerable<ITaskImportBuilder> taskImportBuilders) {
 			dslFactory = new DslFactory();
 			dslFactory.Register<PhantomBase>(
 				new PhantomDslEngine(taskImportBuilders.ToArray())
@@ -41,13 +42,8 @@ namespace Phantom.Core {
 
 		public static BuildRunner Create() {
 			var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			var catalog = new DirectoryCatalog(directory);
-			var container = new CompositionContainer(catalog);
-			var importBuilders = container.GetExports<ITaskImportBuilder>().Select(lazy => lazy.Value);
-
-			var runner = new BuildRunner(importBuilders);
-
-			return runner;
+			var container = new CompositionContainer(new DirectoryCatalog(directory));
+			return container.GetExportedValue<BuildRunner>();
 		}
 
 	    public ScriptModel GenerateBuildScript(string path) {

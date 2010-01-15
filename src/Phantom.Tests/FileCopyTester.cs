@@ -55,6 +55,9 @@ namespace Phantom.Tests {
 			Execute("copyViews");
 
             new FileInfo("copy_Views/Shared/Error.aspx").Exists.ShouldBeTrue();
+            new FileInfo("copy_Views/Home/About.aspx").Exists.ShouldBeTrue();
+            new FileInfo("copy_Views/Account/ChangePasswordSuccess.aspx").Exists.ShouldBeTrue();
+            new FileInfo("copy_Views/Web.config").Exists.ShouldBeTrue();
 		}
 	}
 }

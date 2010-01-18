@@ -25,10 +25,20 @@ namespace Phantom.Core.Language {
 			Visit(CompileUnit);
 		}
 
-		public override void OnReferenceExpression(ReferenceExpression node) {
-			if (node.ParentNode is ArrayLiteralExpression && PhantomDslEngine.IsTargetMethod(node.ParentNode.ParentNode)) {
+        public override void OnMemberReferenceExpression(MemberReferenceExpression node) {
+            if (IsTargetDependencyArray(node.ParentNode)) {
+                ReplaceCurrentNode(new StringLiteralExpression(node.ToCodeString()));
+            }
+        }
+
+	    public override void OnReferenceExpression(ReferenceExpression node) {
+            if (IsTargetDependencyArray(node.ParentNode)) {
 				ReplaceCurrentNode(new StringLiteralExpression(node.Name));
 			}
 		}
+
+        static bool IsTargetDependencyArray(Node node) {
+            return node is ArrayLiteralExpression && PhantomDslEngine.IsTargetMethod(node.ParentNode);
+        }
 	}
 }

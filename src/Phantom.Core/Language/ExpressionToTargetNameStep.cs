@@ -25,6 +25,12 @@ namespace Phantom.Core.Language {
 			Visit(CompileUnit);
 		}
 
+        public override void OnMemberReferenceExpression(MemberReferenceExpression node) {
+            if (PhantomDslEngine.IsTargetMethod(node.ParentNode)) {
+                ReplaceCurrentNode(new StringLiteralExpression(node.ToCodeString()));
+            }
+        }
+
 		public override void OnReferenceExpression(ReferenceExpression node) {
 			if (PhantomDslEngine.IsTargetMethod(node.ParentNode)) {
 				ReplaceCurrentNode(new StringLiteralExpression(node.Name));

@@ -1,8 +1,7 @@
-﻿#region License (+ashmind)
+﻿#region License
 
-// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
-// Copyright Andrey Shchekin (http://ashmind.com)
-//
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
+// 
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
 // 

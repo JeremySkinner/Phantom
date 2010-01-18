@@ -1,8 +1,7 @@
-﻿#region License (+ashmind)
+﻿#region License
 
-// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
-// Copyright Andrey Shchekin (http://www.ashmind.com)
-//
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
+// 
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
 // 
@@ -12,178 +11,176 @@
 // to be bound by the terms of the Microsoft Public License.
 // 
 // You must not remove this notice, or any other, from this software.
-// 
-// The latest version of this file can be found at http://github.com/ashmind/Phantom
 
 #endregion
 
 namespace Phantom.Integration.NAnt {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using System.IO;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
+	using System;
+	using System.Collections.Generic;
+	using System.ComponentModel.Composition;
+	using System.IO;
+	using System.Linq;
+	using System.Reflection;
+	using System.Text;
+	using Boo.Lang.Compiler;
+	using Boo.Lang.Compiler.Ast;
+	using Boo.Lang.Compiler.IO;
+	using Boo.Lang.Compiler.Pipelines;
+	using Boo.Lang.Compiler.Steps;
+	using Core.Integration;
+	using Core.Language;
+	using global::NAnt.Core;
+	using global::NAnt.Core.Attributes;
+	using Attribute = System.Attribute;
 
-    using Boo.Lang.Compiler;
-    using Boo.Lang.Compiler.Ast;
-    using Boo.Lang.Compiler.IO;
-    using Boo.Lang.Compiler.Pipelines;
-    using Boo.Lang.Compiler.Steps;
-    using Core.Language;
-    using global::NAnt.Core;
-    using global::NAnt.Core.Attributes;
+	[Export(typeof (ITaskImportBuilder))]
+	public class NAntTaskImportBuilder : ITaskImportBuilder {
+		const string Indent = "    ";
+		const string Indent2 = Indent + Indent;
+		const string Indent3 = Indent2 + Indent;
 
-    using Core.Integration;
+		#region TaskParameter Class
 
-    [Export(typeof(ITaskImportBuilder))]
-    public class NAntTaskImportBuilder : ITaskImportBuilder {
-        private const string Indent = "    ";
-        private const string Indent2 = Indent + Indent;
-        private const string Indent3 = Indent2 + Indent;
+		class TaskParameter {
+			public string Name { get; set; }
+			public PropertyInfo Property { get; set; }
+		}
 
-        #region TaskParameter Class
+		#endregion
 
-        private class TaskParameter {
-            public string Name           { get; set; }
-            public PropertyInfo Property { get; set; }
-        }
+		public IEnumerable<Import> BuildImportsFrom(string assemblyNameOrPath) {
+			var assembly = Assembly.Load(assemblyNameOrPath);
+			var location = assembly.Location;
 
-        #endregion
+			var adapterPath = Path.ChangeExtension(location, ".Phantom.dll");
+			var importsPath = Path.ChangeExtension(location, ".Phantom.imports");
+			var adapterNamespace = "PhantomIntegratedTasks";
 
-        public IEnumerable<Import> BuildImportsFrom(string assemblyNameOrPath) {
-            var assembly = Assembly.Load(assemblyNameOrPath);
-            var location = assembly.Location;
+			if (!File.Exists(adapterPath))
+				BuildAdapter(assembly, adapterNamespace, adapterPath, importsPath);
 
-            var adapterPath = Path.ChangeExtension(location, ".Phantom.dll");
-            var importsPath = Path.ChangeExtension(location, ".Phantom.imports");
-            var adapterNamespace = "PhantomIntegratedTasks";
+			var otherImports = File.ReadAllLines(importsPath).Select(line => line.Split(new[] {','}, 2));
+			foreach (var otherImport in otherImports) {
+				yield return new Import(otherImport[0], new ReferenceExpression(otherImport[1]), null);
+			}
 
-            if (!File.Exists(adapterPath))
-                this.BuildAdapter(assembly, adapterNamespace, adapterPath, importsPath);
+			yield return new Import(
+				adapterNamespace, new ReferenceExpression(adapterPath), null
+				);
+		}
 
-            var otherImports = File.ReadAllLines(importsPath).Select(line => line.Split(new[] { ',' }, 2));
-            foreach (var otherImport in otherImports) {
-                yield return new Import(otherImport[0], new ReferenceExpression(otherImport[1]), null);
-            }
+		void BuildAdapter(Assembly assembly, string adapterNamespace, string adapterPath, string importsPath) {
+			// There are several solutions to this:
+			// 1. Directly generate IL, optionally using some intermediate library
+			// 2. Generate Boo AST and compile it
+			// 3. Generate Boo code and compile it
+			// I am going with option 3, just because it is the easiest to debug and understand later
 
-            yield return new Import(
-                adapterNamespace, new ReferenceExpression(adapterPath), null
-            );
-        }
+			var referencedTypes = new HashSet<Type>();
+			var code = GenerateAdapterCode(assembly, adapterNamespace, referencedTypes);
 
-        private void BuildAdapter(Assembly assembly, string adapterNamespace, string adapterPath, string importsPath) {
-            // There are several solutions to this:
-            // 1. Directly generate IL, optionally using some intermediate library
-            // 2. Generate Boo AST and compile it
-            // 3. Generate Boo code and compile it
-            // I am going with option 3, just because it is the easiest to debug and understand later
+			var compiler = new BooCompiler {
+			                               	Parameters = {
+			                               	             	OutputType = CompilerOutputType.Library,
+			                               	             	Pipeline = new CompileToFile(),
+			                               	             	OutputAssembly = adapterPath,
+			                               	             	Input = {new StringInput("integration.boo", code)}
+			                               	             }
+			                               };
+			compiler.Parameters.Pipeline.InsertBefore(typeof (ExpandAstLiterals), new UnescapeNamesStep());
+			compiler.Parameters.Pipeline.InsertBefore(typeof (ProcessMethodBodiesWithDuckTyping), new AutoRunAllRunnablesStep());
 
-            var referencedTypes = new HashSet<Type>();
-            var code = GenerateAdapterCode(assembly, adapterNamespace, referencedTypes);
+			compiler.Parameters.References.Add(assembly);
+			compiler.Parameters.References.Add(GetType().Assembly);
+			foreach (var referencedAssembly in referencedTypes.Select(t => t.Assembly).Distinct()) {
+				compiler.Parameters.References.Add(referencedAssembly);
+			}
 
-            var compiler = new BooCompiler {
-                Parameters = {
-                    OutputType = CompilerOutputType.Library,
-                    Pipeline = new CompileToFile(),
-                    OutputAssembly = adapterPath,
-                    Input = { new StringInput("integration.boo", code) }
-                }
-            };
-            compiler.Parameters.Pipeline.InsertBefore(typeof(ExpandAstLiterals), new UnescapeNamesStep());
-            compiler.Parameters.Pipeline.InsertBefore(typeof(ProcessMethodBodiesWithDuckTyping), new AutoRunAllRunnablesStep());
+			var result = compiler.Run();
+			if (result.Errors.Count > 0) {
+				File.WriteAllText(Path.ChangeExtension(adapterPath, ".boo"), code);
+				throw new CompilerError(result.Errors.ToString(true));
+			}
 
-            compiler.Parameters.References.Add(assembly);
-            compiler.Parameters.References.Add(this.GetType().Assembly);
-            foreach (var referencedAssembly in referencedTypes.Select(t => t.Assembly).Distinct()) {
-                compiler.Parameters.References.Add(referencedAssembly);
-            }
+			using (var writer = new StreamWriter(importsPath, false)) {
+				var imports = referencedTypes.Select(type => new {type.Namespace, type.Assembly}).Distinct();
+				foreach (var import in imports) {
+					writer.WriteLine(import.Namespace + "," + import.Assembly.Location);
+				}
+			}
+		}
 
-            var result = compiler.Run();
-            if (result.Errors.Count > 0) {
-                File.WriteAllText(Path.ChangeExtension(adapterPath, ".boo"), code);
-                throw new CompilerError(result.Errors.ToString(true));
-            }
+		string GenerateAdapterCode(Assembly assembly, string adapterNamespace, HashSet<Type> referencedTypes) {
+			var tasks = (
+			            	from type in assembly.GetExportedTypes()
+			            	where type.IsSubclassOf(typeof (Task))
+			            	      && !type.IsAbstract
+			            	select type
+			            ).ToArray();
 
-            using (var writer = new StreamWriter(importsPath, false)) {
-                var imports = referencedTypes.Select(type => new {type.Namespace, type.Assembly}).Distinct();
-                foreach (var import in imports) {
-                    writer.WriteLine(import.Namespace + "," + import.Assembly.Location);
-                }
-            }
-        }
+			var builder = new StringBuilder();
+			builder.Append("namespace ").AppendLine(adapterNamespace).AppendLine();
 
-        private string GenerateAdapterCode(Assembly assembly, string adapterNamespace, HashSet<Type> referencedTypes) {
-            var tasks = (
-                from type in assembly.GetExportedTypes()
-                where type.IsSubclassOf(typeof(Task))
-                   && !type.IsAbstract
-                select type
-            ).ToArray();
+			builder.AppendLine("import Phantom.Core.Integration");
+			builder.AppendLine("import Phantom.Core.Language");
+			builder.AppendLine("import Phantom.Integration.NAnt");
 
-            var builder = new StringBuilder();
-            builder.Append("namespace ").AppendLine(adapterNamespace).AppendLine();
+			foreach (var task in tasks) {
+				AppendTaskAdapter(builder, task, referencedTypes);
+				builder.AppendLine();
+			}
 
-            builder.AppendLine("import Phantom.Core.Integration");
-            builder.AppendLine("import Phantom.Core.Language");
-            builder.AppendLine("import Phantom.Integration.NAnt");
+			return builder.ToString();
+		}
 
-            foreach (var task in tasks) {
-                AppendTaskAdapter(builder, task, referencedTypes);
-                builder.AppendLine();
-            }
+		void AppendTaskAdapter(StringBuilder builder, Type taskType, HashSet<Type> referencedTypes) {
+			var name = GetTaskName(taskType);
 
-            return builder.ToString();
-        }
+			builder.AppendFormat("class @{0}(IRunnable[of @{0}]):", name).AppendLine();
+			AppendTaskAdapterConstructorAndField(builder, taskType);
+			foreach (var parameter in GetTaskParameters(taskType)) {
+				AppendTaskAdapterProperty(builder, parameter, referencedTypes);
+			}
 
-        private void AppendTaskAdapter(StringBuilder builder, Type taskType, HashSet<Type> referencedTypes) {
-            var name = GetTaskName(taskType);
+			builder.Append(Indent).AppendLine("def Run():")
+				.Append(Indent2).AppendFormat("{0}().Run(task)", typeof (NAntTaskRunner).Name).AppendLine()
+				.Append(Indent2).AppendLine("return self");
+		}
 
-            builder.AppendFormat("class @{0}(IRunnable[of @{0}]):", name).AppendLine();
-            AppendTaskAdapterConstructorAndField(builder, taskType);
-            foreach (var parameter in GetTaskParameters(taskType)) {
-                AppendTaskAdapterProperty(builder, parameter, referencedTypes);
-            }
+		void AppendTaskAdapterConstructorAndField(StringBuilder builder, Type taskType) {
+			builder.Append(Indent).Append("task as ").Append(taskType.FullName).AppendLine().AppendLine()
+				.Append(Indent).AppendLine("def constructor():")
+				.Append(Indent2).Append("task = ").Append(taskType.FullName).Append("()")
+				.AppendLine().AppendLine();
+		}
 
-            builder.Append(Indent).AppendLine("def Run():")
-                   .Append(Indent2).AppendFormat("{0}().Run(task)", typeof(NAntTaskRunner).Name).AppendLine()
-                   .Append(Indent2).AppendLine("return self");
-        }
+		void AppendTaskAdapterProperty(StringBuilder builder, TaskParameter parameter, HashSet<Type> referencedTypes) {
+			var type = parameter.Property.PropertyType;
+			referencedTypes.Add(type);
 
-        private void AppendTaskAdapterConstructorAndField(StringBuilder builder, Type taskType) {
-            builder.Append(Indent).Append("task as ").Append(taskType.FullName).AppendLine().AppendLine()
-                   .Append(Indent).AppendLine("def constructor():")
-                   .Append(Indent2).Append("task = ").Append(taskType.FullName).Append("()")
-                   .AppendLine().AppendLine();
-        }
+			builder.Append(Indent).AppendFormat("@{0} as {1}:", parameter.Name, type.FullName.Replace('+', '.')).AppendLine();
+			if (parameter.Property.GetGetMethod() != null) {
+				// yes, there are such properties in NAnt
+				builder.Append(Indent2).AppendLine("get:");
+				builder.Append(Indent3).AppendLine("return task." + parameter.Property.Name);
+			}
+			if (parameter.Property.GetSetMethod() != null) {
+				builder.Append(Indent2).AppendLine("set:");
+				builder.Append(Indent3).AppendFormat("task.{0} = value", parameter.Property.Name).AppendLine().AppendLine();
+			}
+		}
 
-        private void AppendTaskAdapterProperty(StringBuilder builder, TaskParameter parameter, HashSet<Type> referencedTypes) {
-            var type = parameter.Property.PropertyType;
-            referencedTypes.Add(type);
+		string GetTaskName(Type taskType) {
+			var nameAttribute = (TaskNameAttribute) Attribute.GetCustomAttribute(taskType, typeof (TaskNameAttribute));
+			return nameAttribute != null ? nameAttribute.Name : taskType.Name.ToLowerInvariant();
+		}
 
-            builder.Append(Indent).AppendFormat("@{0} as {1}:", parameter.Name, type.FullName.Replace('+', '.')).AppendLine();
-            if (parameter.Property.GetGetMethod() != null) { // yes, there are such properties in NAnt
-                builder.Append(Indent2).AppendLine("get:");
-                builder.Append(Indent3).AppendLine("return task." + parameter.Property.Name);
-            }
-            if (parameter.Property.GetSetMethod() != null) {
-                builder.Append(Indent2).AppendLine("set:");
-                builder.Append(Indent3).AppendFormat("task.{0} = value", parameter.Property.Name).AppendLine().AppendLine();
-            }
-        }
-
-        private string GetTaskName(Type taskType) {
-            var nameAttribute = (TaskNameAttribute)System.Attribute.GetCustomAttribute(taskType, typeof(TaskNameAttribute));
-            return nameAttribute != null ? nameAttribute.Name : taskType.Name.ToLowerInvariant();
-        }
-
-        private IEnumerable<TaskParameter> GetTaskParameters(Type taskType) {
-            return from property in taskType.GetProperties()
-                   let attribute = (TaskAttributeAttribute)System.Attribute.GetCustomAttribute(property, typeof(TaskAttributeAttribute))
-                   where attribute != null
-                   let name = attribute.Name.Replace("-", "")
-                   select new TaskParameter { Name = name, Property = property };
-        }
-    }
+		IEnumerable<TaskParameter> GetTaskParameters(Type taskType) {
+			return from property in taskType.GetProperties()
+			       let attribute = (TaskAttributeAttribute) Attribute.GetCustomAttribute(property, typeof (TaskAttributeAttribute))
+			       where attribute != null
+			       let name = attribute.Name.Replace("-", "")
+			       select new TaskParameter {Name = name, Property = property};
+		}
+	}
 }

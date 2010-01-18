@@ -8,9 +8,7 @@
         <ANONYMOUS_METHOD_DECLARATION_BRACES>END_OF_LINE</ANONYMOUS_METHOD_DECLARATION_BRACES>
         <CASE_BLOCK_BRACES>END_OF_LINE</CASE_BLOCK_BRACES>
         <EXPLICIT_PRIVATE_MODIFIER>False</EXPLICIT_PRIVATE_MODIFIER>
-        <INDENT_SIZE>4</INDENT_SIZE>
         <INITIALIZER_BRACES>END_OF_LINE</INITIALIZER_BRACES>
-        <INSERT_TABS>True</INSERT_TABS>
         <INVOCABLE_DECLARATION_BRACES>END_OF_LINE</INVOCABLE_DECLARATION_BRACES>
         <MODIFIERS_ORDER IsNull="False">
           <Item>public</Item>
@@ -36,17 +34,30 @@
       <UsingsSettings>
         <AddImportsToDeepestScope>True</AddImportsToDeepestScope>
       </UsingsSettings>
-      <Naming2 />
+      <Naming2>
+        <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+        <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+      </Naming2>
     </CSharp>
     <VB>
       <FormatSettings>
-        <INDENT_SIZE>4</INDENT_SIZE>
-        <INSERT_TABS>True</INSERT_TABS>
         <WRAP_LINES>False</WRAP_LINES>
       </FormatSettings>
       <ImportsSettings />
-      <Naming2 />
+      <Naming2>
+        <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+        <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
+      </Naming2>
     </VB>
+    <Web>
+      <Naming2 />
+    </Web>
+    <Xaml>
+      <Naming2 />
+    </Xaml>
+    <XML>
+      <FormatSettings />
+    </XML>
     <FileHeader Region="License"><![CDATA[Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
 
 Licensed under the Microsoft Public License. You may
@@ -60,6 +71,8 @@ to be bound by the terms of the Microsoft Public License.
 You must not remove this notice, or any other, from this software.]]></FileHeader>
     <GenerateMemberBody />
     <Naming2>
+      <EventHandlerPatternLong>$object$_On$event$</EventHandlerPatternLong>
+      <EventHandlerPatternShort>$event$Handler</EventHandlerPatternShort>
       <PredefinedRule Inspect="False" Prefix="" Suffix="" Style="AaBb" ElementKind="MethodPropertyEvent" />
       <PredefinedRule Inspect="True" Prefix="" Suffix="" Style="AaBb" ElementKind="TypesAndNamespaces" />
       <PredefinedRule Inspect="True" Prefix="I" Suffix="" Style="AaBb" ElementKind="Interfaces" />

@@ -15,3 +15,12 @@ target copySubDirectories:
     .ForEach def(file):
       print file
       file.CopyToDirectory("copy_output")
+
+target copyFlattened:
+  rm("copy_output")
+  
+  with FileList("SubDirectory"):
+    .Include("**/*.*")
+    .Flatten(true)
+    .ForEach def(file):
+      file.CopyToDirectory("copy_output")

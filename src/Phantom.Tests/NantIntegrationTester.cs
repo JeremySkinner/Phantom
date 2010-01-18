@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 
 // Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
 // 
@@ -18,21 +18,12 @@ namespace Phantom.Tests {
 	using NUnit.Framework;
 
 	[TestFixture]
-	public class IncludeTester : ScriptTest {
-		public override void Setup() {
-			ScriptFile = "Scripts\\Include.boo";
-		}
-
+	public class NantIntegrationTester : ScriptTest {
 		[Test]
-		public void Includes_file_globals() {
-			Execute("globals");
-			AssertOutput("globals:", "test");
-		}
-
-		[Test]
-		public void Includes_file_methods() {
-			Execute("methods");
-			AssertOutput("methods:", "hello");
+		public void Executes_simple_task() {
+			ScriptFile = "Scripts/NantTasks.boo";
+			Execute("default");
+			AssertOutput("default:", "     [echo] Test");
 		}
 	}
 }

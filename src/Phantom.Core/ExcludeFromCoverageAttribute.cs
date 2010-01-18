@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 
 // Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
 // 
@@ -14,25 +14,9 @@
 
 #endregion
 
-namespace Phantom.Tests {
-	using NUnit.Framework;
+namespace Phantom.Core {
+	using System;
 
-	[TestFixture]
-	public class IncludeTester : ScriptTest {
-		public override void Setup() {
-			ScriptFile = "Scripts\\Include.boo";
-		}
-
-		[Test]
-		public void Includes_file_globals() {
-			Execute("globals");
-			AssertOutput("globals:", "test");
-		}
-
-		[Test]
-		public void Includes_file_methods() {
-			Execute("methods");
-			AssertOutput("methods:", "hello");
-		}
+	public class ExcludeFromCoverageAttribute : Attribute {
 	}
 }

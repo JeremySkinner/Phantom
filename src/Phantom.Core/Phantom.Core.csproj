@@ -77,8 +77,13 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="BuildRunner.cs" />
+    <Compile Include="Builtins\AssemblyInfoGenerator.cs" />
     <Compile Include="Builtins\ExecutableTool.cs" />
     <Compile Include="Builtins\FileList.cs" />
+    <Compile Include="Builtins\NCover.cs" />
+    <Compile Include="Builtins\NCoverExplorer.cs" />
+    <Compile Include="Builtins\XUnit.cs" />
+    <Compile Include="ExcludeFromCoverageAttribute.cs" />
     <Compile Include="Language\ExpressionToCallTargetNameStep.cs" />
     <Compile Include="Language\ExpressionToDependencyNamesStep.cs" />
     <Compile Include="Language\ExpressionToTargetNameStep.cs" />
@@ -95,6 +100,7 @@
     <Compile Include="Integration\TaskImportStep.cs" />
     <Compile Include="Language\AutoRunAllRunnablesStep.cs" />
     <Compile Include="Language\IRunnable.cs" />
+    <Compile Include="Language\RunnableParser.cs" />
     <Compile Include="Language\UnescapeNamesStep.cs" />
     <Compile Include="ScriptModel.cs" />
     <Compile Include="PhantomOptions.cs" />

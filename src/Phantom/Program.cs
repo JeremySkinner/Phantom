@@ -1,6 +1,6 @@
 ﻿#region License
 
-// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
 // 
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
@@ -11,8 +11,6 @@
 // to be bound by the terms of the Microsoft Public License.
 // 
 // You must not remove this notice, or any other, from this software.
-// 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
@@ -74,7 +72,7 @@ namespace Phantom {
 		void WriteHeader() {
 			string version = typeof (Program).Assembly.GetName().Version.ToString();
 			Console.WriteLine("Phantom v{0}", version);
-			Console.WriteLine("Copyright (c) Jeremy Skinner 2009 (http://www.jeremyskinner.co.uk)");
+			Console.WriteLine(string.Format("Copyright (c) 2009-{0} Jeremy Skinner and Contributors", DateTime.Today.Year));
 			Console.WriteLine("http://github.com/JeremySkinner/Phantom");
 			Console.WriteLine();
 			Console.WriteLine();

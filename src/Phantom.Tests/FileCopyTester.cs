@@ -1,6 +1,6 @@
 #region License
 
-// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
 // 
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
@@ -11,8 +11,6 @@
 // to be bound by the terms of the Microsoft Public License.
 // 
 // You must not remove this notice, or any other, from this software.
-// 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
@@ -40,6 +38,16 @@ namespace Phantom.Tests {
 			new FileInfo("copy_output/SubDirectory3/Test2.txt").Exists.ShouldBeTrue();
 			new FileInfo("copy_output/SubDirectory3/Test3.txt").Exists.ShouldBeTrue();
 			new FileInfo("copy_output/SubDirectory3/SubDirectory4/Test4.txt").Exists.ShouldBeTrue();
+		}
+
+		[Test]
+		public void Copies_files_flattened() {
+			Execute("copyFlattened");
+
+			new FileInfo("copy_output/Test1.txt").Exists.ShouldBeTrue();
+			new FileInfo("copy_output/Test2.txt").Exists.ShouldBeTrue();
+			new FileInfo("copy_output/Test3.txt").Exists.ShouldBeTrue();
+			new FileInfo("copy_output/Test4.txt").Exists.ShouldBeTrue();
 		}
 	}
 }

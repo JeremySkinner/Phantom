@@ -25,9 +25,10 @@ using System.IO;
 using System.Collections;
 
 namespace Phantom.Core {
-
+	[ExcludeFromCoverage]
 	internal static class Glob {
         // Duplicated constants from File.Constants
+		[ExcludeFromCoverage]
         private static class Constants {
             public readonly static int FNM_CASEFOLD = 0x08;
             public readonly static int FNM_DOTMATCH = 0x04;
@@ -37,6 +38,7 @@ namespace Phantom.Core {
             public readonly static int FNM_SYSCASE = 0x08;
         }
 
+		[ExcludeFromCoverage]
         private class CharClass {
             private readonly StringBuilder/*!*/ _chars = new StringBuilder();
 
@@ -154,7 +156,9 @@ namespace Phantom.Core {
             return match != null && match.Success && (match.Length == path.Length);
         }
 
+		[ExcludeFromCoverage]
         private class GlobUngrouper {
+			[ExcludeFromCoverage]
             internal abstract class GlobNode {
                 internal readonly GlobNode/*!*/ _parent;
                 protected GlobNode(GlobNode parentNode) {
@@ -166,7 +170,7 @@ namespace Phantom.Core {
                 abstract internal GlobNode/*!*/ FinishLevel();
                 abstract internal List<StringBuilder>/*!*/ Flatten();
             }
-
+			[ExcludeFromCoverage]
             internal class TextNode : GlobNode {
                 private readonly StringBuilder/*!*/ _builder;
 
@@ -196,6 +200,7 @@ namespace Phantom.Core {
                 }
             }
 
+			[ExcludeFromCoverage]
             internal class ChoiceNode : GlobNode {
                 private readonly List<SequenceNode>/*!*/ _nodes;
 
@@ -232,6 +237,7 @@ namespace Phantom.Core {
                 }
             }
 
+			[ExcludeFromCoverage]
             internal class SequenceNode : GlobNode {
                 private readonly List<GlobNode>/*!*/ _nodes;
 
@@ -375,6 +381,7 @@ namespace Phantom.Core {
             return ungrouper.Flatten();
         }
 
+		[ExcludeFromCoverage]
         private sealed class GlobMatcher {
             readonly PlatformAdaptationLayer/*!*/ _pal;
             readonly string/*!*/ _pattern;
@@ -547,7 +554,7 @@ namespace Phantom.Core {
 		}
     }
 
-	[Serializable]
+	[Serializable, ExcludeFromCoverage]
 	internal class PlatformAdaptationLayer {
 		// Fields
 		public static readonly PlatformAdaptationLayer Default = new PlatformAdaptationLayer();

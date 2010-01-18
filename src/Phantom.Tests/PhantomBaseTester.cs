@@ -1,6 +1,6 @@
 #region License
 
-// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk)
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
 // 
 // Licensed under the Microsoft Public License. You may
 // obtain a copy of the license at:
@@ -11,8 +11,6 @@
 // to be bound by the terms of the Microsoft Public License.
 // 
 // You must not remove this notice, or any other, from this software.
-// 
-// The latest version of this file can be found at http://github.com/JeremySkinner/Phantom
 
 #endregion
 
@@ -121,9 +119,9 @@ namespace Phantom.Tests {
 			 *  pass
 			 * */
 
-			script.target("default", new[] { "build", "test" }, null);
+			script.target("default", new[] {"build", "test"}, null);
 			script.target("build", null);
-			script.target("test", new[] { "build" }, null);
+			script.target("test", new[] {"build"}, null);
 
 			var target = script.Model.GetTarget("default");
 			var executionSequence = target.GetExecutionSequence().ToList();
@@ -131,7 +129,6 @@ namespace Phantom.Tests {
 			executionSequence[0].Name.ShouldEqual("build");
 			executionSequence[1].Name.ShouldEqual("test");
 			executionSequence[2].Name.ShouldEqual("default");
-
 		}
 
 		[Test]

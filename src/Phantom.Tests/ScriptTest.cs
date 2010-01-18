@@ -1,5 +1,22 @@
+#region License
+
+// Copyright Jeremy Skinner (http://www.jeremyskinner.co.uk) and Contributors
+// 
+// Licensed under the Microsoft Public License. You may
+// obtain a copy of the license at:
+// 
+// http://www.microsoft.com/opensource/licenses.mspx
+// 
+// By using this source code in any fashion, you are agreeing
+// to be bound by the terms of the Microsoft Public License.
+// 
+// You must not remove this notice, or any other, from this software.
+
+#endregion
+
 namespace Phantom.Tests {
 	using System;
+	using System.ComponentModel.Composition.Hosting;
 	using System.IO;
 	using Core;
 	using NUnit.Framework;
@@ -13,7 +30,8 @@ namespace Phantom.Tests {
 		[SetUp]
 		public void BaseSetup() {
 			if (Runner == null) {
-				Runner = BuildRunner.Create();
+				var container = new CompositionContainer(new DirectoryCatalog(Directory.GetCurrentDirectory()));
+				Runner = container.GetExportedValue<BuildRunner>();
 			}
 
 			Options = new PhantomOptions();
@@ -23,7 +41,8 @@ namespace Phantom.Tests {
 			Setup();
 		}
 
-		public virtual void Setup() { }
+		public virtual void Setup() {
+		}
 
 		protected string ScriptFile {
 			get { return Options.File; }
@@ -31,7 +50,7 @@ namespace Phantom.Tests {
 		}
 
 		public void Execute(params string[] targets) {
-			foreach(var target in targets) {
+			foreach (var target in targets) {
 				Options.AddTarget(target);
 			}
 

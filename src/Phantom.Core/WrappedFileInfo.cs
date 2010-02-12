@@ -15,82 +15,83 @@
 #endregion
 
 namespace Phantom.Core {
-    using System.IO;
+	using System.IO;
 
-    public abstract class WrappedFileSystemInfo : FileSystemInfo {
-        readonly FileSystemInfo inner;
+	public abstract class WrappedFileSystemInfo : FileSystemInfo {
+		readonly FileSystemInfo inner;
 
-        protected WrappedFileSystemInfo(string baseDir, string originalPath, FileSystemInfo inner, bool flatten) {
-            this.inner = inner;
-            BaseDir = baseDir;
-            MatchedPath = originalPath;
-            Flatten = flatten;
-        }
+		protected WrappedFileSystemInfo(string baseDir, string originalPath, FileSystemInfo inner, bool flatten) {
+			this.inner = inner;
+			BaseDir = baseDir;
+			MatchedPath = originalPath;
+			Flatten = flatten;
+		}
 
-        protected string BaseDir { get; private set; }
-        protected string MatchedPath { get; private set; }
-        protected bool Flatten { get; private set; }
+		protected string BaseDir { get; private set; }
+		protected string MatchedPath { get; private set; }
+		protected bool Flatten { get; private set; }
 
-        public override string Name {
-            get { return inner.Name; }
-        }
+		public override string Name {
+			get { return inner.Name; }
+		}
 
-        public override bool Exists {
-            get { return inner.Exists; }
-        }
+		public override bool Exists {
+			get { return inner.Exists; }
+		}
 
-        public override string FullName {
-            get { return inner.FullName; }
-        }
+		public override string FullName {
+			get { return inner.FullName; }
+		}
 
-        protected string PathWithoutBaseDirectory {
-            get { return MatchedPath.Substring(BaseDir.Length).Trim('/').Trim('\\'); }
-        }
+		protected string PathWithoutBaseDirectory {
+			get { return MatchedPath.Substring(BaseDir.Length).Trim('/').Trim('\\'); }
+		}
 
-        public override void Delete() {
-            inner.Delete();
-        }
+		public override void Delete() {
+			inner.Delete();
+		}
 
-        public abstract void CopyToDirectory(string path);
+		public abstract void CopyToDirectory(string path);
 
-        public override string ToString() {
-            return FullName;
-        }
-    }
+		public override string ToString() {
+			return FullName;
+		}
+	}
 
-    public class WrappedFileInfo : WrappedFileSystemInfo {
-        public WrappedFileInfo(string baseDir, string path, bool flatten) : base(baseDir, path, new FileInfo(path), flatten) {
-        }
-        public override void CopyToDirectory(string path) {
-            if (!Directory.Exists(path)) {
-                Directory.CreateDirectory(path);
-            }
+	public class WrappedFileInfo : WrappedFileSystemInfo {
+		public WrappedFileInfo(string baseDir, string path, bool flatten) : base(baseDir, path, new FileInfo(path), flatten) {
+		}
 
-            if (Flatten) {
-                var combinedPath = Path.Combine(path, Name);
-                File.Copy(FullName, combinedPath, true);
-            }
-            else {
-                var combinedPath = Path.Combine(path, PathWithoutBaseDirectory);
-                var newPath = Path.GetDirectoryName(combinedPath);
-                if (!Directory.Exists(newPath)) {
-                    Directory.CreateDirectory(newPath);
-                }
-                File.Copy(FullName, combinedPath, true);
-            }
-        }
-    }
+		public override void CopyToDirectory(string path) {
+			if (!Directory.Exists(path)) {
+				Directory.CreateDirectory(path);
+			}
 
-    public class WrappedDirectoryInfo : WrappedFileSystemInfo {
-        public WrappedDirectoryInfo(string baseDir, string path, bool flatten) : base(baseDir, path, new DirectoryInfo(path), flatten) {
-        }
+			if (Flatten) {
+				var combinedPath = Path.Combine(path, Name);
+				File.Copy(FullName, combinedPath, true);
+			}
+			else {
+				var combinedPath = Path.Combine(path, PathWithoutBaseDirectory);
+				var newPath = Path.GetDirectoryName(combinedPath);
+				if (!Directory.Exists(newPath)) {
+					Directory.CreateDirectory(newPath);
+				}
+				File.Copy(FullName, combinedPath, true);
+			}
+		}
+	}
 
-        public override void CopyToDirectory(string path) {
-            if (Flatten) return; //copying directories is a no-op when flattened.
-            var combinedPath = Path.Combine(path, PathWithoutBaseDirectory);
-            if (!Directory.Exists(combinedPath)) {
-                Directory.CreateDirectory(combinedPath);
-            }
-        }
-    }
+	public class WrappedDirectoryInfo : WrappedFileSystemInfo {
+		public WrappedDirectoryInfo(string baseDir, string path, bool flatten) : base(baseDir, path, new DirectoryInfo(path), flatten) {
+		}
+
+		public override void CopyToDirectory(string path) {
+			if (Flatten) return; //copying directories is a no-op when flattened.
+			var combinedPath = Path.Combine(path, PathWithoutBaseDirectory);
+			if (!Directory.Exists(combinedPath)) {
+				Directory.CreateDirectory(combinedPath);
+			}
+		}
+	}
 }

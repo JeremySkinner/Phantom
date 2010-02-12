@@ -45,3 +45,4 @@ Many thanks to the following for their contributions to this project:
 - Ben Scheirman (http://flux88.com/)
 - Emil Cardell (http://www.unwillingcoder.com)
 - Mark Embling (http://www.markembling.info)
+- Mikael Henrixon (http://blog.zoolutions.se)

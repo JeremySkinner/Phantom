@@ -51,8 +51,7 @@ namespace Phantom.Core.Builtins {
 			var psi = new ProcessStartInfo(command, args) {
 				WorkingDirectory = workingDir,
 				UseShellExecute = false,
-				RedirectStandardError = true,
-                RedirectStandardOutput = true
+				RedirectStandardError = true
 			};
 			var process = Process.Start(psi);
 			process.WaitForExit();
@@ -60,8 +59,7 @@ namespace Phantom.Core.Builtins {
 
 			if (exitCode != 0 && ignoreNonZeroExitCode == false) {
 			    var errortext = process.StandardError.ReadAllAsString();
-			    var stdout = process.StandardOutput.ReadAllAsString();
-				throw new ExecutionFailedException(exitCode, errortext+stdout );
+                throw new ExecutionFailedException(exitCode, errortext);
 			}
 		}
 

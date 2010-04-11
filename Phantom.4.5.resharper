@@ -10,7 +10,6 @@
         <EXPLICIT_PRIVATE_MODIFIER>False</EXPLICIT_PRIVATE_MODIFIER>
         <INDENT_SIZE>4</INDENT_SIZE>
         <INITIALIZER_BRACES>END_OF_LINE</INITIALIZER_BRACES>
-        <INSERT_TABS>True</INSERT_TABS>
         <INVOCABLE_DECLARATION_BRACES>END_OF_LINE</INVOCABLE_DECLARATION_BRACES>
         <MODIFIERS_ORDER IsNull="False">
           <Item>public</Item>
@@ -41,7 +40,6 @@
     <VB>
       <FormatSettings>
         <INDENT_SIZE>4</INDENT_SIZE>
-        <INSERT_TABS>True</INSERT_TABS>
         <WRAP_LINES>False</WRAP_LINES>
       </FormatSettings>
       <ImportsSettings />

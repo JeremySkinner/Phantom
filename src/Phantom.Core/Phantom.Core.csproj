@@ -107,6 +107,7 @@
     <Compile Include="PhantomBase.cs" />
     <Compile Include="PhantomDslEngine.cs" />
     <Compile Include="PhantomException.cs" />
+    <Compile Include="StreamReaderUtility.cs" />
     <Compile Include="Target.cs" />
     <Compile Include="Builtins\WithMacro.cs" />
     <Compile Include="WrappedFileInfo.cs" />

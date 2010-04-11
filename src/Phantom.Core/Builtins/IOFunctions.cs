@@ -51,14 +51,17 @@ namespace Phantom.Core.Builtins {
 			var psi = new ProcessStartInfo(command, args) {
 				WorkingDirectory = workingDir,
 				UseShellExecute = false,
-				RedirectStandardError = true
+				RedirectStandardError = true,
+                RedirectStandardOutput = true
 			};
 			var process = Process.Start(psi);
 			process.WaitForExit();
 			var exitCode = process.ExitCode;
 
 			if (exitCode != 0 && ignoreNonZeroExitCode == false) {
-				throw new ExecutionFailedException(exitCode);
+			    var errortext = process.StandardError.ReadAllAsString();
+			    var stdout = process.StandardOutput.ReadAllAsString();
+				throw new ExecutionFailedException(exitCode, errortext+stdout );
 			}
 		}
 

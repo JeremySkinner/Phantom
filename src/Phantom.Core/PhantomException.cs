@@ -60,8 +60,11 @@ namespace Phantom.Core {
 	}
 
 	public class ExecutionFailedException : PhantomException {
-		public ExecutionFailedException(int exitCode)
-			: base(string.Format("Operation exited with exit code {0}.", exitCode)) {
+		public ExecutionFailedException(int exitCode, string errortext)
+            : base(string.Format("Operation exited with exit code {0}.\nThe error message was as follows:\n {1}", exitCode, errortext))
+        {
 		}
+
+	   
 	}
 }

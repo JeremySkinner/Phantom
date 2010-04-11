@@ -84,10 +84,12 @@
     <Compile Include="IncludeTester.cs" />
     <Compile Include="IOFunctionTests.cs" />
     <Compile Include="NantIntegrationTester.cs" />
+    <Compile Include="PhantomExceptionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PhantomOptionsTester.cs" />
     <Compile Include="PhantomBaseTester.cs" />
     <Compile Include="ScriptTest.cs" />
+    <Compile Include="StreamReaderUtilityTests.cs" />
     <Compile Include="TargetsTester.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="WithMacroTester.cs" />

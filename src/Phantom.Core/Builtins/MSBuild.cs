@@ -34,8 +34,7 @@ namespace Phantom.Core.Builtins {
 
 		private string BuildMsbuildPath(string version) {
 			if(version == "4.0" || version == "4") {
-				//TODO: This is the RC version of .NET 4. Needs updating when we hit RTM.
-				version = "4.0.30128";
+				version = "4.0.30319";
 			}
 
 			return Path.Combine(Environment.GetEnvironmentVariable("windir"), "Microsoft.NET/Framework/v" + version + "/msbuild.exe");

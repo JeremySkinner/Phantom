@@ -114,6 +114,7 @@
     <Compile Include="TargetsTester.cs" />
     <Compile Include="TestHelper.cs" />
     <Compile Include="WithMacroTester.cs" />
+    <Compile Include="XsltTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\AssemblyInfoGenerator.boo">
@@ -165,6 +166,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Scripts\WithMacroTest.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\Xslt.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -225,6 +229,12 @@
     <Content Include="Views\Shared\LogOnUserControl.ascx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="XmlData.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="XmlTransform.xslt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

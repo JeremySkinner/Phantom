@@ -23,14 +23,14 @@ namespace Phantom.Tests {
 
 		[Test]
 		public void Executes_global_function() {
-			ScriptFile = "Scripts\\UsesGlobals.boo";
+			ScriptFile = "Scripts/UsesGlobals.boo";
 			Execute();
 			AssertOutput("default:", expected);
 		}
 
 		[Test]
 		public void Executes_global_function_from_imported_script() {
-			ScriptFile = "Scripts\\UsesGlobals.boo";
+			ScriptFile = "Scripts/UsesGlobals.boo";
 
 			Execute("printVersion");
 			AssertOutput("printVersion:", expected);

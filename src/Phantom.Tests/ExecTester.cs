@@ -28,42 +28,42 @@ namespace Phantom.Tests {
 
 		[Test]
 		public void Stops_execution_when_exec_call_returns_nonzero_exit_code() {
-			ScriptFile = "Scripts\\Exec.boo";
+			ScriptFile = "Scripts/Exec.boo";
 			Execute("non_zero_exit", "foo");
 			AssertOutput("non_zero_exit:", "Target failed: Operation exited with exit code 99.\nThe error message was as follows:", "");
 		}
 
 		[Test]
 		public void Continues_execution_when_exec_call_returns_nonzero_exit_and_ignore_option_specified() {
-			ScriptFile = "Scripts\\Exec.boo";
+			ScriptFile = "Scripts/Exec.boo";
 			Execute("non_zero_exit_ignore", "foo");
 			AssertOutput("non_zero_exit_ignore:", "", "foo:", "foo");
 		}
 
 		[Test]
 		public void Executes_correctly_using_single_string_cmd_exit_0() {
-			ScriptFile = "Scripts\\Exec.boo";
+			ScriptFile = "Scripts/Exec.boo";
 			Execute("clean_exit_singlestr", "foo");
 			AssertOutput("clean_exit_singlestr:", "", "foo:", "foo");
 		}
 
 		[Test]
 		public void Stops_execution_when_exec_call_returns_nonzero_exit_code_using_single_string_cmd() {
-			ScriptFile = "Scripts\\Exec.boo";
+			ScriptFile = "Scripts/Exec.boo";
 			Execute("non_zero_exit_singlestr", "foo");
 			AssertOutput("non_zero_exit_singlestr:", "Target failed: Operation exited with exit code 99.\nThe error message was as follows:", "");
 		}
 
 		[Test]
 		public void Continues_execution_when_exec_call_returns_nonzero_exit_and_ignore_option_specified_using_single_str_cmd() {
-			ScriptFile = "Scripts\\Exec.boo";
+			ScriptFile = "Scripts/Exec.boo";
 			Execute("non_zero_exit_ignore_singlestr", "foo");
 			AssertOutput("non_zero_exit_ignore_singlestr:", "", "foo:", "foo");
 		}
 
 		[Test]
 		public void Phantom_returns_non_zero_exit_code_on_failed_target() {
-			ScriptFile = "Scripts\\Exec.boo";
+			ScriptFile = "Scripts/Exec.boo";
 			Execute("non_zero_exit");
 			Environment.ExitCode.ShouldEqual(1);
 		}

@@ -46,8 +46,15 @@ namespace Phantom.Core.Builtins {
 		///   A hash of options to set on the process (like WorkingDir)
 		/// </param>
 		public static void exec(string command, string args, Hash options) {
-			string workingDir = options.ObtainAndRemove("WorkingDir", ".");
-			bool ignoreNonZeroExitCode = options.ObtainAndRemove("IgnoreNonZeroExitCode", false);
+			command = command.Replace("\\", "/");
+			string workingDir = options.ValueOrDefault("WorkingDir", ".").Replace("\\", "/");
+			bool ignoreNonZeroExitCode = options.ValueOrDefault("IgnoreNonZeroExitCode", false);
+			
+			if (Type.GetType("Mono.Runtime") != null && Path.GetExtension(command).ToUpper() == ".EXE") {
+				exec(string.Format("mono {0} {1}", command, args), options);
+				return;
+			}
+			
 			var psi = new ProcessStartInfo(command, args) {
 				WorkingDirectory = workingDir,
 				UseShellExecute = false,
@@ -66,7 +73,12 @@ namespace Phantom.Core.Builtins {
 		public static void exec(string command, Hash options) {
 			string commandPrompt = UtilityFunctions.env("COMSPEC");
 			string args = string.Format("/C \"{0}\"", command);
-
+			
+			if (commandPrompt == null) {
+				commandPrompt = UtilityFunctions.env("SHELL");
+				args = string.Format("-c \"{0}\"", command);
+			}
+			
 			exec(commandPrompt, args, options);
 		}
 

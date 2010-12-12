@@ -20,7 +20,7 @@ namespace Phantom.Tests {
 	[TestFixture]
 	public class IncludeTester : ScriptTest {
 		public override void Setup() {
-			ScriptFile = "Scripts\\Include.boo";
+			ScriptFile = "Scripts/Include.boo";
 		}
 
 		[Test]

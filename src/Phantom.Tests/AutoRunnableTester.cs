@@ -19,7 +19,7 @@ namespace Phantom.Tests {
 
 	public class AutoRunTester : ScriptTest {
 		public override void Setup() {
-			ScriptFile = "scripts/AutoRunnable.boo";
+			ScriptFile = "Scripts/AutoRunnable.boo";
 		}
 
 		[Test]

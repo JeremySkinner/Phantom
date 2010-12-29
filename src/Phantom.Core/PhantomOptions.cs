@@ -22,6 +22,8 @@ namespace Phantom.Core {
 	[Serializable]
 	public class PhantomOptions {
 		readonly List<string> targetNames = new List<string>();
+		readonly Dictionary<string, string> additionalArguments = new Dictionary<string, string>();
+
 		readonly OptionSet parser;
 
 		public PhantomOptions() {
@@ -41,6 +43,10 @@ namespace Phantom.Core {
 		public bool Help { get; set; }
 		public bool ShowTargets { get; set; }
 		public bool AttachDebugger { get; set; }
+
+		public IDictionary<string, string> AdditionalArguments {
+			get { return additionalArguments; }
+		}
 
 		public IEnumerable<string> TargetNames {
 			get {
@@ -62,10 +68,10 @@ namespace Phantom.Core {
 		public void AddArgument(string value) {
 			if (value.Contains("=")) {
 				var bits = value.Split('=');
-				Environment.SetEnvironmentVariable(bits[0], bits[1]);
+				additionalArguments[bits[0]] = bits[1];
 			}
 			else {
-				Environment.SetEnvironmentVariable(value, String.Empty);
+				additionalArguments[value] = string.Empty;
 			}
 		}
 

@@ -54,6 +54,12 @@ namespace Phantom.Core {
 			if (options.AttachDebugger && !Debugger.IsAttached)
 				Debugger.Launch();
 
+			// Copy additional args to environment variables
+			//TODO: Don't use Environment to do this...
+			foreach(var pair in options.AdditionalArguments) {
+				Environment.SetEnvironmentVariable(pair.Key, pair.Value);
+			}
+
 			var script = GenerateBuildScript(options.File);
 			script.ExecuteTargets(options.TargetNames.ToArray());
 		}

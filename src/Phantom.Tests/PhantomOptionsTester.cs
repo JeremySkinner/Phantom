@@ -72,8 +72,8 @@ namespace Phantom.Tests {
 		[Test]
 		public void Adds_arguments_to_environment() {
 			args.Parse(new[] {"-a:foo=bar", "-a:boo=baz"});
-			Environment.GetEnvironmentVariable("foo").ShouldEqual("bar");
-			Environment.GetEnvironmentVariable("boo").ShouldEqual("baz");
+			args.AdditionalArguments["foo"].ShouldEqual("bar");
+			args.AdditionalArguments["boo"].ShouldEqual("baz");
 		}
 
 		[Test]
@@ -82,8 +82,8 @@ namespace Phantom.Tests {
 			args.File.ShouldEqual("test.boo");
 			args.ShowTargets.ShouldBeTrue();
 			args.Help.ShouldBeTrue();
-				Environment.GetEnvironmentVariable("foo").ShouldEqual("bar");
-			Environment.GetEnvironmentVariable("boo").ShouldEqual("baz");
+			args.AdditionalArguments["foo"].ShouldEqual("bar");
+			args.AdditionalArguments["boo"].ShouldEqual("baz");
 			args.TargetNames.Count().ShouldEqual(2);
 		}
 	}

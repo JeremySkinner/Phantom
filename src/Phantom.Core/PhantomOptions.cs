@@ -17,29 +17,30 @@
 namespace Phantom.Core {
 	using System;
 	using System.Collections.Generic;
-	using Boo.Lang.Useful.CommandLine;
+	using Mono.Options;
 
 	[Serializable]
-	public class PhantomOptions : AbstractCommandLine {
+	public class PhantomOptions {
 		readonly List<string> targetNames = new List<string>();
+		readonly OptionSet parser;
 
-		[Option("Specifies the build file", LongForm = "file", ShortForm = "f")]
-		public string File = "build.boo";
+		public PhantomOptions() {
+			File = "build.boo";
 
-		[Option("Prints the help message", LongForm = "help", ShortForm = "h")]
-		public bool Help;
-
-		[Option("Shows all the targets in the specified build file", LongForm = "targets", ShortForm = "t")]
-		public bool ShowTargets;
-
-		// Useful for debugging of scripts or Phantom itself
-		[Option("Attaches debugger before build starts", LongForm = "debugger")]
-		public bool AttachDebugger;
-
-		[Argument]
-		public void AddTarget(string targetName) {
-			targetNames.Add(targetName);
+			parser = new OptionSet {
+				{"f|file=", "Specifies the build file.", x => File = x.Trim() },
+				{"h|help", "Show the help message.", v => Help = true},
+				{"t|targets", "Shows all the targets in the specified build file.", x => ShowTargets = true},
+				{"debugger", "Attach the debugger.", v => AttachDebugger = true},
+				{"a|arg=", "Additional arguments.", v => AddArgument(v)},
+				{"<>", "Targets", v => AddTarget(v)}
+			};
 		}
+
+		public string File { get; set; }
+		public bool Help { get; set; }
+		public bool ShowTargets { get; set; }
+		public bool AttachDebugger { get; set; }
 
 		public IEnumerable<string> TargetNames {
 			get {
@@ -54,7 +55,10 @@ namespace Phantom.Core {
 			}
 		}
 
-		[Option("Additional arguments", LongForm = "arg", ShortForm = "a", MaxOccurs = 50)]
+		public void AddTarget(string target) {
+			targetNames.Add(target);
+		}
+
 		public void AddArgument(string value) {
 			if (value.Contains("=")) {
 				var bits = value.Split('=');
@@ -68,7 +72,11 @@ namespace Phantom.Core {
 		public void PrintHelp() {
 			Console.WriteLine("phantom [-f <filename>] [-t] [-h] [-a:<name>=<value>] targets");
 			Console.WriteLine();
-			PrintOptions();
+			parser.WriteOptionDescriptions(Console.Out);
+		}
+
+		public void Parse(string[] args) {
+			parser.Parse(args);
 		}
 	}
 }

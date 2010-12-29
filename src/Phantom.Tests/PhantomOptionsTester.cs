@@ -50,6 +50,12 @@ namespace Phantom.Tests {
 		}
 
 		[Test]
+		public void Parses_file_without_colon() {
+			args.Parse(new[] { "-f test.boo"  });
+			args.File.ShouldEqual("test.boo");
+		}
+
+		[Test]
 		public void Custom_target_names() {
 			args.Parse(new[] {"foo", "bar"});
 			args.TargetNames.Count().ShouldEqual(2);
@@ -68,6 +74,17 @@ namespace Phantom.Tests {
 			args.Parse(new[] {"-a:foo=bar", "-a:boo=baz"});
 			Environment.GetEnvironmentVariable("foo").ShouldEqual("bar");
 			Environment.GetEnvironmentVariable("boo").ShouldEqual("baz");
+		}
+
+		[Test]
+		public void Lots_of_arguments() {
+			args.Parse(new[] { "-f test.boo", "-t", "-h", "-a:foo=bar", "-a:boo=baz", "target1", "target2" });
+			args.File.ShouldEqual("test.boo");
+			args.ShowTargets.ShouldBeTrue();
+			args.Help.ShouldBeTrue();
+				Environment.GetEnvironmentVariable("foo").ShouldEqual("bar");
+			Environment.GetEnvironmentVariable("boo").ShouldEqual("baz");
+			args.TargetNames.Count().ShouldEqual(2);
 		}
 	}
 }

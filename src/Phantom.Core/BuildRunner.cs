@@ -28,14 +28,12 @@ namespace Phantom.Core {
 
 	[Export]
 	public class BuildRunner {
-		readonly DslFactory dslFactory;
+		readonly List<IDslFactory> _dsls = new List<IDslFactory>();
 
 		[ImportingConstructor]
 		public BuildRunner([ImportMany] IEnumerable<ITaskImportBuilder> taskImportBuilders) {
-			dslFactory = new DslFactory();
-			dslFactory.Register<PhantomBase>(
-				new PhantomDslEngine(taskImportBuilders.ToArray())
-			);
+			_dsls.Add(new BooDslFactory(taskImportBuilders));
+			_dsls.Add(new CSharpDslFactory());
 		}
 
 		public static BuildRunner Create() {
@@ -45,9 +43,8 @@ namespace Phantom.Core {
 		}
 
 		public ScriptModel GenerateBuildScript(string path) {
-			var script = dslFactory.Create<PhantomBase>(path);
-			script.Execute();
-			return script.Model;
+			var factory = _dsls.First(x => x.CanGenerateDsl(path));
+			return factory.GenerateScriptModel(path);
 		}
 
 		public void Execute(PhantomOptions options) {

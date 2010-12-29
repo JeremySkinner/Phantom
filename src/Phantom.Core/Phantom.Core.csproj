@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Phantom.Core</RootNamespace>
     <AssemblyName>Phantom.Core</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -31,6 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -97,7 +98,9 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="BooDslFactory.cs" />
     <Compile Include="BuildRunner.cs" />
+    <Compile Include="BuildScript.cs" />
     <Compile Include="Builtins\AssemblyInfoGenerator.cs" />
     <Compile Include="Builtins\ExecutableTool.cs" />
     <Compile Include="Builtins\FileList.cs" />
@@ -105,7 +108,9 @@
     <Compile Include="Builtins\NCoverExplorer.cs" />
     <Compile Include="Builtins\XSLT.cs" />
     <Compile Include="Builtins\XUnit.cs" />
+    <Compile Include="CSharpDslFactory.cs" />
     <Compile Include="ExcludeFromCoverageAttribute.cs" />
+    <Compile Include="IDslFactory.cs" />
     <Compile Include="Language\ExpressionToCallTargetNameStep.cs" />
     <Compile Include="Language\ExpressionToDependencyNamesStep.cs" />
     <Compile Include="Language\ExpressionToTargetNameStep.cs" />

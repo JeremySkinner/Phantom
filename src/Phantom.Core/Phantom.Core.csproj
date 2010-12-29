@@ -104,6 +104,7 @@
     <Compile Include="Builtins\XSLT.cs" />
     <Compile Include="Builtins\XUnit.cs" />
     <Compile Include="ExcludeFromCoverageAttribute.cs" />
+    <Compile Include="IDslFactory.cs" />
     <Compile Include="Language\ExpressionToCallTargetNameStep.cs" />
     <Compile Include="Language\ExpressionToDependencyNamesStep.cs" />
     <Compile Include="Language\ExpressionToTargetNameStep.cs" />

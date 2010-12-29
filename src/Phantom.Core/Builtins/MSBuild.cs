@@ -25,7 +25,7 @@ namespace Phantom.Core.Builtins {
 	/// </summary>
 	public class msbuild : ExecutableTool<msbuild> {
 		public msbuild() {
-			toolPath = BuildMsbuildPath("3.5");
+			toolPath = BuildMsbuildPath("4.0");
 			configuration = "debug";
 			verbosity = "minimal";
 			targets = new[] {"build"};

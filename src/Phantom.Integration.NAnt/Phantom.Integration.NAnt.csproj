@@ -95,6 +95,10 @@
       <Project>{C15890B0-E874-48EE-97F4-9DD24C29355C}</Project>
       <Name>Phantom.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Phantom.DSL.Boo\Phantom.DSL.Boo.csproj">
+      <Project>{6AB25369-2470-4A51-82F7-A86DF1CA4E69}</Project>
+      <Name>Phantom.DSL.Boo</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="nant-COPYING.txt" />

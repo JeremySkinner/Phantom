@@ -37,7 +37,7 @@ namespace Phantom.Core {
 
 		protected override void CustomizeCompiler(BooCompiler compiler, CompilerPipeline pipeline, string[] urls) {
 			var steps = new List<ICompilerStep>();
-
+		
 			steps.Add(new IncludeSupportStep(new PhantomDslEngine(importBuilders) {InIncludeMode = true}));
 			if (!InIncludeMode) {
 				steps.Add(new UnescapeNamesStep());
@@ -57,6 +57,8 @@ namespace Phantom.Core {
 
 			if (!InIncludeMode)
 				pipeline.InsertBefore(typeof (ProcessMethodBodiesWithDuckTyping), new AutoRunAllRunnablesStep());
+
+			compiler.Parameters.References.Add(typeof(UtilityFunctions).Assembly);
 		}
 
 		// practically the same as ForceCompile, but without saving to disk

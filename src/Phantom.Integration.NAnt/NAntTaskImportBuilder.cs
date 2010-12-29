@@ -121,8 +121,8 @@ namespace Phantom.Integration.NAnt {
 			var builder = new StringBuilder();
 			builder.Append("namespace ").AppendLine(adapterNamespace).AppendLine();
 
-			builder.AppendLine("import Phantom.Core.Integration");
-			builder.AppendLine("import Phantom.Core.Language");
+			builder.AppendLine("import Phantom.Core.Integration from Phantom.DSL.Boo");
+			builder.AppendLine("import Phantom.Core.Language from Phantom.Core");
 			builder.AppendLine("import Phantom.Integration.NAnt");
 
 			foreach (var task in tasks) {
@@ -136,7 +136,7 @@ namespace Phantom.Integration.NAnt {
 		void AppendTaskAdapter(StringBuilder builder, Type taskType, HashSet<Type> referencedTypes) {
 			var name = GetTaskName(taskType);
 
-			builder.AppendFormat("class @{0}(IRunnable[of @{0}]):", name).AppendLine();
+			builder.AppendFormat("class @{0}(Phantom.Core.Language.IRunnable[of @{0}]):", name).AppendLine();
 			AppendTaskAdapterConstructorAndField(builder, taskType);
 			foreach (var parameter in GetTaskParameters(taskType)) {
 				AppendTaskAdapterProperty(builder, parameter, referencedTypes);

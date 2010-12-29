@@ -105,11 +105,6 @@
     <Compile Include="Builtins\XUnit.cs" />
     <Compile Include="ExcludeFromCoverageAttribute.cs" />
     <Compile Include="IDslFactory.cs" />
-    <Compile Include="Language\ExpressionToCallTargetNameStep.cs" />
-    <Compile Include="Language\ExpressionToDependencyNamesStep.cs" />
-    <Compile Include="Language\ExpressionToTargetNameStep.cs" />
-    <Compile Include="Language\IncludeSupportStep.cs" />
-    <Compile Include="Language\IIncludeCompiler.cs" />
     <Compile Include="Builtins\IOFunctions.cs" />
     <Compile Include="Builtins\MSBuild.cs" />
     <Compile Include="Builtins\NUnit.cs" />
@@ -117,21 +112,13 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Builtins\UtilityFunctions.cs" />
     <Compile Include="Glob.cs" />
-    <Compile Include="Integration\ITaskImportBuilder.cs" />
-    <Compile Include="Integration\TaskImportStep.cs" />
-    <Compile Include="Language\AutoRunAllRunnablesStep.cs" />
-    <Compile Include="Language\IRunnable.cs" />
-    <Compile Include="Language\RunnableParser.cs" />
-    <Compile Include="Language\UnescapeNamesStep.cs" />
+    <Compile Include="IRunnable.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="ScriptModel.cs" />
     <Compile Include="PhantomOptions.cs" />
-    <Compile Include="PhantomBase.cs" />
-    <Compile Include="PhantomDslEngine.cs" />
     <Compile Include="PhantomException.cs" />
     <Compile Include="StreamReaderUtility.cs" />
     <Compile Include="Target.cs" />
-    <Compile Include="Builtins\WithMacro.cs" />
     <Compile Include="WrappedFileInfo.cs" />
   </ItemGroup>
   <ItemGroup>

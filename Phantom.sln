@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phantom.Tests", "src\Phanto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phantom.Integration.NAnt", "src\Phantom.Integration.NAnt\Phantom.Integration.NAnt.csproj", "{D0E25430-96C2-43ED-BD57-A3A82B4DA18D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phantom.DSL.Boo", "src\Phantom.DSL.Boo\Phantom.DSL.Boo.csproj", "{6AB25369-2470-4A51-82F7-A86DF1CA4E69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D0E25430-96C2-43ED-BD57-A3A82B4DA18D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0E25430-96C2-43ED-BD57-A3A82B4DA18D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0E25430-96C2-43ED-BD57-A3A82B4DA18D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AB25369-2470-4A51-82F7-A86DF1CA4E69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB25369-2470-4A51-82F7-A86DF1CA4E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB25369-2470-4A51-82F7-A86DF1CA4E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB25369-2470-4A51-82F7-A86DF1CA4E69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -43,7 +43,7 @@ namespace Phantom.Tests {
 
 		public static void AssertOutput(this TextWriter writer, params string[] lines) {
 			var output = writer.ToString()
-				.Split(new[] { Environment.NewLine }, StringSplitOptions.None)
+				.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.None)
 				.ToArray();
 
 			for (int i = 0; i < lines.Length; i++) {

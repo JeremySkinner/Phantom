@@ -30,7 +30,7 @@ namespace Phantom.Tests {
 		public void Stops_execution_when_exec_call_returns_nonzero_exit_code() {
 			ScriptFile = "Scripts/Exec.boo";
 			Execute("non_zero_exit", "foo");
-			AssertOutput("non_zero_exit:", "Target failed: Operation exited with exit code 99.\nThe error message was as follows:", "");
+			AssertOutput("non_zero_exit:", "Target failed: Operation exited with exit code 99.", "The error message was as follows:", "");
 		}
 
 		[Test]
@@ -51,7 +51,7 @@ namespace Phantom.Tests {
 		public void Stops_execution_when_exec_call_returns_nonzero_exit_code_using_single_string_cmd() {
 			ScriptFile = "Scripts/Exec.boo";
 			Execute("non_zero_exit_singlestr", "foo");
-			AssertOutput("non_zero_exit_singlestr:", "Target failed: Operation exited with exit code 99.\nThe error message was as follows:", "");
+			AssertOutput("non_zero_exit_singlestr:", "Target failed: Operation exited with exit code 99.", "The error message was as follows:", "");
 		}
 
 		[Test]

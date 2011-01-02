@@ -46,8 +46,8 @@ namespace Phantom.Core.Builtins {
 		///   A hash of options to set on the process (like WorkingDir)
 		/// </param>
 		public static void exec(string command, string args, Hash options) {
-			command = command.Replace("\\", "/");
-			string workingDir = options.ValueOrDefault("WorkingDir", ".").Replace("\\", "/");
+			command = command.Replace('\\', Path.DirectorySeparatorChar);
+			string workingDir = options.ValueOrDefault("WorkingDir", ".").Replace('\\', Path.DirectorySeparatorChar);
 			bool ignoreNonZeroExitCode = options.ValueOrDefault("IgnoreNonZeroExitCode", false);
 			
 			if (Type.GetType("Mono.Runtime") != null && Path.GetExtension(command).ToUpper() == ".EXE") {

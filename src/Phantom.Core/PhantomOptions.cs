@@ -17,28 +17,35 @@
 namespace Phantom.Core {
 	using System;
 	using System.Collections.Generic;
-	using Boo.Lang.Useful.CommandLine;
+	using Mono.Options;
 
 	[Serializable]
-	public class PhantomOptions : AbstractCommandLine {
+	public class PhantomOptions {
 		readonly List<string> targetNames = new List<string>();
+		readonly Dictionary<string, string> additionalArguments = new Dictionary<string, string>();
 
-		[Option("Specifies the build file", LongForm = "file", ShortForm = "f")]
-		public string File = "build.boo";
+		readonly OptionSet parser;
 
-		[Option("Prints the help message", LongForm = "help", ShortForm = "h")]
-		public bool Help;
+		public PhantomOptions() {
+			File = "build.boo";
 
-		[Option("Shows all the targets in the specified build file", LongForm = "targets", ShortForm = "t")]
-		public bool ShowTargets;
+			parser = new OptionSet {
+				{"f|file=", "Specifies the build file.", x => File = x.Trim() },
+				{"h|help", "Show the help message.", v => Help = true},
+				{"t|targets", "Shows all the targets in the specified build file.", x => ShowTargets = true},
+				{"debugger", "Attach the debugger.", v => AttachDebugger = true},
+				{"a|arg=", "Additional arguments.", v => AddArgument(v)},
+				{"<>", "Targets", v => AddTarget(v)}
+			};
+		}
 
-		// Useful for debugging of scripts or Phantom itself
-		[Option("Attaches debugger before build starts", LongForm = "debugger")]
-		public bool AttachDebugger;
+		public string File { get; set; }
+		public bool Help { get; set; }
+		public bool ShowTargets { get; set; }
+		public bool AttachDebugger { get; set; }
 
-		[Argument]
-		public void AddTarget(string targetName) {
-			targetNames.Add(targetName);
+		public IDictionary<string, string> AdditionalArguments {
+			get { return additionalArguments; }
 		}
 
 		public IEnumerable<string> TargetNames {
@@ -54,21 +61,28 @@ namespace Phantom.Core {
 			}
 		}
 
-		[Option("Additional arguments", LongForm = "arg", ShortForm = "a", MaxOccurs = 50)]
+		public void AddTarget(string target) {
+			targetNames.Add(target);
+		}
+
 		public void AddArgument(string value) {
 			if (value.Contains("=")) {
 				var bits = value.Split('=');
-				Environment.SetEnvironmentVariable(bits[0], bits[1]);
+				additionalArguments[bits[0]] = bits[1];
 			}
 			else {
-				Environment.SetEnvironmentVariable(value, String.Empty);
+				additionalArguments[value] = string.Empty;
 			}
 		}
 
 		public void PrintHelp() {
 			Console.WriteLine("phantom [-f <filename>] [-t] [-h] [-a:<name>=<value>] targets");
 			Console.WriteLine();
-			PrintOptions();
+			parser.WriteOptionDescriptions(Console.Out);
+		}
+
+		public void Parse(string[] args) {
+			parser.Parse(args);
 		}
 	}
 }

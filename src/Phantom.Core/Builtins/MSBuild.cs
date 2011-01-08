@@ -17,8 +17,8 @@
 namespace Phantom.Core.Builtins {
 	using System;
 	using System.Collections;
+	using System.Collections.Generic;
 	using System.IO;
-	using Boo.Lang;
 
 	/// <summary>
 	/// Provides MSBuild integration
@@ -29,7 +29,7 @@ namespace Phantom.Core.Builtins {
 			configuration = "debug";
 			verbosity = "minimal";
 			targets = new[] {"build"};
-			properties = new Hash();
+			properties = new Dictionary<string, object>();
 		}
 
 		private string BuildMsbuildPath(string version) {
@@ -48,7 +48,7 @@ namespace Phantom.Core.Builtins {
 		public string configuration { get; set; }
 		public string[] targets { get; set; }
 		public string verbosity { get; set; }
-		public Hash properties { get; set; }
+		public IDictionary properties { get; set; }
 		public string file { get; set; }
 		
 		string _version;

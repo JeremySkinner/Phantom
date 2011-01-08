@@ -16,7 +16,7 @@
 
 namespace Phantom.Core.Builtins {
 	using System;
-	using Boo.Lang;
+	using System.Collections.Generic;
 
 	/// <summary>
 	/// NUnit integration
@@ -48,7 +48,7 @@ namespace Phantom.Core.Builtins {
 				assemblies = new[] {assembly};
 			}
 
-			var args = new List<string>();
+			var args = new System.Collections.Generic.List<string>();
 
 			if (enableTeamCity) {
 				string teamcityLauncherPath = GetTeamCityNunitLancherPath();

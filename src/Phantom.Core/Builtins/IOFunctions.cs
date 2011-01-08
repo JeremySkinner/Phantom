@@ -16,10 +16,11 @@
 
 namespace Phantom.Core.Builtins {
 	using System;
+	using System.Collections;
+	using System.Collections.Generic;
 	using System.Diagnostics;
 	using System.IO;
 	using System.Runtime.CompilerServices;
-	using Boo.Lang;
 
 	[CompilerGlobalScope]
 	public sealed class IOFunctions {
@@ -31,7 +32,7 @@ namespace Phantom.Core.Builtins {
 		/// </param>
 		/// <param name="args">Additional args</param>
 		public static void exec(string command, string args) {
-			exec(command, args, new Hash());
+			exec(command, args, new Hashtable());
 		}
 
 		/// <summary>
@@ -45,7 +46,7 @@ namespace Phantom.Core.Builtins {
 		/// <param name="options">
 		///   A hash of options to set on the process (like WorkingDir)
 		/// </param>
-		public static void exec(string command, string args, Hash options) {
+		public static void exec(string command, string args, IDictionary options) {
 			command = command.Replace('\\', Path.DirectorySeparatorChar);
 			string workingDir = options.ValueOrDefault("WorkingDir", ".").Replace('\\', Path.DirectorySeparatorChar);
 			bool ignoreNonZeroExitCode = options.ValueOrDefault("IgnoreNonZeroExitCode", false);
@@ -70,7 +71,7 @@ namespace Phantom.Core.Builtins {
 			}
 		}
 
-		public static void exec(string command, Hash options) {
+		public static void exec(string command, IDictionary options) {
 			string commandPrompt = UtilityFunctions.env("COMSPEC");
 			string args = string.Format("/C \"{0}\"", command);
 			
@@ -83,7 +84,7 @@ namespace Phantom.Core.Builtins {
 		}
 
 		public static void exec(string command) {
-			exec(command, new Hash());
+			exec(command, new Hashtable());
 		}
 
 		/// <summary>

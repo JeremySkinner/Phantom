@@ -15,11 +15,22 @@
 #endregion
 
 namespace Phantom.Core {
+	using System.Collections;
 	using System.Collections.Generic;
 	using System.Linq;
-	using Boo.Lang;
 
 	internal static class Extensions {
+		public static TValue ValueOrDefault<TValue>(this IDictionary hash, string key, TValue defaultValue) {
+			if (hash.Contains(key)) {
+				object value = hash[key];
+				if (value is TValue) {
+					return (TValue)value;
+				}
+				return defaultValue;
+			}
+			return defaultValue;
+		}
+
 		public static TValue ValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key) {
 			TValue value;
 			if (dictionary.TryGetValue(key, out value)) {
@@ -27,26 +38,6 @@ namespace Phantom.Core {
 			}
 
 			return default(TValue);
-		}
-
-		public static TValue ValueOrDefault<TValue>(this Hash hash, string key, TValue defaultValue) {
-			if (hash.ContainsKey(key)) {
-				object value = hash[key];
-				if (value is TValue) {
-					return (TValue) value;
-				}
-				return defaultValue;
-			}
-			return defaultValue;
-		}
-		
-		public static TValue ObtainAndRemove<TValue>(this Hash hash, string key, TValue defaultValue) {
-			if (hash.ContainsKey(key)) {
-				TValue value = hash.ValueOrDefault(key, defaultValue);
-				hash.Remove(key);
-				return value;
-			}
-			return defaultValue;
 		}
 
 		public static string JoinWith(this IEnumerable<string> strings, string separator) {

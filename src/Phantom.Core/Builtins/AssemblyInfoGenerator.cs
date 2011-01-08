@@ -17,9 +17,9 @@
 namespace Phantom.Core.Builtins {
 	using System;
 	using System.Collections;
+	using System.Collections.Generic;
 	using System.IO;
 	using System.Text;
-	using Boo.Lang;
 	using Language;
 
 	/// <summary>
@@ -30,13 +30,13 @@ namespace Phantom.Core.Builtins {
 		const string RuntimeServicesNamespace = "System.Runtime.InteropServices";
 		const string ReflectionNamespace = "System.Reflection";
 
-		public List namespaces { get; set; }
+		public IList namespaces { get; set; }
 
 		public string file { get; set; }
 		public string version { get; set; }
 		public string title { get; set; }
 		public string description { get; set; }
-		public Hash customAttributes { get; set; }
+		public IDictionary customAttributes { get; set; }
 		public string copyright { get; set; }
 		public bool comVisible { get; set; }
 		public string companyName { get; set; }
@@ -46,8 +46,8 @@ namespace Phantom.Core.Builtins {
 		StringBuilder builder;
 
 		public generate_assembly_info() {
-			namespaces = new List();
-			customAttributes = new Hash();
+			namespaces = new System.Collections.Generic.List<object>();
+			customAttributes = new Dictionary<string, object>();
 		}
 
 		protected void Execute() {

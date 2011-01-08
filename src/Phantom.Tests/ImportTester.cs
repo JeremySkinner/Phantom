@@ -21,7 +21,7 @@ namespace Phantom.Tests {
 	public class ImportTester : ScriptTest {
 		[Test]
 		public void Imports_file() {
-			ScriptFile = "Scripts\\Import.boo";
+			ScriptFile = "Scripts/Import.boo";
 			Execute();
 			AssertOutput("default:", "hello");
 		}

@@ -29,14 +29,22 @@ namespace Phantom.Core {
 			return default(TValue);
 		}
 
-		public static TValue ObtainAndRemove<TValue>(this Hash hash, string key, TValue defaultValue) {
+		public static TValue ValueOrDefault<TValue>(this Hash hash, string key, TValue defaultValue) {
 			if (hash.ContainsKey(key)) {
 				object value = hash[key];
-				hash.Remove(key);
 				if (value is TValue) {
 					return (TValue) value;
 				}
 				return defaultValue;
+			}
+			return defaultValue;
+		}
+		
+		public static TValue ObtainAndRemove<TValue>(this Hash hash, string key, TValue defaultValue) {
+			if (hash.ContainsKey(key)) {
+				TValue value = hash.ValueOrDefault(key, defaultValue);
+				hash.Remove(key);
+				return value;
 			}
 			return defaultValue;
 		}

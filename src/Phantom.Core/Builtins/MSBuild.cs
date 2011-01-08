@@ -36,8 +36,13 @@ namespace Phantom.Core.Builtins {
 			if(version == "4.0" || version == "4") {
 				version = "4.0.30319";
 			}
-
-			return Path.Combine(Environment.GetEnvironmentVariable("windir"), "Microsoft.NET/Framework/v" + version + "/msbuild.exe");
+			
+			string windir = Environment.GetEnvironmentVariable("windir");
+			if (windir != null) {
+				return Path.Combine(windir, "Microsoft.NET/Framework/v" + version + "/msbuild.exe");
+			}
+			
+			return "/usr/bin/xbuild";
 		}
 
 		public string configuration { get; set; }
@@ -58,7 +63,7 @@ namespace Phantom.Core.Builtins {
 
 		protected override void Execute() {
 			if (string.IsNullOrEmpty(file)) {
-				throw new InvalidOperationException("Please specify the 'path' property for calls to msbuild.");
+				throw new InvalidOperationException("Please specify the 'file' property for calls to msbuild.");
 			}
 
 			string args = file + " /p:Configuration=" + configuration + " /t:" + string.Join(";", targets) + " /v:" + verbosity;

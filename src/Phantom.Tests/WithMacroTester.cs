@@ -20,7 +20,7 @@ namespace Phantom.Tests {
 	[TestFixture]
 	public class WithMacroTester : ScriptTest {
 		public override void Setup() {
-			ScriptFile = "scripts\\WithMacroTest.boo";
+			ScriptFile = "Scripts/WithMacroTest.boo";
 		}
 
 		[Test]

@@ -21,7 +21,6 @@ namespace Phantom.Core {
 
 	public class ScriptModel : IEnumerable<Target> {
 		public const string DefaultTargetName = "default";
-		string currentDescription;
 
 		readonly Dictionary<string, Target> targets = new Dictionary<string, Target>();
 
@@ -41,9 +40,8 @@ namespace Phantom.Core {
 			return GetEnumerator();
 		}
 
-		public void AddTarget(string name, string[] dependencies, Action block) {
-			var target = new Target(name, block, dependencies, currentDescription, this);
-			currentDescription = null;
+		public void AddTarget(string name, string[] dependencies, Action block, string description) {
+			var target = new Target(name, block, dependencies, description, this);
 			if (targets.ContainsKey(target.Name)) {
 				throw new TargetAlreadyExistsException(target.Name);
 			}
@@ -79,10 +77,6 @@ namespace Phantom.Core {
 					string.Format("Target failed: {0}", e.Message));
 				Environment.ExitCode = 1;
 			}
-		}
-
-		public void SetCurrentDescription(string description) {
-			currentDescription = description;
 		}
 	}
 }

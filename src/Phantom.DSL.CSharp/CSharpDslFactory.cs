@@ -37,8 +37,7 @@ namespace Phantom.DSL.CSharp {
 						  select new { action = targetAction, name = field.Name, description, dependencies };
 
 			foreach(var target in targets) {
-				model.SetCurrentDescription(target.description);
-				model.AddTarget(target.name, target.dependencies, target.action);
+				model.AddTarget(target.name, target.dependencies, target.action, target.description);
 			}
 
 			return model;

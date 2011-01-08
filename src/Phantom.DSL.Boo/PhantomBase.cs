@@ -18,18 +18,23 @@ namespace Phantom.Core {
 	using System;
 
 	public abstract class PhantomBase {
+		string currentDescription = null;
+
 		readonly ScriptModel model = new ScriptModel();
 
 		public void target(string name, Action block) {
-			model.AddTarget(name, null, block);
+			model.AddTarget(name, null, block, currentDescription);
+			currentDescription = null;
 		}
 
 		public void target(string name, string[] dependencies, Action block) {
-			model.AddTarget(name, dependencies, block);
+			model.AddTarget(name, dependencies, block, currentDescription);
+			currentDescription = null;
 		}
 
 		public void target(string name, string dependency, Action block) {
-			model.AddTarget(name, new[] {dependency}, block);
+			model.AddTarget(name, new[] {dependency}, block, currentDescription);
+			currentDescription = null;
 		}
 
 		public abstract void Execute();
@@ -39,7 +44,7 @@ namespace Phantom.Core {
 		}
 
 		public void desc(string description) {
-			model.SetCurrentDescription(description);
+			currentDescription = description;
 		}
 
 		public void call(params string[] name) {

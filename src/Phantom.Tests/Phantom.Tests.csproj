@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="AssemblyInfoTester.cs" />
     <Compile Include="AutoRunnableTester.cs" />
+    <Compile Include="CSharpSimpleTest.cs" />
     <Compile Include="DescriptionTester.cs" />
     <Compile Include="DslTester.cs" />
     <Compile Include="ExecTester.cs" />
@@ -107,6 +108,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PhantomOptionsTester.cs" />
     <Compile Include="PhantomBaseTester.cs" />
+    <None Include="Scripts\CSharpSimple.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="ScriptTest.cs" />
     <Compile Include="StreamReaderUtilityTests.cs" />
     <Compile Include="TargetsTester.cs" />
@@ -178,6 +182,10 @@
     <ProjectReference Include="..\Phantom.DSL.Boo\Phantom.DSL.Boo.csproj">
       <Project>{6AB25369-2470-4A51-82F7-A86DF1CA4E69}</Project>
       <Name>Phantom.DSL.Boo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Phantom.DSL.CSharp\Phantom.DSL.CSharp.csproj">
+      <Project>{50A50F8B-CB53-4C6D-9939-C7C4A89E03D3}</Project>
+      <Name>Phantom.DSL.CSharp</Name>
     </ProjectReference>
     <ProjectReference Include="..\Phantom.Integration.NAnt\Phantom.Integration.NAnt.csproj">
       <Project>{D0E25430-96C2-43ED-BD57-A3A82B4DA18D}</Project>

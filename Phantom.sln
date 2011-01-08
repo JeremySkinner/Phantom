@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phantom.Integration.NAnt", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phantom.DSL.Boo", "src\Phantom.DSL.Boo\Phantom.DSL.Boo.csproj", "{6AB25369-2470-4A51-82F7-A86DF1CA4E69}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phantom.DSL.CSharp", "src\Phantom.DSL.CSharp\Phantom.DSL.CSharp.csproj", "{50A50F8B-CB53-4C6D-9939-C7C4A89E03D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{6AB25369-2470-4A51-82F7-A86DF1CA4E69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AB25369-2470-4A51-82F7-A86DF1CA4E69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AB25369-2470-4A51-82F7-A86DF1CA4E69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50A50F8B-CB53-4C6D-9939-C7C4A89E03D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50A50F8B-CB53-4C6D-9939-C7C4A89E03D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50A50F8B-CB53-4C6D-9939-C7C4A89E03D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50A50F8B-CB53-4C6D-9939-C7C4A89E03D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

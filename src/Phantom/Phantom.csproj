@@ -116,6 +116,7 @@
 	<Target Name="AfterBuild">
 		<ItemGroup>
 			<DslFiles Include="..\Phantom.DSL.Boo\$(OutDir)*.*"></DslFiles>
+			<DslFiles Include="..\Phantom.DSL.CSharp\$(OutDir)*.*"></DslFiles>
 		</ItemGroup>
 		<Copy SourceFiles="@(DslFiles)" DestinationFolder="$(OutDir)" />
 	</Target>

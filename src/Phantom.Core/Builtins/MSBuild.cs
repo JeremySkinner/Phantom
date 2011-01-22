@@ -66,10 +66,10 @@ namespace Phantom.Core.Builtins {
 				throw new InvalidOperationException("Please specify the 'file' property for calls to msbuild.");
 			}
 
-			string args = file + " /p:Configuration=" + configuration + " /t:" + string.Join(";", targets) + " /v:" + verbosity;
+			string args = "\"" + file + "\" /p:Configuration=" + configuration + " /t:" + string.Join(";", targets) + " /v:" + verbosity;
 
 			foreach (DictionaryEntry entry in properties) {
-				args += " /p:" + entry.Key + "=" + entry.Value;
+                args += " /p:" + entry.Key + "=\"" + entry.Value + "\"";
 			}
 
 			Execute(args);

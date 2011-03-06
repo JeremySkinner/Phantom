@@ -17,6 +17,7 @@
 namespace Phantom.Core {
 	using System;
 	using System.Collections.Generic;
+	using System.IO;
 	using Mono.Options;
 
 	[Serializable]
@@ -75,10 +76,10 @@ namespace Phantom.Core {
 			}
 		}
 
-		public void PrintHelp() {
-			Console.WriteLine("phantom [-f <filename>] [-t] [-h] [-a:<name>=<value>] targets");
-			Console.WriteLine();
-			parser.WriteOptionDescriptions(Console.Out);
+		public void PrintHelp(TextWriter writer) {
+			writer.WriteLine("phantom [-f <filename>] [-t] [-h] [-a:<name>=<value>] targets");
+			writer.WriteLine();
+			parser.WriteOptionDescriptions(writer);
 		}
 
 		public void Parse(string[] args) {

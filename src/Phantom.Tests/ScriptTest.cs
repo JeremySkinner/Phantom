@@ -29,14 +29,15 @@ namespace Phantom.Tests {
 
 		[SetUp]
 		public void BaseSetup() {
+			Writer = new StringWriter();
+			Console.SetOut(Writer);
+			
 			if (Runner == null) {
 				var container = new CompositionContainer(new DirectoryCatalog(Directory.GetCurrentDirectory()));
 				Runner = container.GetExportedValue<BuildRunner>();
 			}
 
 			Options = new PhantomOptions();
-			Writer = new StringWriter();
-			Console.SetOut(Writer);
 
 			Setup();
 		}

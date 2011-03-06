@@ -18,9 +18,17 @@ namespace Phantom.Core {
 	using System;
 	using System.Collections;
 	using System.Collections.Generic;
+	using System.IO;
 
 	public class ScriptModel : IEnumerable<Target> {
 		public const string DefaultTargetName = "default";
+		
+		Func<TextWriter> log = () => Console.Out;
+		
+		public TextWriter Log {
+			get { return log(); }
+			set { log = () => value; }
+		}
 
 		readonly Dictionary<string, Target> targets = new Dictionary<string, Target>();
 
@@ -67,14 +75,13 @@ namespace Phantom.Core {
 
 			try {
 				foreach (var target in targetsToExecute) {
-					Console.WriteLine(target.Name + ":");
+					Log.WriteLine(target.Name + ":");
 					target.Execute();
-					Console.WriteLine();
+					Log.WriteLine();
 				}
 			}
 			catch (PhantomException e) {
-				Console.WriteLine(
-					string.Format("Target failed: {0}", e.Message));
+				Log.WriteLine(string.Format("Target failed: {0}", e.Message));
 				Environment.ExitCode = 1;
 			}
 		}

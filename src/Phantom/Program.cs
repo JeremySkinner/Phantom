@@ -37,12 +37,12 @@ namespace Phantom {
 				}
 				catch (CommandLineException exception) {
 					Console.WriteLine(exception.Message);
-					options.PrintHelp();
+					options.PrintHelp(Console.Out);
 					return;
 				}
 
 				if (options.Help) {
-					options.PrintHelp();
+					options.PrintHelp(Console.Out);
 					return;
 				}
 

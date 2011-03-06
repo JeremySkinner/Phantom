@@ -27,10 +27,20 @@ namespace Phantom.Core {
 	[Export]
 	public class BuildRunner {
 		readonly IEnumerable<IDslFactory> dslFactories;
+		readonly Func<TextWriter> log;
+
+		protected TextWriter Log {
+			get { return log();  }
+		}
+
+		public BuildRunner(IEnumerable<IDslFactory> dslFactories, Func<TextWriter> log) {
+			this.dslFactories = dslFactories;
+			this.log = log;
+		}
+
 
 		[ImportingConstructor]
-		public BuildRunner([ImportMany] IEnumerable<IDslFactory> dslFactories) {
-			this.dslFactories = dslFactories;
+		public BuildRunner([ImportMany] IEnumerable<IDslFactory> dslFactories) : this(dslFactories, ()=>Console.Out) {
 		}
 
 		public static BuildRunner Create() {
@@ -58,11 +68,12 @@ namespace Phantom.Core {
 			}
 
 			var script = GenerateBuildScript(options.File);
+			script.Log = Log;
 			script.ExecuteTargets(options.TargetNames.ToArray());
 		}
 
 		public void OutputTargets(PhantomOptions options) {
-			Console.WriteLine("Targets in {0}: ", options.File);
+			Log.WriteLine("Targets in {0}: ", options.File);
 			var script = GenerateBuildScript(options.File);
 			var allTargets = script.OrderBy(x => x.Name).ToList();
 
@@ -76,7 +87,7 @@ namespace Phantom.Core {
 					description = description.Substring(0, 47) + "...";
 				}
 
-				Console.WriteLine(name + description);
+				Log.WriteLine(name + description);
 			}
 		}
 	}

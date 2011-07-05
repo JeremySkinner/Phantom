@@ -1,0 +1,16 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Phantom</id>
+    <version>1.0</version>
+    <authors>Authors here</authors>
+    <description>
+        Test nuspec file for the phantom build script.
+    </description>
+  </metadata>
+  <files>
+	<file src="Phantom.*" target="lib" />
+	<file src="Rhino.*" target="lib" />
+	<file src="Boo.*" target="lib" />
+  </files>
+</package>

@@ -167,7 +167,7 @@
     <None Include="Scripts\NantTasks.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Scripts\Nuget.boo">
+    <None Include="Scripts\NugetPack.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Scripts\PrintsText.boo">

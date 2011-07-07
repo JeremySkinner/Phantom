@@ -26,16 +26,10 @@ namespace Phantom.Tests
 			if(packageInfo.Exists) {
 				packageInfo.Delete();
 			}
-
-			var tempPackage = new FileInfo(@"C:\Windows\Temp\Phantom.1.0.nupkg");
-			if(tempPackage.Exists) {
-				tempPackage.Delete();
-			}
 		}
 
 		[Test]
-		public void Should_create_nuget_package()
-		{
+		public void Should_create_nuget_package_at_currentdirectory() {
 			Execute("packNugetPackage");
 
 			var packageInfo = new FileInfo("Phantom.1.0.nupkg");
@@ -51,12 +45,27 @@ namespace Phantom.Tests
 		}
 
 		[Test]
-		public void Should_create_nuget_package_at_outputdirectory()
-		{
+		public void Should_create_nuget_package_at_outputdirectory() {
 			Execute("packNugetPackageWithOutputDirectory");
 
 			var packageInfo = new FileInfo(@"nuget/nuget_output/Phantom.1.0.nupkg");
 			packageInfo.Exists.ShouldBeTrue();
+		}
+
+		[Test]
+		public void Should_create_nuget_package_with_symbols() {
+			Execute("packNugetPackageWithSymbols");
+
+			var packageInfo = new FileInfo(@"nuget/nuget_output/Phantom.1.0.nupkg");
+			var symbolsInfo = new FileInfo(@"nuget/nuget_output/Phantom.1.0.symbols.nupkg");
+			
+			packageInfo.Exists.ShouldBeTrue();
+			symbolsInfo.Exists.ShouldBeTrue();
+		}
+
+		[Test, ExpectedException(typeof(InvalidOperationException))]
+		public void Should_throw_exception_when_nuspecfile_is_empty() {
+			Execute("packNugetPackageNoNuspec");
 		}
 	}
 }

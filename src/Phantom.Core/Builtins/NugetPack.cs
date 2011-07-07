@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Phantom.Core.Builtins
+﻿namespace Phantom.Core.Builtins
 {
+	using System;
+	using System.IO;
+	using System.Text;
+
 	public class nuget_pack : ExecutableTool<nuget_pack> {
 		readonly StringBuilder _nugetArgs;
 
@@ -19,26 +18,31 @@ namespace Phantom.Core.Builtins
 		public bool symbols { get; set; }
 
 		protected override void Execute() {
-			if(string.IsNullOrWhiteSpace(nuspecFile)) {
-				throw new InvalidOperationException("Please provide a valid nuspecfile.");
+			if (string.IsNullOrWhiteSpace(nuspecFile)) {
+				throw new InvalidOperationException("Nuspec must be specified.");
 			}
-			_nugetArgs.AppendFormat("pack \"{0}\" -verbose", nuspecFile);
+			_nugetArgs.AppendFormat("pack \"{0}\"", Path.GetFullPath(nuspecFile));
 
-			if (string.IsNullOrWhiteSpace(basePath)) {
+			if(string.IsNullOrWhiteSpace(basePath)) {
 				basePath = Environment.CurrentDirectory;
 			}
-			_nugetArgs.AppendFormat(" -basePath \"{0}\"", basePath);
+			_nugetArgs.AppendFormat(" -basePath \"{0}\"", Path.GetFullPath(basePath));
 
 			if(!string.IsNullOrWhiteSpace(outputDirectory)) {
-				outputDirectory = string.Concat(basePath, @"\", outputDirectory);
+				outputDirectory = Path.GetFullPath(outputDirectory);
 				_nugetArgs.AppendFormat(" -outputDirectory \"{0}\"", outputDirectory);
-
 				IOFunctions.mkdir(outputDirectory);
 			}
 
 			if(!string.IsNullOrWhiteSpace(version)) {
 				_nugetArgs.AppendFormat(" -version \"{0}\"", version);
 			}
+
+			if(symbols) {
+				_nugetArgs.Append(" -symbols");
+			}
+
+			Console.WriteLine("Running nuget.exe pack {0}", _nugetArgs.ToString());
 
 			Execute(_nugetArgs.ToString());
 		}

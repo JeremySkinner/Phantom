@@ -93,6 +93,7 @@
     <Compile Include="Builtins\NCover.cs" />
     <Compile Include="Builtins\NCoverExplorer.cs" />
     <Compile Include="Builtins\NugetPack.cs" />
+    <Compile Include="Builtins\NugetPush.cs" />
     <Compile Include="Builtins\QuickReferences.cs" />
     <Compile Include="Builtins\XSLT.cs" />
     <Compile Include="Builtins\XUnit.cs" />

@@ -20,7 +20,7 @@
 
 		protected override void Execute() {
 			if (string.IsNullOrWhiteSpace(nuspecFile)) {
-				throw new InvalidOperationException("Nuspec must be specified.");
+				throw new InvalidOperationException("Nuspec file to pack must be specified.");
 			}
 			_nugetArgs.AppendFormat("pack \"{0}\"", Path.GetFullPath(nuspecFile));
 

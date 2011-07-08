@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Phantom.Tests
+﻿namespace Phantom.Tests
 {
+	using System;
 	using NUnit.Framework;
 	using System.IO;
 

@@ -109,6 +109,8 @@
     <Compile Include="IOFunctionTests.cs" />
     <Compile Include="NantIntegrationTester.cs" />
     <Compile Include="NugetPackTester.cs" />
+    <Compile Include="NugetPublishTester.cs" />
+    <Compile Include="NugetPushTester.cs" />
     <Compile Include="PhantomExceptionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PhantomOptionsTester.cs" />
@@ -168,6 +170,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Scripts\NugetPack.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\NugetPublish.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\NugetPush.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Scripts\PrintsText.boo">

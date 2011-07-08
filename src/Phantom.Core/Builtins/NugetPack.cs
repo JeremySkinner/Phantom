@@ -16,6 +16,7 @@
 		public string outputDirectory { get; set; }
 		public string version { get; set; }
 		public bool symbols { get; set; }
+		public bool verbose { get; set; }
 
 		protected override void Execute() {
 			if (string.IsNullOrWhiteSpace(nuspecFile)) {
@@ -42,7 +43,9 @@
 				_nugetArgs.Append(" -symbols");
 			}
 
-			Console.WriteLine("Running nuget.exe pack {0}", _nugetArgs.ToString());
+			if(verbose) {
+				_nugetArgs.Append(" -verbose");
+			}
 
 			Execute(_nugetArgs.ToString());
 		}

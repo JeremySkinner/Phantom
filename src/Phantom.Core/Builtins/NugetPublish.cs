@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿namespace Phantom.Core.Builtins {
+	using System;
+	using System.Text;
 
-namespace Phantom.Core.Builtins
-{
 	public class nuget_publish : ExecutableTool<nuget_publish> {
-		readonly StringBuilder _nugetArgs;
+		readonly StringBuilder nugetArgs;
 
 		public nuget_publish() {
-			_nugetArgs = new StringBuilder();
+			nugetArgs = new StringBuilder();
 		}
 
 		public string id { get; set; }
@@ -18,7 +15,7 @@ namespace Phantom.Core.Builtins
 		public string source { get; set; }
 
 		protected override void Execute() {
-			if(string.IsNullOrWhiteSpace(id)) {
+			if (string.IsNullOrWhiteSpace(id)) {
 				throw new InvalidOperationException("Nuget package id is required when publishing a package.");
 			}
 
@@ -30,13 +27,13 @@ namespace Phantom.Core.Builtins
 				throw new InvalidOperationException("Nuget api key is required when publishing a package.");
 			}
 
-			_nugetArgs.AppendFormat("publish {0} {1} {2}", id, version, apiKey);
+			nugetArgs.AppendFormat("publish {0} {1} {2}", id, version, apiKey);
 
-			if(!string.IsNullOrWhiteSpace(source)) {
-				_nugetArgs.AppendFormat(" -source {0}", source);
+			if (!string.IsNullOrWhiteSpace(source)) {
+				nugetArgs.AppendFormat(" -source {0}", source);
 			}
 
-			Execute(_nugetArgs.ToString());
+			Execute(nugetArgs.ToString());
 		}
 	}
 }

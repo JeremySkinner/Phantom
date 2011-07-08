@@ -90,6 +90,7 @@
     <Compile Include="Builtins\FileList.cs" />
     <Compile Include="Builtins\FtpDirectory.cs" />
     <Compile Include="Builtins\IOPermissionFunctions.cs" />
+    <Compile Include="Builtins\MSTest.cs" />
     <Compile Include="Builtins\NCover.cs" />
     <Compile Include="Builtins\NCoverExplorer.cs" />
     <Compile Include="Builtins\NugetPack.cs" />

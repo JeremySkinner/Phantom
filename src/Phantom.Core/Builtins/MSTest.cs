@@ -52,10 +52,11 @@
 		}
 
 		private string GetToolPath() {
-			foreach (var path in toolPaths.Where(File.Exists)) {
-				return path;
+			var path = toolPaths.FirstOrDefault(File.Exists);
+			if(string.IsNullOrWhiteSpace(path)) {
+				throw new InvalidOperationException("MSTest could not be found, please specify in toolPath.");
 			}
-			throw new InvalidOperationException("MSTest could not be found, please specify in toolPath.");
+			return path;
 		}
 
 		private string[] GetAssemblies() {

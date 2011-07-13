@@ -14,16 +14,13 @@
 
 #endregion
 
-namespace Phantom.Core.Builtins
-{
-	using System.Collections.Generic;
+namespace Phantom.Core.Builtins {
 	using System.IO;
 	using Language;
 	using System.Linq;
 	using System;
 
-	public abstract class TestRunner<T> : IRunnable<T> where T : TestRunner<T>
-	{
+	public abstract class TestRunner<T> : IRunnable<T> where T : TestRunner<T> {
 		public string toolPath { get; set; }
 		public string[] assemblies { get; set; }
 		public string assembly { get; set; }
@@ -58,7 +55,7 @@ namespace Phantom.Core.Builtins
 			return (T) this;
 		}
 
-		private void BuildAssemblyComposition(string[] inputAssemblies) {
+		void BuildAssemblyComposition(string[] inputAssemblies) {
 			var assemblyBag = new FileList();
 			foreach (var asm in inputAssemblies) {
 				assemblyBag.Include(asm);

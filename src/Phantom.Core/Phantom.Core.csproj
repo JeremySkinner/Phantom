@@ -97,6 +97,7 @@
     <Compile Include="Builtins\NugetPublish.cs" />
     <Compile Include="Builtins\NugetPush.cs" />
     <Compile Include="Builtins\QuickReferences.cs" />
+    <Compile Include="Builtins\TestRunner.cs" />
     <Compile Include="Builtins\XSLT.cs" />
     <Compile Include="Builtins\XUnit.cs" />
     <Compile Include="ExcludeFromCoverageAttribute.cs" />

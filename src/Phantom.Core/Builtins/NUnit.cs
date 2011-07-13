@@ -15,13 +15,13 @@
 #endregion
 
 namespace Phantom.Core.Builtins {
-	using System;
 	using System.Collections.Generic;
+	using System.Text;
 
 	/// <summary>
 	/// NUnit integration
 	/// </summary>
-	public class nunit : ExecutableTool<nunit> {
+	public class nunit : TestRunner<nunit> {
 		public nunit() {
 			toolPath = "lib/nunit/nunit-console.exe";
 			teamCityArgs = "v2.0 x86 NUnit-2.4.6";
@@ -31,24 +31,13 @@ namespace Phantom.Core.Builtins {
 		public string exclude { get; set; }
 		public bool enableTeamCity { get; set; }
 		public string teamCityArgs { get; set; }
-		public string[] assemblies { get; set; }
-		public string assembly { get; set; }
 
 		string GetTeamCityNunitLancherPath() {
 			return UtilityFunctions.env("teamcity.dotnet.nunitlauncher");
 		}
 
 		protected override void Execute() {
-			if ((assemblies == null || assemblies.Length == 0) && string.IsNullOrEmpty(assembly)) {
-				throw new InvalidOperationException("Please specify either the 'assembly' or the 'assemblies' property when calling 'nunit'");
-			}
-
-			//single assembly takes precedence.
-			if (!string.IsNullOrEmpty(assembly)) {
-				assemblies = new[] {assembly};
-			}
-
-			var args = new System.Collections.Generic.List<string>();
+			var args = new List<string>();
 
 			if (enableTeamCity) {
 				string teamcityLauncherPath = GetTeamCityNunitLancherPath();
@@ -80,9 +69,7 @@ namespace Phantom.Core.Builtins {
 			}
 
 			foreach (var asm in assemblies) {
-				var nunitArgs = new List<string>(args) {
-				                                       	asm
-				                                       };
+				var nunitArgs = new List<string>(args) { asm };
 
 				Execute(nunitArgs.JoinWith(" "));
 			}

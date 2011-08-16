@@ -16,6 +16,7 @@
 
 namespace Phantom.Core.Builtins {
 	using System;
+	using System.IO;
 	using System.Runtime.CompilerServices;
 	using Ionic.Zip;
 
@@ -26,6 +27,13 @@ namespace Phantom.Core.Builtins {
 			using (var zip = new ZipFile()) {
 				zip.AddDirectory(directory);
 				zip.Save(zipFileName);
+			}
+		}
+
+		public static void unzip(string zipFileName, string outputDirectory) {
+			Console.WriteLine("Unzipping '{0}' to '{1}'", zipFileName, outputDirectory);
+			using (var zip = new ZipFile(zipFileName)) {
+				zip.ExtractAll(outputDirectory);
 			}
 		}
 	}

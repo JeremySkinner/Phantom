@@ -148,9 +148,6 @@
     <None Include="Scripts\FileCopy.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Scripts\IIS7.boo">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Scripts\Import.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

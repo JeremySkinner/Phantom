@@ -86,7 +86,9 @@
     <Compile Include="BuildRunner.cs" />
     <Compile Include="Builtins\AssemblyInfoGenerator.cs" />
     <Compile Include="Builtins\ExecutableTool.cs" />
+    <Compile Include="Builtins\FileFilter.cs" />
     <Compile Include="Builtins\FileList.cs" />
+    <Compile Include="Builtins\IOPermissionFunctions.cs" />
     <Compile Include="Builtins\MSTest.cs" />
     <Compile Include="Builtins\NCover.cs" />
     <Compile Include="Builtins\NCoverExplorer.cs" />

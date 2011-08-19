@@ -19,6 +19,10 @@ namespace Phantom.Core.Builtins {
 	using System.IO;
 	using System.Text;
 
+	/// <summary>
+	/// Creates nuget packages
+	/// Based on the NugetPack rake task from Albacore https://github.com/derickbailey/Albacore/blob/master/lib/albacore/nugetpack.rb
+	/// </summary>
 	public class nuget_pack : ExecutableTool<nuget_pack> {
 		readonly StringBuilder nugetArgs;
 

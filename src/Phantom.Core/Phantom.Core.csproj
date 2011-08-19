@@ -53,10 +53,6 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ftplib, Version=1.0.1.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\ftplib\ftplib.dll</HintPath>
-    </Reference>
     <Reference Include="Ionic.Zip, Version=1.8.4.16, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\dotnetzip\Ionic.Zip.dll</HintPath>
@@ -86,7 +82,9 @@
     <Compile Include="BuildRunner.cs" />
     <Compile Include="Builtins\AssemblyInfoGenerator.cs" />
     <Compile Include="Builtins\ExecutableTool.cs" />
+    <Compile Include="Builtins\FileFilter.cs" />
     <Compile Include="Builtins\FileList.cs" />
+    <Compile Include="Builtins\IOPermissionFunctions.cs" />
     <Compile Include="Builtins\MSTest.cs" />
     <Compile Include="Builtins\NCover.cs" />
     <Compile Include="Builtins\NCoverExplorer.cs" />

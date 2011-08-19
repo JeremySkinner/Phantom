@@ -14,13 +14,16 @@
 
 #endregion
 
-namespace Phantom.Core {
+namespace Phantom.Core
+{
 	using System.IO;
 
-	public abstract class WrappedFileSystemInfo : FileSystemInfo {
+	public abstract class WrappedFileSystemInfo : FileSystemInfo
+	{
 		readonly FileSystemInfo inner;
 
-		protected WrappedFileSystemInfo(string baseDir, string originalPath, FileSystemInfo inner, bool flatten) {
+		protected WrappedFileSystemInfo(string baseDir, string originalPath, FileSystemInfo inner, bool flatten)
+		{
 			this.inner = inner;
 			BaseDir = baseDir;
 			MatchedPath = originalPath;
@@ -31,50 +34,64 @@ namespace Phantom.Core {
 		protected string MatchedPath { get; private set; }
 		protected bool Flatten { get; private set; }
 
-		public override string Name {
+		public override string Name
+		{
 			get { return inner.Name; }
 		}
 
-		public override bool Exists {
+		public override bool Exists
+		{
 			get { return inner.Exists; }
 		}
 
-		public override string FullName {
+		public override string FullName
+		{
 			get { return inner.FullName; }
 		}
 
-		protected string PathWithoutBaseDirectory {
+		public string PathWithoutBaseDirectory
+		{
 			get { return MatchedPath.Substring(BaseDir.Length).Trim('/').Trim('\\'); }
 		}
 
-		public override void Delete() {
+		public override void Delete()
+		{
 			inner.Delete();
 		}
 
 		public abstract void CopyToDirectory(string path);
 
-		public override string ToString() {
+		public override string ToString()
+		{
 			return FullName;
 		}
 	}
 
-	public class WrappedFileInfo : WrappedFileSystemInfo {
-		public WrappedFileInfo(string baseDir, string path, bool flatten) : base(baseDir, path, new FileInfo(path), flatten) {
+	public class WrappedFileInfo : WrappedFileSystemInfo
+	{
+		public WrappedFileInfo(string baseDir, string path, bool flatten)
+			: base(baseDir, path, new FileInfo(path), flatten)
+		{
 		}
 
-		public override void CopyToDirectory(string path) {
-			if (!Directory.Exists(path)) {
+		public override void CopyToDirectory(string path)
+		{
+			if (!Directory.Exists(path))
+			{
 				Directory.CreateDirectory(path);
 			}
 
-			if (Flatten) {
+			if (Flatten)
+			{
 				var combinedPath = Path.Combine(path, Name);
 				File.Copy(FullName, combinedPath, true);
 			}
-			else {
+			else
+			{
 				var combinedPath = Path.Combine(path, PathWithoutBaseDirectory);
 				var newPath = Path.GetDirectoryName(combinedPath);
-				if (!Directory.Exists(newPath)) {
+				if (!Directory.Exists(newPath))
+				{
 					Directory.CreateDirectory(newPath);
 				}
 				File.Copy(FullName, combinedPath, true);
@@ -82,14 +99,19 @@ namespace Phantom.Core {
 		}
 	}
 
-	public class WrappedDirectoryInfo : WrappedFileSystemInfo {
-		public WrappedDirectoryInfo(string baseDir, string path, bool flatten) : base(baseDir, path, new DirectoryInfo(path), flatten) {
+	public class WrappedDirectoryInfo : WrappedFileSystemInfo
+	{
+		public WrappedDirectoryInfo(string baseDir, string path, bool flatten)
+			: base(baseDir, path, new DirectoryInfo(path), flatten)
+		{
 		}
 
-		public override void CopyToDirectory(string path) {
+		public override void CopyToDirectory(string path)
+		{
 			if (Flatten) return; //copying directories is a no-op when flattened.
 			var combinedPath = Path.Combine(path, PathWithoutBaseDirectory);
-			if (!Directory.Exists(combinedPath)) {
+			if (!Directory.Exists(combinedPath))
+			{
 				Directory.CreateDirectory(combinedPath);
 			}
 		}

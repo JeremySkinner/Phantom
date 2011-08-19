@@ -18,6 +18,10 @@ namespace Phantom.Core.Builtins {
 	using System;
 	using System.Text;
 
+	/// <summary>
+	/// Publish a nuget package
+	/// Based on the NugetPublish rake task from Albacore https://github.com/derickbailey/Albacore/blob/master/lib/albacore/nugetpublish.rb
+	/// </summary>
 	public class nuget_publish : ExecutableTool<nuget_publish> {
 		readonly StringBuilder nugetArgs;
 

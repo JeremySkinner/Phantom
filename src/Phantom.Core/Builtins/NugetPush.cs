@@ -19,6 +19,10 @@ namespace Phantom.Core.Builtins {
 	using System.IO;
 	using System.Text;
 
+	/// <summary>
+	/// Pushes a nuget package to a feed
+	/// Based on the NugetPush rake task from Albacore https://github.com/derickbailey/Albacore/blob/master/lib/albacore/nugetpush.rb
+	/// </summary>
 	public class nuget_push : ExecutableTool<nuget_push> {
 		readonly StringBuilder nugetArgs;
 

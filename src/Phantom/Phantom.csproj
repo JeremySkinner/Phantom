@@ -53,10 +53,6 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Boo.Lang.Useful, Version=2.0.0.0, Culture=neutral, PublicKeyToken=32c39770e9a21a67, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\boo\Boo.Lang.Useful.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -113,11 +109,13 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-	<Target Name="AfterBuild">
-		<ItemGroup>
-			<DslFiles Include="..\Phantom.DSL.Boo\$(OutDir)*.*"></DslFiles>
-			<DslFiles Include="..\Phantom.DSL.CSharp\$(OutDir)*.*"></DslFiles>
-		</ItemGroup>
-		<Copy SourceFiles="@(DslFiles)" DestinationFolder="$(OutDir)" />
-	</Target>
+  <Target Name="AfterBuild">
+    <ItemGroup>
+      <DslFiles Include="..\Phantom.DSL.Boo\$(OutDir)*.*">
+      </DslFiles>
+      <DslFiles Include="..\Phantom.DSL.CSharp\$(OutDir)*.*">
+      </DslFiles>
+    </ItemGroup>
+    <Copy SourceFiles="@(DslFiles)" DestinationFolder="$(OutDir)" />
+  </Target>
 </Project>

@@ -17,7 +17,6 @@
 namespace Phantom {
 	using System;
 	using System.Linq;
-	using Boo.Lang.Useful.CommandLine;
 	using Core;
 
 	internal class Program {
@@ -35,7 +34,7 @@ namespace Phantom {
 				try {
 					options.Parse(args);
 				}
-				catch (CommandLineException exception) {
+				catch (Exception exception) {
 					Console.WriteLine(exception.Message);
 					options.PrintHelp(Console.Out);
 					return;

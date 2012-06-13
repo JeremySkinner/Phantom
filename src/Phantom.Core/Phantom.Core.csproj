@@ -79,6 +79,7 @@
     <Compile Include="Builtins\AssemblyInfoGenerator.cs" />
     <Compile Include="Builtins\ExecutableTool.cs" />
     <Compile Include="Builtins\FileList.cs" />
+    <Compile Include="Builtins\MSpec.cs" />
     <Compile Include="Builtins\MSTest.cs" />
     <Compile Include="Builtins\NCover.cs" />
     <Compile Include="Builtins\NCoverExplorer.cs" />

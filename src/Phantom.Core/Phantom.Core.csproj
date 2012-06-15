@@ -89,6 +89,7 @@
     <Compile Include="Builtins\TestRunner.cs" />
     <Compile Include="Builtins\XSLT.cs" />
     <Compile Include="Builtins\XUnit.cs" />
+    <Compile Include="Cleanup.cs" />
     <Compile Include="ExcludeFromCoverageAttribute.cs" />
     <Compile Include="IDslFactory.cs" />
     <Compile Include="Builtins\IOFunctions.cs" />

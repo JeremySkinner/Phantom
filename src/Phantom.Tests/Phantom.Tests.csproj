@@ -99,6 +99,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
+    <None Include="Scripts\Cleanups.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Scripts\CSharpSimple.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

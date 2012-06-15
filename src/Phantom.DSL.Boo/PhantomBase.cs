@@ -37,6 +37,17 @@ namespace Phantom.Core {
 			currentDescription = null;
 		}
 
+		public void cleanup(string name, Action block){
+			model.AddCleanup(name, block, currentDescription);
+			currentDescription = null;
+		}
+
+		public void cleanup( Action block)
+		{
+			model.AddCleanup(null, block, currentDescription);
+			currentDescription = null;
+		}
+
 		public abstract void Execute();
 
 		public ScriptModel Model {

@@ -15,6 +15,7 @@
 #endregion
 
 namespace Phantom.Tests {
+	using System;
 	using System.Linq;
 	using Core;
 	using NUnit.Framework;
@@ -191,6 +192,35 @@ namespace Phantom.Tests {
 			script.target("bar", null);
 			script.Model.GetTarget("foo").Description.ShouldEqual("Test");
 			script.Model.GetTarget("bar").Description.ShouldBeNull();
+		}
+
+		[Test]
+		public void Creates_cleanup() {
+			Action cleanupBody = () => { };
+			script.cleanup("foo", cleanupBody);
+			var cleanups = script.Model.GetCleanups();
+			cleanups.Count.ShouldEqual(1);
+			cleanups.ElementAt(0).Name.ShouldEqual("foo");
+		}
+
+		[Test]
+		public void All_cleanups_run_even_if_some_fail() {
+			var cleanup1Ran = false;
+			var cleanup2Ran = false;
+			var exploded = false;
+			Action cleanup1Body = () => { cleanup1Ran = true; };
+			Action cleanup2Body = () => { cleanup2Ran = true; };
+			Action cleanupFailBody = () => { exploded = true; throw new Exception("BOOM"); };
+
+			script.cleanup(cleanup1Body);
+			script.cleanup(cleanupFailBody);
+			script.cleanup(cleanup2Body);
+
+			script.Model.ExecuteCleanups();
+
+			exploded.ShouldBeTrue();
+			cleanup1Ran.ShouldBeTrue();
+			cleanup2Ran.ShouldBeTrue();
 		}
 
 		class TestScript : PhantomBase {

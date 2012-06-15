@@ -15,6 +15,7 @@
 #endregion
 
 namespace Phantom.Tests {
+	using System;
 	using System.Linq;
 	using Core;
 	using NUnit.Framework;
@@ -91,6 +92,46 @@ namespace Phantom.Tests {
 			executionSequence.Count.ShouldEqual(2);
 			executionSequence[0].Name.ShouldEqual("compile");
 			executionSequence[1].Name.ShouldEqual("oneDependency");
+		}
+
+		[Test]
+		public void Executes_cleanup() {
+			ScriptFile = "Scripts/Cleanups.boo";
+			Execute("works");
+			var expected = @"works:
+works
+
+cleanup:
+anonymous cleanup #1
+
+cleanup another:
+another cleanup
+
+cleanup:
+anonymous cleanup #2
+
+";
+			AssertOutput(expected.Split(new[] {System.Environment.NewLine}, StringSplitOptions.None));
+		}
+
+		[Test]
+		public void Executes_cleanup_even_if_task_fails() {
+			ScriptFile = "Scripts/Cleanups.boo";
+			Execute("throws");
+			var expected = @"throws:
+throws
+
+cleanup:
+anonymous cleanup #1
+
+cleanup another:
+another cleanup
+
+cleanup:
+anonymous cleanup #2
+
+";
+			AssertOutput(expected.Split(new[] {System.Environment.NewLine}, StringSplitOptions.None));
 		}
 	}
 }

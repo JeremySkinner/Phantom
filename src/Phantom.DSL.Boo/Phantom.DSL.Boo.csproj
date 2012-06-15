@@ -59,6 +59,7 @@
     <Compile Include="Integration\ITaskImportBuilder.cs" />
     <Compile Include="Integration\TaskImportStep.cs" />
     <Compile Include="Language\AutoRunAllRunnablesStep.cs" />
+    <Compile Include="Language\ExpressionToCleanupNameStep.cs" />
     <Compile Include="Language\ExpressionToCallTargetNameStep.cs" />
     <Compile Include="Language\ExpressionToDependencyNamesStep.cs" />
     <Compile Include="Language\ExpressionToTargetNameStep.cs" />

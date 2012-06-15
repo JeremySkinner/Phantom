@@ -70,6 +70,7 @@ namespace Phantom.Core {
 			var script = GenerateBuildScript(options.File);
 			script.Log = Log;
 			script.ExecuteTargets(options.TargetNames.ToArray());
+			script.ExecuteCleanups();
 		}
 
 		public void OutputTargets(PhantomOptions options) {

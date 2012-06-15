@@ -31,6 +31,7 @@ namespace Phantom.Core {
 		}
 
 		readonly Dictionary<string, Target> targets = new Dictionary<string, Target>();
+		readonly List<Cleanup> cleanups = new List<Cleanup>();
 
 		public Target DefaultTarget {
 			get { return GetTarget(DefaultTargetName); }
@@ -40,7 +41,14 @@ namespace Phantom.Core {
 			return targets.ValueOrDefault(name);
 		}
 
-		public IEnumerator<Target> GetEnumerator() {
+		public IList<Cleanup> GetCleanups() {
+			var localCleanups = new Cleanup[cleanups.Count];
+			cleanups.CopyTo(localCleanups);
+			return localCleanups;
+		}
+
+		public IEnumerator<Target> GetEnumerator()
+		{
 			return targets.Values.GetEnumerator();
 		}
 
@@ -56,7 +64,14 @@ namespace Phantom.Core {
 			targets.Add(target.Name, target);
 		}
 
-		public void ExecuteTargets(params string[] targetNames) {
+		public void AddCleanup(string name, Action block, string description)
+		{
+			var cleanup = new Cleanup(name, block, description, this);
+			cleanups.Add(cleanup);
+		}
+		
+		public void ExecuteTargets(params string[] targetNames)
+		{
 			var targetsToExecute = new List<Target>();
 
 			foreach (var targetName in targetNames) {
@@ -83,6 +98,23 @@ namespace Phantom.Core {
 			catch (PhantomException e) {
 				Log.WriteLine(string.Format("Target failed: {0}", e.Message));
 				Environment.ExitCode = 1;
+			}
+		}
+
+		public void ExecuteCleanups() {
+			foreach (var cleanup in cleanups) {
+				try {
+					Log.Write("cleanup");
+					if (cleanup.Name != null) {
+						Log.Write(" " + cleanup.Name);
+					}
+					Log.WriteLine(":");
+					cleanup.Execute();
+					Log.WriteLine();
+				}
+				catch (Exception e) {
+					Log.WriteLine(string.Format("Cleanup failed: {0}", e.Message));
+				}
 			}
 		}
 	}

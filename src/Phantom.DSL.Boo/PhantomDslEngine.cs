@@ -43,6 +43,7 @@ namespace Phantom.Core {
 				steps.Add(new UnescapeNamesStep());
 				steps.Add(new ExpressionToTargetNameStep());
 				steps.Add(new ExpressionToDependencyNamesStep());
+				steps.Add(new ExpressionToCleanupNameStep());
 				steps.Add(new ExpressionToCallTargetNameStep());
 				steps.Add(new AutoReferenceFilesCompilerStep());
 				steps.Add(new TaskImportStep(importBuilders.ToArray()));
@@ -91,6 +92,16 @@ namespace Phantom.Core {
 		public static bool IsTargetMethod(Node node) {
 			var macro = node as MacroStatement;
 			if (macro != null && macro.Name == "target") {
+				return true;
+			}
+			return false;
+		}
+
+		public static bool IsCleanupMethod(Node node)
+		{
+			var macro = node as MacroStatement;
+			if (macro != null && macro.Name == "cleanup")
+			{
 				return true;
 			}
 			return false;

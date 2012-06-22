@@ -111,7 +111,7 @@ cleanup:
 anonymous cleanup #2
 
 ";
-			AssertOutput(expected.Split(new[] {System.Environment.NewLine}, StringSplitOptions.None));
+			AssertOutput(expected.Replace("\r\n", "\n").Split('\n'));
 		}
 
 		[Test]
@@ -131,7 +131,7 @@ cleanup:
 anonymous cleanup #2
 
 ";
-			AssertOutput(expected.Split(new[] {System.Environment.NewLine}, StringSplitOptions.None));
+			AssertOutput(expected.Replace("\r\n", "\n").Split('\n'));
 		}
 	}
 }

@@ -38,32 +38,35 @@ namespace Phantom.Core {
 
 		public IEnumerable<Target> GetExecutionSequence() {
 			var executionSequence = new List<Target>();
-			var parsedSequence = new List<Target>();
+			var temporaryMarks = new List<Target>();
+			var permanentMarks = new List<Target>();
 
-			PopulateExecutionSequence(executionSequence, parsedSequence);
+			PopulateExecutionSequence(executionSequence, temporaryMarks, permanentMarks);
 
-			return executionSequence.AsEnumerable().Reverse();
+			return executionSequence.AsEnumerable();
 		}
 
 
-		void PopulateExecutionSequence(ICollection<Target> executionSequence, ICollection<Target> parsedSequence) {
-			if (parsedSequence.Contains(this)) {
-				return;
-			}
-
-			if (executionSequence.Contains(this)) {
+		void PopulateExecutionSequence(List<Target> executionSequence, ICollection<Target> temporaryMarks, ICollection<Target> permanentMarks) {
+			if (temporaryMarks.Contains(this)) {
 				throw new RecursiveDependencyException(Name);
 			}
 
-			executionSequence.Add(this);
-
-			foreach (var dependencyName in dependencyNames.Reverse()) {
-				var dependency = EnsureTargetExists(dependencyName);
-
-				dependency.PopulateExecutionSequence(executionSequence, parsedSequence);
+			if (permanentMarks.Contains(this)) {
+				return;
 			}
 
-			parsedSequence.Add(this);
+			temporaryMarks.Add(this);
+
+			foreach (var dependencyName in dependencyNames) {
+				var dependency = EnsureTargetExists(dependencyName);
+
+				dependency.PopulateExecutionSequence(executionSequence, temporaryMarks, permanentMarks);
+			}
+
+			permanentMarks.Add(this);
+			temporaryMarks.Remove(this);
+			executionSequence.Add(this);
 		}
 
 		Target EnsureTargetExists(string dependencyName) {

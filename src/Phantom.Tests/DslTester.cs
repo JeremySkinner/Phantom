@@ -56,6 +56,27 @@ namespace Phantom.Tests {
 		}
 
 		[Test]
+		public void Orders_dependencies() {
+			string path = "Scripts/ComplexDependencies.boo";
+			var script = Runner.GenerateBuildScript(path);
+			var defaultTarget = script.GetTarget("d");
+			var executionSequence = defaultTarget.GetExecutionSequence().ToList();
+			executionSequence.Count.ShouldEqual(4);
+
+			var firstTarget = executionSequence[0].Name;
+
+			var followingTargets = new[] { executionSequence[1].Name, executionSequence[2].Name };
+			// The order of these two is undefined
+			Array.Sort(followingTargets);
+
+			var finalTarget = executionSequence[3].Name;
+
+			firstTarget.ShouldEqual("a");
+			followingTargets.ShouldEqual(new[] {"b", "c"});
+			finalTarget.ShouldEqual("d");
+		}
+
+		[Test]
 		public void Executes_target() {
 			ScriptFile = "Scripts/PrintsText.boo";
 			Execute();
@@ -111,7 +132,7 @@ cleanup:
 anonymous cleanup #2
 
 ";
-			AssertOutput(expected.Split(new[] {System.Environment.NewLine}, StringSplitOptions.None));
+			AssertOutput(expected.Replace("\r\n", "\n").Split('\n'));
 		}
 
 		[Test]
@@ -131,7 +152,7 @@ cleanup:
 anonymous cleanup #2
 
 ";
-			AssertOutput(expected.Split(new[] {System.Environment.NewLine}, StringSplitOptions.None));
+			AssertOutput(expected.Replace("\r\n", "\n").Split('\n'));
 		}
 	}
 }

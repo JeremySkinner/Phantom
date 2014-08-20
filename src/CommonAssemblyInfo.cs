@@ -22,5 +22,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Phantom")]
 [assembly: AssemblyCopyright("Copyright (c) Jeremy Skinner 2009")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("0.3.0.0")]
-[assembly: AssemblyFileVersion("0.3.0.0")]
+[assembly: AssemblyVersion("0.3.1.0")]
+[assembly: AssemblyFileVersion("0.3.1.0")]

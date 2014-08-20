@@ -119,6 +119,9 @@
     <None Include="Scripts\AutoRunnable.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Scripts\ComplexDependencies.boo">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Scripts\Dependencies.boo">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

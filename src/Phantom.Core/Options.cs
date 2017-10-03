@@ -189,7 +189,7 @@ namespace Mono.Options
 
 		private static int GetNextWidth (IEnumerator<int> ewidths, int curWidth, ref bool? eValid)
 		{
-			if (!eValid.HasValue || (eValid.HasValue && eValid.Value)) {
+			if (!eValid.HasValue || eValid.Value) {
 				curWidth = (eValid = ewidths.MoveNext ()).Value ? ewidths.Current : curWidth;
 				// '.' is any character, - is for a continuation
 				const string minWidth = ".-";
